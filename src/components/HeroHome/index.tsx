@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const HeroHome: React.FC = () => {
   const scrollSmoothTo = (elementId: string) => {
     const element = document.getElementById(elementId);
@@ -32,16 +34,23 @@ const HeroHome: React.FC = () => {
                 transform how we think about trash and recycling.
               </p>
               <div
-                className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center"
+                className="max-w-xs mx-auto "
                 data-aos="zoom-y-out"
                 data-aos-delay="300"
               >
                 <button
-                  className="btn btn-primary text-white  w-full mb-4 sm:w-auto sm:mb-0"
+                  className="btn btn-primary text-white w-full mb-4 md:w-auto md:mb-0"
                   onClick={() => scrollSmoothTo('recytoken')}
                 >
                   Get to know us
                 </button>
+                <div className="block md:hidden">
+                  <Link href="/">
+                    <button className="btn btn-neutral text-white w-full mb-4 md:w-auto md:mb-0">
+                      Launch App
+                    </button>
+                  </Link>
+                </div>
                 <div></div>
               </div>
             </div>

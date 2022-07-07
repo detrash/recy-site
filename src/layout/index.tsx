@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Header from '../components/Header';
 
 type AppLayoutProps = {
@@ -6,6 +6,10 @@ type AppLayoutProps = {
 };
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDrawer = () => {
+    setIsOpen((prevState) => !prevState);
+  };
   return (
     <div>
       <Header />

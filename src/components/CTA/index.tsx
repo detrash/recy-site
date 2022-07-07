@@ -25,7 +25,7 @@ const CTA: React.FC = () => {
             data-aos="zoom-y-out"
             data-aos-delay="300"
           >
-            <button className="btn btn-primary no-animation text-white  w-full mb-4 sm:w-auto sm:mb-0">
+            <button className="btn btn-primary text-white  w-full mb-4 sm:w-auto sm:mb-0">
               BUY RECY
             </button>
           </div>

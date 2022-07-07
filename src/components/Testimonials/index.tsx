@@ -29,22 +29,18 @@ const Testimonials: React.FC = () => {
             data-aos="zoom-y-out"
             data-aos-delay="300"
           >
-            <div>
-              <a
-                className="btn btn-primary no-animation text-white w-full mb-4 sm:w-auto sm:mb-0"
-                href="#0"
-              >
-                More on it
-              </a>
-            </div>
-            <div>
-              <a
-                className="btn btn-neutral no-animation text-white w-full sm:w-auto sm:ml-4"
-                href="#0"
-              >
-                Manifest / Whitepaper
-              </a>
-            </div>
+            <a
+              className="btn btn-primary text-white w-full mb-4 sm:w-auto sm:mb-0"
+              href="#0"
+            >
+              More on it
+            </a>
+            <a
+              className="btn btn-neutral  text-white w-full sm:w-auto sm:ml-4"
+              href="#0"
+            >
+              Manifest / Whitepaper
+            </a>
           </div>
         </div>
       </div>
