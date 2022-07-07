@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 
-function Testimonials() {
+const Testimonials: React.FC = () => {
   return (
     <section className="relative bg-accent testimonials">
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
@@ -50,6 +50,6 @@ function Testimonials() {
       </div>
     </section>
   );
-}
+};
 
 export default Testimonials;

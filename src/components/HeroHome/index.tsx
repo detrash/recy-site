@@ -36,14 +36,12 @@ const HeroHome: React.FC = () => {
                 data-aos="zoom-y-out"
                 data-aos-delay="300"
               >
-                <div>
-                  <button
-                    className="btn btn-primary no-animation text-white  w-full mb-4 sm:w-auto sm:mb-0"
-                    onClick={() => scrollSmoothTo('recytoken')}
-                  >
-                    Get to know us
-                  </button>
-                </div>
+                <button
+                  className="btn btn-primary text-white  w-full mb-4 sm:w-auto sm:mb-0"
+                  onClick={() => scrollSmoothTo('recytoken')}
+                >
+                  Get to know us
+                </button>
                 <div></div>
               </div>
             </div>
