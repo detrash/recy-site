@@ -15,7 +15,7 @@ const Testimonials: React.FC = () => {
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-12 ">
             <h2 className="h2 mb-4 text-white">Buy RECY token</h2>
-            <p className="text-xl text-gray-400" data-aos="zoom-y-out">
+            <p className="text-xl text-gray-200" data-aos="zoom-y-out">
               The first token to tackle the pollution of oceans and rivers at
               its source. A solution that integrates scalability, transparency
               and financial efficiency to protect our rivers and oceans. By

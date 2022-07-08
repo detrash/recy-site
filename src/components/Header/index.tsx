@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MenuIcon } from '@heroicons/react/outline';
 import Drawer from '../Drawer';
 import classNames from 'classnames';
 import DeTrashLogo from '@public/detrash-logo.svg';
+import { NAV_PAGES } from '@src/utils/constants';
 
 const Header: React.FC = () => {
   const [isOntop, setIsOnTop] = useState(true);
@@ -17,6 +18,25 @@ const Header: React.FC = () => {
     window.addEventListener('scroll', scrollHandler);
     return () => window.removeEventListener('scroll', scrollHandler);
   }, [isOntop]);
+
+  const pageItems = useMemo(() => {
+    return (
+      <>
+        {NAV_PAGES.map(({ name, path }) => (
+          <li key={name}>
+            <Link href={path}>
+              <a
+                onClick={() => setIsDrawerMenuOpen(false)}
+                className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+              >
+                {name}
+              </a>
+            </Link>
+          </li>
+        ))}
+      </>
+    );
+  }, []);
 
   return (
     <>
@@ -58,36 +78,7 @@ const Header: React.FC = () => {
               </div>
 
               <ul className="hidden md:flex justify-end flex-wrap items-center">
-                <li>
-                  <Link href="recy">
-                    <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                      RECY
-                    </a>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="roadmap">
-                    <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                      Roadmap
-                    </a>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link href="/">
-                    <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                      Team
-                    </a>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link href="/">
-                    <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                      Privacy Policy
-                    </a>
-                  </Link>
-                </li>
+                {pageItems}
                 <li>
                   <Link href="/">
                     <a className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3">
@@ -111,40 +102,7 @@ const Header: React.FC = () => {
         </div>
       </header>
       <Drawer
-        content={
-          <ul>
-            <li>
-              <Link href="recy">
-                <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                  RECY
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link href="roadmap">
-                <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                  Roadmap
-                </a>
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/">
-                <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                  Team
-                </a>
-              </Link>
-            </li>
-
-            <li>
-              <Link href="/">
-                <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
-                  Privacy Policy
-                </a>
-              </Link>
-            </li>
-          </ul>
-        }
+        content={<ul>{pageItems}</ul>}
         isOpen={isDrawerMenuOpen}
         setIsOpen={setIsDrawerMenuOpen}
         title="Menu"

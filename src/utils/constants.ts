@@ -5,3 +5,22 @@ export const UTIL_LINKS = {
   WHITEPAPER_URL:
     'https://drive.google.com/file/d/1k4jFIni3IEIuyTmTA3wC2Au_8JQHtA2c/view?usp=sharing',
 };
+
+export const NAV_PAGES = [
+  {
+    name: 'RECY',
+    path: 'recy',
+  },
+  {
+    name: 'Roadmap',
+    path: 'roadmap',
+  },
+  {
+    name: 'Team',
+    path: 'team',
+  },
+  {
+    name: 'Privacy Policy',
+    path: 'privacy-policy',
+  },
+];
