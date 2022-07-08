@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { MenuIcon } from '@heroicons/react/outline';
 import Drawer from '../Drawer';
 import classNames from 'classnames';
+import DeTrashLogo from '@public/detrash-logo.svg';
 
 const Header: React.FC = () => {
   const [isOntop, setIsOnTop] = useState(true);
@@ -37,7 +38,7 @@ const Header: React.FC = () => {
               >
                 <a>
                   <Image
-                    src={'/detrash-logo.svg'}
+                    src={DeTrashLogo}
                     alt="DeTrash Logo"
                     width={100}
                     height={100}
@@ -65,7 +66,7 @@ const Header: React.FC = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/">
+                  <Link href="roadmap">
                     <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
                       Roadmap
                     </a>
@@ -120,7 +121,7 @@ const Header: React.FC = () => {
               </Link>
             </li>
             <li>
-              <Link href="/">
+              <Link href="roadmap">
                 <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
                   Roadmap
                 </a>
