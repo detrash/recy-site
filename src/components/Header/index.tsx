@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MenuIcon } from '@heroicons/react/outline';
 import Drawer from '../Drawer';
 import classNames from 'classnames';

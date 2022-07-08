@@ -1,12 +1,11 @@
+import ContactForm from '@src/components/ContactForm';
+import CTA from '@src/components/CTA';
+import FeaturesBlocks from '@src/components/FeatureBlocks';
+import FeaturesHome from '@src/components/FeaturesHome';
+import HeroHome from '@src/components/HeroHome';
+import Testimonials from '@src/components/Testimonials';
+import { contactFormSchema, ContactFormSchema } from '@src/utils/YupSchema';
 import { Formik } from 'formik';
-import ContactForm from '../components/ContactForm';
-import CTA from '../components/CTA';
-import FeaturesBlocks from '../components/FeatureBlocks';
-import FeaturesHome from '../components/FeaturesHome';
-import Footer from '../components/Footer';
-import HeroHome from '../components/HeroHome';
-import Testimonials from '../components/Testimonials';
-import { ContactFormSchema, contactFormSchema } from '../utils/YupSchema';
 
 const INITIAL_VALUES: ContactFormSchema = {
   name: '',
@@ -20,24 +19,20 @@ const Home: React.FC = () => {
   };
 
   return (
-    <>
-      <main className="flex-grow">
-        <HeroHome />
-        <FeaturesHome />
-        <FeaturesBlocks />
-        <Testimonials />
-        <CTA />
-        <Formik
-          initialValues={INITIAL_VALUES}
-          validationSchema={contactFormSchema}
-          onSubmit={handleSubmitContactForm}
-        >
-          {(formikProps) => <ContactForm {...formikProps} />}
-        </Formik>
-      </main>
-
-      <Footer />
-    </>
+    <main className="flex-grow">
+      <HeroHome />
+      <FeaturesHome />
+      <FeaturesBlocks />
+      <Testimonials />
+      <CTA />
+      <Formik
+        initialValues={INITIAL_VALUES}
+        validationSchema={contactFormSchema}
+        onSubmit={handleSubmitContactForm}
+      >
+        {(formikProps) => <ContactForm {...formikProps} />}
+      </Formik>
+    </main>
   );
 };
 

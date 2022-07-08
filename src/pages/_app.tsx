@@ -18,12 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     });
   });
 
-  // useEffect(() => {
-  //   document.querySelector('html')!.style.scrollBehavior = 'auto';
-  //   window.scroll({ top: 0 });
-  //   document.querySelector('html')!.style.scrollBehavior = '';
-  // }, [router.asPath]);
-
   return (
     <>
       <Head>

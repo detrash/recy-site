@@ -70,7 +70,7 @@ const RecyPage: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-gray-100 pb-16">
+      <section className="bg-gray-100 pb-8 md:pb-16 mb-3">
         <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6">

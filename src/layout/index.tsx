@@ -1,5 +1,6 @@
+import Footer from '@src/components/Footer';
+import Header from '@src/components/Header';
 import { ReactNode } from 'react';
-import Header from '../components/Header';
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -11,6 +12,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
       <Header />
 
       {children}
+
+      <Footer />
     </div>
   );
 };

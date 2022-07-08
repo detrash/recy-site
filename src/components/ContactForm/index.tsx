@@ -1,6 +1,6 @@
 import { Form, FormikProps } from 'formik';
-import { ContactFormSchema } from '../../utils/YupSchema';
-import Input from '../Input';
+import Input from '@src/components/Input';
+import { ContactFormSchema } from '@src/utils/YupSchema';
 
 const ContactForm: React.FC<FormikProps<ContactFormSchema>> = () => {
   return (
