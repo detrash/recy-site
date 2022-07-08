@@ -14,7 +14,7 @@ const Team: React.FC = () => {
     <main className="flex-grow">
       <section className="relative">
         <div
-          className="absolute inset-0 top-1/2 md:mt-24 lg:mt-0 bg-accent pointer-events-none"
+          className="absolute inset-0 top-1/2 md:mt-24 mb-3 lg:mt-0 bg-accent pointer-events-none"
           aria-hidden="true"
         ></div>
 

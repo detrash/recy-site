@@ -5,6 +5,13 @@ export type ContactFormSchema = {
   message: string;
   name: string;
 };
+
+export const INITIAL_FORM_VALUES: ContactFormSchema = {
+  name: '',
+  emailAddress: '',
+  message: '',
+};
+
 export const contactFormSchema = Yup.object({
   emailAddress: Yup.string()
     .email('Please provide a valid email address')
