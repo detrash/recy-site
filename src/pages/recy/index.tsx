@@ -85,11 +85,14 @@ const RecyPage: React.FC = () => {
             </div>
 
             <div className=" flex items-center justify-center">
-              <Link href="/">
-                <button className="btn btn-primary w-full md:w-auto text-white mb-3 md:mb-0">
-                  Buy cRecy Here
-                </button>
-              </Link>
+              <a
+                href={UTIL_LINKS.BUY_RECY_URL}
+                className="btn btn-primary w-full md:w-auto text-white mb-3 md:mb-0"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Buy cRecy Here
+              </a>
             </div>
           </div>
         </div>

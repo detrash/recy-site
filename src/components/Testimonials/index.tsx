@@ -1,3 +1,4 @@
+import { UTIL_LINKS } from '@src/utils/constants';
 import Image from 'next/image';
 import React from 'react';
 
@@ -31,13 +32,17 @@ const Testimonials: React.FC = () => {
           >
             <a
               className="btn btn-primary text-white w-full mb-4 sm:w-auto sm:mb-0"
-              href="#0"
+              href={UTIL_LINKS.BUY_RECY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               More on it
             </a>
             <a
               className="btn btn-neutral  text-white w-full sm:w-auto sm:ml-4"
-              href="#0"
+              href={UTIL_LINKS.WHITEPAPER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Manifest / Whitepaper
             </a>
