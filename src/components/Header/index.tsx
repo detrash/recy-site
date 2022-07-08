@@ -58,7 +58,7 @@ const Header: React.FC = () => {
 
               <ul className="hidden md:flex justify-end flex-wrap items-center">
                 <li>
-                  <Link href="/">
+                  <Link href="recy">
                     <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
                       RECY
                     </a>
@@ -113,7 +113,7 @@ const Header: React.FC = () => {
         content={
           <ul>
             <li>
-              <Link href="/">
+              <Link href="recy">
                 <a className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">
                   RECY
                 </a>

@@ -20,7 +20,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen overflow-hidden">
+    <>
       <main className="flex-grow">
         <HeroHome />
         <FeaturesHome />
@@ -37,7 +37,7 @@ const Home: React.FC = () => {
       </main>
 
       <Footer />
-    </div>
+    </>
   );
 };
 

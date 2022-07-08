@@ -51,7 +51,6 @@ const HeroHome: React.FC = () => {
                     </button>
                   </Link>
                 </div>
-                <div></div>
               </div>
             </div>
           </div>
