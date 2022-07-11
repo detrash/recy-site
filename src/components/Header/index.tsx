@@ -6,8 +6,11 @@ import Drawer from '../Drawer';
 import classNames from 'classnames';
 import DeTrashLogo from '@public/detrash-logo.svg';
 import { NAV_PAGES } from '@src/utils/constants';
+import { useTranslations } from 'next-intl';
 
 const Header: React.FC = () => {
+  const translate = useTranslations('navItems');
+
   const [isOntop, setIsOnTop] = useState(true);
   const [isDrawerMenuOpen, setIsDrawerMenuOpen] = useState(false);
 
@@ -29,14 +32,14 @@ const Header: React.FC = () => {
                 onClick={() => setIsDrawerMenuOpen(false)}
                 className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
               >
-                {name}
+                {translate(name)}
               </a>
             </Link>
           </li>
         ))}
       </>
     );
-  }, []);
+  }, [translate]);
 
   return (
     <>

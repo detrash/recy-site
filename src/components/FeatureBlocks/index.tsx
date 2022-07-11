@@ -1,20 +1,20 @@
 import { HomePageData } from '@src/graphql/queries';
 
 type FeatureBlocksProps = {
-  pageItems: HomePageData;
+  messages: HomePageData;
 };
 
-const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ pageItems }) => {
+const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ messages }) => {
   return (
     <section className="relative">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <h2 className="h2 mb-4 text-neutral">
-              {pageItems.featuresBlockTitle}
+              {messages.featuresBlockTitle}
             </h2>
             <p className="text-xl text-gray-600">
-              {pageItems.featuresBlockSubTitle}
+              {messages.featuresBlockSubTitle}
             </p>
           </div>
 
@@ -45,10 +45,10 @@ const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ pageItems }) => {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                {pageItems.featuresBlockItem1Title}
+                {messages.featuresBlockItem1Title}
               </h4>
               <p className="text-gray-600 text-center">
-                {pageItems.featuresBlockItem1Desc}
+                {messages.featuresBlockItem1Desc}
               </p>
             </div>
 
@@ -85,10 +85,10 @@ const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ pageItems }) => {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                {pageItems.featuresBlockItem2Title}
+                {messages.featuresBlockItem2Title}
               </h4>
               <p className="text-gray-600 text-center">
-                {pageItems.featuresBlockItem2Desc}
+                {messages.featuresBlockItem2Desc}
               </p>
             </div>
 
@@ -118,10 +118,10 @@ const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ pageItems }) => {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                {pageItems.featuresBlockItem3Title}
+                {messages.featuresBlockItem3Title}
               </h4>
               <p className="text-gray-600 text-center">
-                {pageItems.featuresBlockItem3Desc}
+                {messages.featuresBlockItem3Desc}
               </p>
             </div>
           </div>

@@ -3,10 +3,10 @@ import { UTIL_LINKS } from '@src/utils/constants';
 import Image from 'next/image';
 
 type TestimonialsProps = {
-  pageItems: HomePageData;
+  messages: HomePageData;
 };
 
-const Testimonials: React.FC<TestimonialsProps> = ({ pageItems }) => {
+const Testimonials: React.FC<TestimonialsProps> = ({ messages }) => {
   return (
     <section className="relative bg-accent testimonials">
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
@@ -19,11 +19,9 @@ const Testimonials: React.FC<TestimonialsProps> = ({ pageItems }) => {
       <div id="recytoken" className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-12 ">
-            <h2 className="h2 mb-4 text-white">
-              {pageItems.testimonialsTitle}
-            </h2>
+            <h2 className="h2 mb-4 text-white">{messages.testimonialsTitle}</h2>
             <p className="text-xl text-gray-200" data-aos="zoom-y-out">
-              {pageItems.testimonialsSubTitle}
+              {messages.testimonialsSubTitle}
             </p>
           </div>
           <div
@@ -37,7 +35,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ pageItems }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {pageItems.testimonialsButton1}
+              {messages.testimonialsButton1}
             </a>
             <a
               className="btn btn-neutral  text-white w-full sm:w-auto sm:ml-4"
@@ -45,7 +43,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ pageItems }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {pageItems.testimonialsButton2}
+              {messages.testimonialsButton2}
             </a>
           </div>
         </div>

@@ -7,6 +7,7 @@ import AppLayout from '../layout';
 import Head from 'next/head';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from '@src/lib/apollo';
+import { NextIntlProvider } from 'next-intl';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -25,11 +26,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>DeTrash | Tokens que salvam o mundo</title>
       </Head>
-      <ApolloProvider client={apolloClient}>
-        <AppLayout>
-          <Component {...pageProps} />
-        </AppLayout>
-      </ApolloProvider>
+      <NextIntlProvider messages={pageProps.messages}>
+        <ApolloProvider client={apolloClient}>
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
+        </ApolloProvider>
+      </NextIntlProvider>
     </>
   );
 }

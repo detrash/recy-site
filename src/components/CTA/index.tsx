@@ -1,24 +1,24 @@
 import { HomePageData } from '@src/graphql/queries';
 
 type CTAProps = {
-  pageItems: HomePageData;
+  messages: HomePageData;
 };
 
-const CTA: React.FC<CTAProps> = ({ pageItems }) => {
+const CTA: React.FC<CTAProps> = ({ messages }) => {
   return (
     <section className="relative">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-8">
-            <h2 className="h2 mb-4 text-neutral">{pageItems.ctaTitle}</h2>
+            <h2 className="h2 mb-4 text-neutral">{messages.ctaTitle}</h2>
             <p className="text-xl text-gray-600" data-aos="zoom-y-out">
-              {pageItems.ctaSubTitle}
+              {messages.ctaSubTitle}
             </p>
             <p
               className="text-xl text-blue-400 font-bold mt-4"
               data-aos="zoom-y-out"
             >
-              {pageItems.ctaTitleEffect}
+              {messages.ctaTitleEffect}
             </p>
           </div>
 
@@ -28,7 +28,7 @@ const CTA: React.FC<CTAProps> = ({ pageItems }) => {
             data-aos-delay="300"
           >
             <button className="btn btn-primary text-white  w-full mb-4 sm:w-auto sm:mb-0">
-              {pageItems.ctaButton}
+              {messages.ctaButton}
             </button>
           </div>
         </div>

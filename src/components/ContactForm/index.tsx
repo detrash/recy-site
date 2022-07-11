@@ -4,10 +4,10 @@ import { ContactFormSchema } from '@src/utils/YupSchema';
 import { HomePageData } from '@src/graphql/queries';
 
 interface CTAProps extends FormikProps<ContactFormSchema> {
-  pageItems: HomePageData;
+  messages: HomePageData;
 }
 
-const ContactForm: React.FC<CTAProps> = ({ pageItems }) => {
+const ContactForm: React.FC<CTAProps> = ({ messages }) => {
   return (
     <section className="relative bg-gray-100">
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
@@ -16,10 +16,10 @@ const ContactForm: React.FC<CTAProps> = ({ pageItems }) => {
         <div className="py-12 md:py-20 mb-3">
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4 text-neutral">
-              {pageItems.formContactTitle}
+              {messages.formContactTitle}
             </h1>
             <p className="text-xl text-gray-600">
-              {pageItems.formContactSubTitle}
+              {messages.formContactSubTitle}
             </p>
           </div>
 
@@ -29,7 +29,7 @@ const ContactForm: React.FC<CTAProps> = ({ pageItems }) => {
                 <Input
                   label="Name"
                   name="name"
-                  placeholder={pageItems.namePlaceholder}
+                  placeholder={messages.namePlaceholder}
                   required
                 />
               </div>
@@ -37,7 +37,7 @@ const ContactForm: React.FC<CTAProps> = ({ pageItems }) => {
                 <Input
                   label="Email"
                   name="emailAddress"
-                  placeholder={pageItems.emailPlaceholder}
+                  placeholder={messages.emailPlaceholder}
                   required
                 />
               </div>
@@ -46,14 +46,14 @@ const ContactForm: React.FC<CTAProps> = ({ pageItems }) => {
                   inputType="textarea"
                   label="Message"
                   name="message"
-                  placeholder={pageItems.messagePlaceholder}
+                  placeholder={messages.messagePlaceholder}
                   required
                 />
               </div>
             </div>
             <div className="mt-6 w-full">
               <button className="btn btn-neutral block text-white w-full">
-                {pageItems.formContactButton}
+                {messages.formContactButton}
               </button>
             </div>
           </Form>

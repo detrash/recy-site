@@ -2,10 +2,10 @@ import { HomePageData } from '@src/graphql/queries';
 import Link from 'next/link';
 
 type HeroHomeProps = {
-  pageItems: HomePageData;
+  messages: HomePageData;
 };
 
-const HeroHome: React.FC<HeroHomeProps> = ({ pageItems }) => {
+const HeroHome: React.FC<HeroHomeProps> = ({ messages }) => {
   const scrollSmoothTo = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (element) {
@@ -24,9 +24,9 @@ const HeroHome: React.FC<HeroHomeProps> = ({ pageItems }) => {
               className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 text-neutral"
               data-aos="zoom-y-out"
             >
-              {pageItems.pageTitle}
+              {messages.pageTitle}
               <p className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-                {pageItems.pageTitleEffect}
+                {messages.pageTitleEffect}
               </p>
             </h1>
             <div className="max-w-3xl mx-auto">
@@ -35,7 +35,7 @@ const HeroHome: React.FC<HeroHomeProps> = ({ pageItems }) => {
                 data-aos="zoom-y-out"
                 data-aos-delay="150"
               >
-                {pageItems.pageSubTitle}
+                {messages.pageSubTitle}
               </p>
               <div
                 className="max-w-xs mx-auto "
@@ -46,7 +46,7 @@ const HeroHome: React.FC<HeroHomeProps> = ({ pageItems }) => {
                   className="btn btn-primary text-white w-full mb-4 md:w-auto md:mb-0"
                   onClick={() => scrollSmoothTo('recytoken')}
                 >
-                  {pageItems.homeButton}
+                  {messages.homeButton}
                 </button>
                 <div className="block md:hidden">
                   <Link href="/">

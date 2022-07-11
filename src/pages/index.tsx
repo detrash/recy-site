@@ -15,29 +15,27 @@ import { Formik } from 'formik';
 import { GetStaticProps } from 'next';
 
 type HomePageProps = {
-  pageItems: HomePageData;
+  messages: HomePageData;
 };
 
-const Home: React.FC<HomePageProps> = ({ pageItems }) => {
+const Home: React.FC<HomePageProps> = ({ messages }) => {
   const handleSubmitContactForm = (formData: ContactFormSchema) => {
     console.log(formData);
   };
 
   return (
     <main className="flex-grow">
-      <HeroHome pageItems={pageItems} />
-      <FeatureHome pageItems={pageItems} />
-      <FeatureBlocks pageItems={pageItems} />
-      <Testimonials pageItems={pageItems} />
-      <CTA pageItems={pageItems} />
+      <HeroHome messages={messages} />
+      <FeatureHome messages={messages} />
+      <FeatureBlocks messages={messages} />
+      <Testimonials messages={messages} />
+      <CTA messages={messages} />
       <Formik
         initialValues={INITIAL_FORM_VALUES}
         validationSchema={contactFormSchema}
         onSubmit={handleSubmitContactForm}
       >
-        {(formikProps) => (
-          <ContactForm pageItems={pageItems} {...formikProps} />
-        )}
+        {(formikProps) => <ContactForm messages={messages} {...formikProps} />}
       </Formik>
     </main>
   );
@@ -54,7 +52,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   if (data) {
     return {
       props: {
-        pageItems: data.homePages[0]?.homePageJSON,
+        messages: {
+          ...data.homePages[0]?.homePageJSON,
+          ...(await import(`@src/i18n/${locale}.json`)).default,
+        },
       },
       revalidate: 60 * 60 * 24, // 1 day
     };

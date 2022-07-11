@@ -1,9 +1,11 @@
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
 
 const Footer: React.FC = () => {
   const { locale, locales, pathname, asPath } = useRouter();
+  const translate = useTranslations('footer');
 
   const otherLocation = useMemo(() => {
     if (locales && locale) {
@@ -11,8 +13,6 @@ const Footer: React.FC = () => {
     }
     return '';
   }, [locale, locales]);
-
-  const switchTo = locale === 'en' ? 'Portuguese' : 'English';
 
   return (
     <footer>
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
           <div>
             <span> </span>
             <Link href={pathname} as={asPath} locale={otherLocation}>
-              <a className="text-primary text-sm">Switch to {switchTo}</a>
+              <a className="text-primary text-sm">{translate('language')}</a>
             </Link>
           </div>
         </div>

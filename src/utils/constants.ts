@@ -8,21 +8,26 @@ export const UTIL_LINKS = {
     'https://drive.google.com/file/d/1k4jFIni3IEIuyTmTA3wC2Au_8JQHtA2c/view?usp=sharing',
 };
 
-export const NAV_PAGES = [
+type NavPageProps = {
+  name: 'privacyPolicy' | 'recy' | 'roadmap' | 'team';
+  path: string;
+};
+
+export const NAV_PAGES: NavPageProps[] = [
   {
-    name: 'RECY',
+    name: 'recy',
     path: 'recy',
   },
   {
-    name: 'Roadmap',
+    name: 'roadmap',
     path: 'roadmap',
   },
   {
-    name: 'Team',
+    name: 'team',
     path: 'team',
   },
   {
-    name: 'Privacy Policy',
+    name: 'privacyPolicy',
     path: 'privacy-policy',
   },
 ];

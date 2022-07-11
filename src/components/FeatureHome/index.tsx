@@ -1,10 +1,10 @@
 import { HomePageData } from '@src/graphql/queries';
 
 type FeatureHomeProps = {
-  pageItems: HomePageData;
+  messages: HomePageData;
 };
 
-const FeatureHome: React.FC<FeatureHomeProps> = ({ pageItems }) => {
+const FeatureHome: React.FC<FeatureHomeProps> = ({ messages }) => {
   return (
     <section className="relative bg-gray-100">
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
@@ -13,10 +13,10 @@ const FeatureHome: React.FC<FeatureHomeProps> = ({ pageItems }) => {
         <div className="pt-12 md:pt-20">
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4 text-neutral">
-              {pageItems.featuresHomeTitle}
+              {messages.featuresHomeTitle}
             </h1>
             <p className="text-xl text-gray-600">
-              {pageItems.featuresHomeSubTitle}
+              {messages.featuresHomeSubTitle}
             </p>
           </div>
 
@@ -29,20 +29,20 @@ const FeatureHome: React.FC<FeatureHomeProps> = ({ pageItems }) => {
                 <div>
                   <h2 className="h2">7%</h2>
                   <span className="text-xl text-gray-600 ">
-                    {pageItems.featuresHomeItem1}
+                    {messages.featuresHomeItem1}
                   </span>
                 </div>
                 <div>
                   <h2 className="h2">300mi+</h2>
                   <span className="text-xl text-gray-600 ">
-                    {pageItems.featuresHomeItem2}
+                    {messages.featuresHomeItem2}
                   </span>
                 </div>
 
                 <div>
                   <h2 className="h2">100kg</h2>
                   <span className="text-xl text-gray-600 ">
-                    {pageItems.featuresHomeItem3}
+                    {messages.featuresHomeItem3}
                   </span>
                 </div>
               </div>
