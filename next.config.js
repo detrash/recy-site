@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['static.wixstatic.com'],
+  i18n: {
+    locales: ['en', 'pt'],
+    defaultLocale: 'en',
   },
   reactStrictMode: true,
 };

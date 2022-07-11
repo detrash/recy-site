@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import AppLayout from '../layout';
 import Head from 'next/head';
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from '@src/lib/apollo';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -23,10 +25,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>DeTrash | Tokens que salvam o mundo</title>
       </Head>
-
-      <AppLayout>
-        <Component {...pageProps} />
-      </AppLayout>
+      <ApolloProvider client={apolloClient}>
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
+      </ApolloProvider>
     </>
   );
 }

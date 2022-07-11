@@ -1,22 +1,24 @@
-const CTA: React.FC = () => {
+import { HomePageData } from '@src/graphql/queries';
+
+type CTAProps = {
+  pageItems: HomePageData;
+};
+
+const CTA: React.FC<CTAProps> = ({ pageItems }) => {
   return (
     <section className="relative">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-8">
-            <h2 className="h2 mb-4 text-neutral">
-              RECY tokens are an efficient solution
-            </h2>
+            <h2 className="h2 mb-4 text-neutral">{pageItems.ctaTitle}</h2>
             <p className="text-xl text-gray-600" data-aos="zoom-y-out">
-              A RECY Token represents a kg of waste that had a sustainable
-              destination. RECY TOKEN sales supports waste recycling and
-              collecting projects.
+              {pageItems.ctaSubTitle}
             </p>
             <p
               className="text-xl text-blue-400 font-bold mt-4"
               data-aos="zoom-y-out"
             >
-              RECYs are minted in an auditable and transparent way.
+              {pageItems.ctaTitleEffect}
             </p>
           </div>
 
@@ -26,7 +28,7 @@ const CTA: React.FC = () => {
             data-aos-delay="300"
           >
             <button className="btn btn-primary text-white  w-full mb-4 sm:w-auto sm:mb-0">
-              BUY RECY
+              {pageItems.ctaButton}
             </button>
           </div>
         </div>

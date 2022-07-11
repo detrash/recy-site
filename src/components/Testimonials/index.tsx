@@ -1,8 +1,12 @@
+import { HomePageData } from '@src/graphql/queries';
 import { UTIL_LINKS } from '@src/utils/constants';
 import Image from 'next/image';
-import React from 'react';
 
-const Testimonials: React.FC = () => {
+type TestimonialsProps = {
+  pageItems: HomePageData;
+};
+
+const Testimonials: React.FC<TestimonialsProps> = ({ pageItems }) => {
   return (
     <section className="relative bg-accent testimonials">
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
@@ -15,14 +19,11 @@ const Testimonials: React.FC = () => {
       <div id="recytoken" className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-12 ">
-            <h2 className="h2 mb-4 text-white">Buy RECY token</h2>
+            <h2 className="h2 mb-4 text-white">
+              {pageItems.testimonialsTitle}
+            </h2>
             <p className="text-xl text-gray-200" data-aos="zoom-y-out">
-              The first token to tackle the pollution of oceans and rivers at
-              its source. A solution that integrates scalability, transparency
-              and financial efficiency to protect our rivers and oceans. By
-              purchasing RECY Tokens, you are directing currency inflow to
-              prevent over 8 millions tons of waste geting to our rivers and
-              oceans.
+              {pageItems.testimonialsSubTitle}
             </p>
           </div>
           <div
@@ -36,7 +37,7 @@ const Testimonials: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              More on it
+              {pageItems.testimonialsButton1}
             </a>
             <a
               className="btn btn-neutral  text-white w-full sm:w-auto sm:ml-4"
@@ -44,7 +45,7 @@ const Testimonials: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Manifest / Whitepaper
+              {pageItems.testimonialsButton2}
             </a>
           </div>
         </div>

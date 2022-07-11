@@ -1,14 +1,20 @@
-const FeaturesBlocks: React.FC = () => {
+import { HomePageData } from '@src/graphql/queries';
+
+type FeatureBlocksProps = {
+  pageItems: HomePageData;
+};
+
+const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ pageItems }) => {
   return (
     <section className="relative">
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4 text-neutral">How it works</h2>
+            <h2 className="h2 mb-4 text-neutral">
+              {pageItems.featuresBlockTitle}
+            </h2>
             <p className="text-xl text-gray-600">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur excepteur sint occaecat
-              cupidatat.
+              {pageItems.featuresBlockSubTitle}
             </p>
           </div>
 
@@ -39,13 +45,10 @@ const FeaturesBlocks: React.FC = () => {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                Businesses
+                {pageItems.featuresBlockItem1Title}
               </h4>
               <p className="text-gray-600 text-center">
-                The business that partners with us delivers their recyclable
-                waste to recycling companies and DeTrash pays it extra for it.
-                It is as simple as delivering your recyclables, making a report
-                about it, sending it to us and receiving payment after it.
+                {pageItems.featuresBlockItem1Desc}
               </p>
             </div>
 
@@ -82,12 +85,10 @@ const FeaturesBlocks: React.FC = () => {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                DeTrash
+                {pageItems.featuresBlockItem2Title}
               </h4>
               <p className="text-gray-600 text-center">
-                Based on the recycling reports received we mint crypto tokens
-                for the amount of waste that we are certain went to recycling or
-                composting.
+                {pageItems.featuresBlockItem2Desc}
               </p>
             </div>
 
@@ -117,15 +118,10 @@ const FeaturesBlocks: React.FC = () => {
                 </g>
               </svg>
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                The Crypto Pirates
+                {pageItems.featuresBlockItem3Title}
               </h4>
               <p className="text-gray-600 text-center">
-                Whoever buys our tokens are contributing in a very direct way to
-                finally solve a problem that is critical and has been
-                threatening marine a humane lives: world waste pollution. Beyond
-                it you will be supporting a project aiming to disrupt waste
-                management through distributed governance and financial stimulae
-                based efficiency.
+                {pageItems.featuresBlockItem3Desc}
               </p>
             </div>
           </div>
@@ -135,4 +131,4 @@ const FeaturesBlocks: React.FC = () => {
   );
 };
 
-export default FeaturesBlocks;
+export default FeatureBlocks;

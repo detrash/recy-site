@@ -1,6 +1,11 @@
+import { HomePageData } from '@src/graphql/queries';
 import Link from 'next/link';
 
-const HeroHome: React.FC = () => {
+type HeroHomeProps = {
+  pageItems: HomePageData;
+};
+
+const HeroHome: React.FC<HeroHomeProps> = ({ pageItems }) => {
   const scrollSmoothTo = (elementId: string) => {
     const element = document.getElementById(elementId);
     if (element) {
@@ -19,9 +24,9 @@ const HeroHome: React.FC = () => {
               className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 text-neutral"
               data-aos="zoom-y-out"
             >
-              Tokens to clean
+              {pageItems.pageTitle}
               <p className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-                the world
+                {pageItems.pageTitleEffect}
               </p>
             </h1>
             <div className="max-w-3xl mx-auto">
@@ -30,8 +35,7 @@ const HeroHome: React.FC = () => {
                 data-aos="zoom-y-out"
                 data-aos-delay="150"
               >
-                Let&apos;s end waste pollution at its source. Let&apos;s
-                transform how we think about trash and recycling.
+                {pageItems.pageSubTitle}
               </p>
               <div
                 className="max-w-xs mx-auto "
@@ -42,7 +46,7 @@ const HeroHome: React.FC = () => {
                   className="btn btn-primary text-white w-full mb-4 md:w-auto md:mb-0"
                   onClick={() => scrollSmoothTo('recytoken')}
                 >
-                  Get to know us
+                  {pageItems.homeButton}
                 </button>
                 <div className="block md:hidden">
                   <Link href="/">

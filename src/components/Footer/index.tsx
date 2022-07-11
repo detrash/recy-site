@@ -1,6 +1,19 @@
-import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useMemo } from 'react';
 
 const Footer: React.FC = () => {
+  const { locale, locales, pathname, asPath } = useRouter();
+
+  const otherLocation = useMemo(() => {
+    if (locales && locale) {
+      return locales.filter((location) => location !== locale)[0];
+    }
+    return '';
+  }, [locale, locales]);
+
+  const switchTo = locale === 'en' ? 'Portuguese' : 'English';
+
   return (
     <footer>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -11,6 +24,13 @@ const Footer: React.FC = () => {
               phil@detrashtoken.com
             </a>{' '}
             | Bahia, Brazil | +5571982640517
+          </div>
+
+          <div>
+            <span> </span>
+            <Link href={pathname} as={asPath} locale={otherLocation}>
+              <a className="text-primary text-sm">Switch to {switchTo}</a>
+            </Link>
           </div>
         </div>
       </div>

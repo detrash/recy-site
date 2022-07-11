@@ -1,4 +1,10 @@
-const FeaturesHome: React.FC = () => {
+import { HomePageData } from '@src/graphql/queries';
+
+type FeatureHomeProps = {
+  pageItems: HomePageData;
+};
+
+const FeatureHome: React.FC<FeatureHomeProps> = ({ pageItems }) => {
   return (
     <section className="relative bg-gray-100">
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
@@ -6,11 +12,11 @@ const FeaturesHome: React.FC = () => {
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
         <div className="pt-12 md:pt-20">
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h1 className="h2 mb-4 text-neutral">The problem</h1>
+            <h1 className="h2 mb-4 text-neutral">
+              {pageItems.featuresHomeTitle}
+            </h1>
             <p className="text-xl text-gray-600">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur excepteur sint occaecat
-              cupidatat.
+              {pageItems.featuresHomeSubTitle}
             </p>
           </div>
 
@@ -23,20 +29,20 @@ const FeaturesHome: React.FC = () => {
                 <div>
                   <h2 className="h2">7%</h2>
                   <span className="text-xl text-gray-600 ">
-                    of the waste generated is recycled.
+                    {pageItems.featuresHomeItem1}
                   </span>
                 </div>
                 <div>
                   <h2 className="h2">300mi+</h2>
                   <span className="text-xl text-gray-600 ">
-                    tons of trash estimately are on our ocean today.
+                    {pageItems.featuresHomeItem2}
                   </span>
                 </div>
 
                 <div>
                   <h2 className="h2">100kg</h2>
                   <span className="text-xl text-gray-600 ">
-                    eah person generates of plastic waste per year on average.
+                    {pageItems.featuresHomeItem3}
                   </span>
                 </div>
               </div>
@@ -85,4 +91,4 @@ const FeaturesHome: React.FC = () => {
   );
 };
 
-export default FeaturesHome;
+export default FeatureHome;
