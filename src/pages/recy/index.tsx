@@ -2,28 +2,30 @@ import Image from 'next/image';
 import RecyLogo from '@public/recy-logo.png';
 import Link from 'next/link';
 import { UTIL_LINKS } from '@src/utils/constants';
+import { GetStaticProps } from 'next';
+import { apolloClient } from '@src/lib/apollo';
+import { getRecyPageQuery, RecyPageData } from '@src/graphql/queries';
 
-const RecyPage: React.FC = () => {
+type RecyPageProps = {
+  messages: RecyPageData;
+};
+
+const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
   return (
     <main className="flex-grow">
       <section>
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="pt-32 pb-12 md:pt-40 md:pb-20">
             <div className="max-w-3xl mx-auto text-center pb-4">
-              <h2 className="h2 mb-4">What is RECY?</h2>
-              <p className="text-xl text-gray-600">
-                A cRECY Token represents a kg of waste that had a sustainable
-                destination.
-              </p>
+              <h2 className="h2 mb-4">{messages.pageTitle}</h2>
               <p className="text-xl text-gray-600 mb-4">
-                cRECY TOKEN sales supports waste recycling and collecting
-                projects.
+                {messages.pageSubtitle}
               </p>
               <p
                 className="text-xl text-blue-400 font-bold"
                 data-aos="zoom-y-out"
               >
-                RECYs are minted in an auditable and transparent way.
+                {messages.pageEffectTitle}
               </p>
             </div>
 
@@ -44,7 +46,7 @@ const RecyPage: React.FC = () => {
                   rel="noopener noreferrer"
                   href={UTIL_LINKS.TOKEN_CONTRACT_URL}
                 >
-                  Token Contract
+                  {messages.contractButtonLabel}
                 </a>
                 <a
                   className="btn btn-neutral text-white w-full mb-4 md:w-auto md:mb-0"
@@ -53,7 +55,7 @@ const RecyPage: React.FC = () => {
                   rel="noopener noreferrer"
                   href={UTIL_LINKS.WHITEPAPER_URL}
                 >
-                  Manifest / Whitepaper
+                  {messages.whitepaperButtonLabel}
                 </a>
               </div>
 
@@ -62,7 +64,7 @@ const RecyPage: React.FC = () => {
                   data-aos="zoom-y-out"
                   className="btn btn-outline border border-neutral shadow-none w-full md:w-auto"
                 >
-                  How to add cRECY to Trust Wallet
+                  {messages.addRecyButtonLabel}
                 </button>
               </Link>
             </div>
@@ -76,11 +78,9 @@ const RecyPage: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="pt-12 md:pt-20">
             <div className="max-w-3xl mx-auto text-center pb-12">
-              <h1 className="h2 mb-4 text-neutral">
-                Acquiring cRECY is making the world cleaner.
-              </h1>
+              <h1 className="h2 mb-4 text-neutral">{messages.bannerTitle}</h1>
               <p className="text-xl text-gray-600" data-aos="zoom-y-out">
-                Our world needs a crypto solution.
+                {messages.bannerDescription}
               </p>
             </div>
 
@@ -91,7 +91,7 @@ const RecyPage: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Buy cRecy Here
+                {messages.bannerButton}
               </a>
             </div>
           </div>
@@ -99,6 +99,31 @@ const RecyPage: React.FC = () => {
       </section>
     </main>
   );
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const { data } = await apolloClient.query({
+    query: getRecyPageQuery,
+    variables: {
+      locale,
+    },
+  });
+
+  if (data) {
+    return {
+      props: {
+        messages: {
+          ...data.recyPages[0],
+          ...(await import(`@src/i18n/${locale}.json`)).default,
+        },
+      },
+      revalidate: 60 * 60 * 24, // 1 day
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default RecyPage;

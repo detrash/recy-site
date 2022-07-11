@@ -34,10 +34,37 @@ export type HomePageData = {
   testimonialsTitle: string;
 };
 
+export type RecyPageData = {
+  addRecyButtonLabel: string;
+  bannerButton: string;
+  bannerDescription: string;
+  bannerTitle: string;
+  contractButtonLabel: string;
+  pageEffectTitle: string;
+  pageSubtitle: string;
+  pageTitle: string;
+  whitepaperButtonLabel: string;
+};
+
 export const getHomePageQuery = gql`
   query getHomePageQuery($locale: Locale!) {
     homePages(locales: [$locale]) {
       homePageJSON
+    }
+  }
+`;
+export const getRecyPageQuery = gql`
+  query getRecyPageQuery($locale: Locale!) {
+    recyPages(locales: [$locale]) {
+      addRecyButtonLabel
+      bannerButton
+      bannerDescription
+      bannerTitle
+      contractButtonLabel
+      pageEffectTitle
+      pageSubtitle
+      pageTitle
+      whitepaperButtonLabel
     }
   }
 `;
