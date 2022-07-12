@@ -46,6 +46,29 @@ export type RecyPageData = {
   whitepaperButtonLabel: string;
 };
 
+export type RoadMapPageData = {
+  pageSubtitle: string;
+  pageTitle: string;
+  panelDescription: string;
+  titleEffect: string;
+};
+
+export type TeamPageData = {
+  pageTitle: string;
+  teamMember: {
+    memberName: string;
+    memberPhoto: {
+      url: string;
+    };
+    twitterUrl: string;
+    instagramUrl: string;
+    githubUrl: string;
+    jobDescription: string;
+    jobPosition: string;
+    linkedInUrl: string;
+  }[];
+};
+
 export const getHomePageQuery = gql`
   query getHomePageQuery($locale: Locale!) {
     homePages(locales: [$locale]) {
@@ -53,6 +76,7 @@ export const getHomePageQuery = gql`
     }
   }
 `;
+
 export const getRecyPageQuery = gql`
   query getRecyPageQuery($locale: Locale!) {
     recyPages(locales: [$locale]) {
@@ -65,6 +89,41 @@ export const getRecyPageQuery = gql`
       pageSubtitle
       pageTitle
       whitepaperButtonLabel
+    }
+  }
+`;
+
+export const getRoadMapPageQuery = gql`
+  query getRoadMapPageQuery($locale: Locale!) {
+    roadmapPages(locales: [$locale]) {
+      pageSubtitle
+      pageTitle
+      panelDescription
+      titleEffect
+    }
+  }
+`;
+
+export const getTeamPageQuery = gql`
+  query getTeamPageQuery($locale: [Locale!]!) {
+    teamPages(locales: $locale) {
+      pageTitle
+      teamMember {
+        memberName
+        memberPhoto {
+          url(
+            transformation: {
+              image: { resize: { fit: crop, height: 176, width: 176 } }
+            }
+          )
+        }
+        twitterUrl
+        instagramUrl
+        githubUrl
+        jobDescription
+        jobPosition
+        linkedInUrl
+      }
     }
   }
 `;
