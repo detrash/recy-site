@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import RoadMapImage from '@public/assets/roadmap.webp';
 import { CheckCircleIcon } from '@heroicons/react/solid';
 import { apolloClient } from '@src/lib/apollo';
 import { GetStaticProps } from 'next';
@@ -35,12 +34,14 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
             </div>
 
             <div className="flex mt-4 flex-col items-center justify-center">
-              <Image
-                src={messages.roadmapImage.url}
-                height={messages.roadmapImage.height}
-                width={messages.roadmapImage.width}
-                alt="RoadMap"
-              />
+              {messages?.roadmapImage && (
+                <Image
+                  src={messages?.roadmapImage?.url}
+                  height={messages?.roadmapImage?.height}
+                  width={messages?.roadmapImage?.width}
+                  alt="RoadMap"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -49,11 +50,13 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
+  const otherLocale =
+    locales?.filter((location) => location !== locale)[0] || '';
   const { data } = await apolloClient.query({
     query: getRoadMapPageQuery,
     variables: {
-      locale,
+      locale: [locale, otherLocale],
     },
   });
 

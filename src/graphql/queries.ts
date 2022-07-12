@@ -116,14 +116,14 @@ export const getRecyPageQuery = gql`
 `;
 
 export const getRoadMapPageQuery = gql`
-  query getRoadMapPageQuery($locale: Locale!) {
-    roadmapPages(locales: [$locale]) {
+  query getRoadMapPageQuery($locale: [Locale!]!) {
+    roadmapPages(locales: $locale) {
       pageSubtitle
       pageTitle
       panelDescription
       titleEffect
       roadmapImage {
-        url(transformation: { document: { output: { format: webp } } })
+        url
         width
         height
       }
