@@ -35,7 +35,12 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
             </div>
 
             <div className="flex mt-4 flex-col items-center justify-center">
-              <Image src={RoadMapImage} alt="RoadMap" />
+              <Image
+                src={messages.roadmapImage.url}
+                height={messages.roadmapImage.height}
+                width={messages.roadmapImage.width}
+                alt="RoadMap"
+              />
             </div>
           </div>
         </div>

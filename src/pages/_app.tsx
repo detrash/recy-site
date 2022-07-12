@@ -1,7 +1,6 @@
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
 import AOS from 'aos';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import AppLayout from '../layout';
 import Head from 'next/head';
@@ -10,8 +9,6 @@ import { apolloClient } from '@src/lib/apollo';
 import { NextIntlProvider } from 'next-intl';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-
   useEffect(() => {
     AOS.init({
       once: true,

@@ -57,7 +57,7 @@ const FeatureHome: React.FC<FeatureHomeProps> = ({ messages }) => {
                   <picture>
                     <img
                       className="md:max-w-none mx-auto rounded"
-                      src="/assets/trash-bag.png"
+                      src={messages?.homeImages[0].url}
                       width="350"
                       height="462"
                       alt="Features bg"
@@ -66,7 +66,7 @@ const FeatureHome: React.FC<FeatureHomeProps> = ({ messages }) => {
                   <picture>
                     <img
                       className="md:max-w-none absolute top-2 border-8 border-white rounded"
-                      src="assets/water-bottle.png"
+                      src={messages?.homeImages[1].url}
                       width="150"
                       height="44"
                       alt="Element"
@@ -75,7 +75,7 @@ const FeatureHome: React.FC<FeatureHomeProps> = ({ messages }) => {
                   <picture>
                     <img
                       className="md:max-w-none absolute right-0 -bottom-8 border-8 border-white rounded"
-                      src="/assets/trash-beach.png"
+                      src={messages?.homeImages[2].url}
                       width="200"
                       height="44"
                       alt="Element"

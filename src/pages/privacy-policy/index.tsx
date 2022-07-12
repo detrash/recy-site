@@ -11,7 +11,6 @@ import {
 } from '@src/utils/YupSchema';
 import { Formik } from 'formik';
 import { GetStaticProps } from 'next';
-import { createElement, DOMElement, ReactNode } from 'react';
 
 type PrivacyPolicyPageProps = {
   messages: PrivacyPolicyData;

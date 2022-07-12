@@ -32,6 +32,11 @@ export type HomePageData = {
   testimonialsButton2: string;
   testimonialsSubTitle: string;
   testimonialsTitle: string;
+  homeImages: {
+    url: string;
+    width: number;
+    height: number;
+  }[];
 };
 
 export type RecyPageData = {
@@ -51,6 +56,11 @@ export type RoadMapPageData = {
   pageTitle: string;
   panelDescription: string;
   titleEffect: string;
+  roadmapImage: {
+    url: string;
+    width: number;
+    height: number;
+  };
 };
 
 export type TeamPageData = {
@@ -80,6 +90,11 @@ export const getHomePageQuery = gql`
   query getHomePageQuery($locale: Locale!) {
     homePages(locales: [$locale]) {
       homePageJSON
+      homeImages {
+        url
+        width
+        height
+      }
     }
   }
 `;
@@ -107,6 +122,11 @@ export const getRoadMapPageQuery = gql`
       pageTitle
       panelDescription
       titleEffect
+      roadmapImage {
+        url(transformation: { document: { output: { format: webp } } })
+        width
+        height
+      }
     }
   }
 `;

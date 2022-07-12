@@ -55,6 +55,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         messages: {
           ...data.homePages[0]?.homePageJSON,
           ...(await import(`@src/i18n/${locale}.json`)).default,
+          homeImages: data.homePages[0]?.homeImages,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day
