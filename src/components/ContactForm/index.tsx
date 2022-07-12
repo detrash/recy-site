@@ -1,13 +1,10 @@
 import { Form, FormikProps } from 'formik';
 import Input from '@src/components/Input';
 import { ContactFormSchema } from '@src/utils/YupSchema';
-import { HomePageData } from '@src/graphql/queries';
+import { useTranslations } from 'next-intl';
 
-interface CTAProps extends FormikProps<ContactFormSchema> {
-  messages: HomePageData;
-}
-
-const ContactForm: React.FC<CTAProps> = ({ messages }) => {
+const ContactForm: React.FC<FormikProps<ContactFormSchema>> = () => {
+  const translate = useTranslations('form');
   return (
     <section className="relative bg-gray-100">
       <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
@@ -16,10 +13,10 @@ const ContactForm: React.FC<CTAProps> = ({ messages }) => {
         <div className="py-12 md:py-20 mb-3">
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4 text-neutral">
-              {messages.formContactTitle}
+              {translate('formContactTitle')}
             </h1>
             <p className="text-xl text-gray-600">
-              {messages.formContactSubTitle}
+              {translate('formContactSubTitle')}
             </p>
           </div>
 
@@ -29,7 +26,7 @@ const ContactForm: React.FC<CTAProps> = ({ messages }) => {
                 <Input
                   label="Name"
                   name="name"
-                  placeholder={messages.namePlaceholder}
+                  placeholder={translate('namePlaceholder')}
                   required
                 />
               </div>
@@ -37,7 +34,7 @@ const ContactForm: React.FC<CTAProps> = ({ messages }) => {
                 <Input
                   label="Email"
                   name="emailAddress"
-                  placeholder={messages.emailPlaceholder}
+                  placeholder={translate('emailPlaceholder')}
                   required
                 />
               </div>
@@ -46,14 +43,14 @@ const ContactForm: React.FC<CTAProps> = ({ messages }) => {
                   inputType="textarea"
                   label="Message"
                   name="message"
-                  placeholder={messages.messagePlaceholder}
+                  placeholder={translate('messagePlaceholder')}
                   required
                 />
               </div>
             </div>
             <div className="mt-6 w-full">
               <button className="btn btn-neutral block text-white w-full">
-                {messages.formContactButton}
+                {translate('formContactButton')}
               </button>
             </div>
           </Form>

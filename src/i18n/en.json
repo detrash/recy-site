@@ -7,5 +7,13 @@
   },
   "footer": {
     "language": "Switch to Portuguese"
+  },
+  "form": {
+    "formContactTitle": "Get in touch",
+    "formContactSubTitle": "Send us a message",
+    "namePlaceholder": "Enter your name",
+    "emailPlaceholder": "Enter your email address",
+    "messagePlaceholder": "Enter your message",
+    "formContactButton": "Send"
   }
 }

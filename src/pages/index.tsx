@@ -35,7 +35,7 @@ const Home: React.FC<HomePageProps> = ({ messages }) => {
         validationSchema={contactFormSchema}
         onSubmit={handleSubmitContactForm}
       >
-        {(formikProps) => <ContactForm messages={messages} {...formikProps} />}
+        {(formikProps) => <ContactForm {...formikProps} />}
       </Formik>
     </main>
   );

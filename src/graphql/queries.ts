@@ -69,6 +69,13 @@ export type TeamPageData = {
   }[];
 };
 
+export type PrivacyPolicyData = {
+  privacyPolicyTitle: string;
+  privacyPolicyText: {
+    html: string;
+  };
+};
+
 export const getHomePageQuery = gql`
   query getHomePageQuery($locale: Locale!) {
     homePages(locales: [$locale]) {
@@ -123,6 +130,17 @@ export const getTeamPageQuery = gql`
         jobDescription
         jobPosition
         linkedInUrl
+      }
+    }
+  }
+`;
+
+export const getPrivacyPolicyPageQuery = gql`
+  query getPrivacyPolicyPageQuery($locale: Locale!) {
+    privacyPolicyPages(locales: [$locale]) {
+      privacyPolicyTitle
+      privacyPolicyText {
+        html
       }
     }
   }

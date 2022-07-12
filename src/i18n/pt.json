@@ -7,5 +7,13 @@
   },
   "footer": {
     "language": "Trocar para Inglês"
+  },
+  "form": {
+    "formContactTitle": "Entre em contato",
+    "formContactSubTitle": "Envie para nós sua mensagem",
+    "namePlaceholder": "Digite seu nome",
+    "emailPlaceholder": "Digite seu endereço de email",
+    "messagePlaceholder": "Digite sua mensagem",
+    "formContactButton": "Enviar"
   }
 }
