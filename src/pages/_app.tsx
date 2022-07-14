@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app';
 import AOS from 'aos';
 import { useEffect } from 'react';
 import AppLayout from '../layout';
-import Head from 'next/head';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from '@src/lib/apollo';
 import { NextIntlProvider } from 'next-intl';
@@ -19,18 +18,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <>
-      <Head>
-        <title>DeTrash | Tokens que salvam o mundo</title>
-      </Head>
-      <NextIntlProvider messages={pageProps.messages}>
-        <ApolloProvider client={apolloClient}>
-          <AppLayout>
-            <Component {...pageProps} />
-          </AppLayout>
-        </ApolloProvider>
-      </NextIntlProvider>
-    </>
+    <NextIntlProvider messages={pageProps.messages}>
+      <ApolloProvider client={apolloClient}>
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
+      </ApolloProvider>
+    </NextIntlProvider>
   );
 }
 

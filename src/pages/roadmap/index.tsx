@@ -37,8 +37,8 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
               {messages?.roadmapImage && (
                 <Image
                   src={messages?.roadmapImage?.url}
-                  height={messages?.roadmapImage?.height}
-                  width={messages?.roadmapImage?.width}
+                  height={500}
+                  width={800}
                   alt="RoadMap"
                 />
               )}

@@ -3,7 +3,8 @@
     "privacyPolicy": "Política de Privacidade",
     "recy": "RECY",
     "roadmap": "Roadmap",
-    "team": "Time"
+    "team": "Time",
+    "home": "Tokens que salvam o mundo"
   },
   "footer": {
     "language": "Trocar para Inglês"
@@ -15,5 +16,6 @@
     "emailPlaceholder": "Digite seu endereço de email",
     "messagePlaceholder": "Digite sua mensagem",
     "formContactButton": "Enviar"
-  }
+  },
+  "description": "Vamos limpar o mundo na origem do problema. Vamos repensar a indústria dos resíduos"
 }

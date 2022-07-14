@@ -123,7 +123,7 @@ export const getRoadMapPageQuery = gql`
       panelDescription
       titleEffect
       roadmapImage {
-        url
+        url(transformation: { document: { output: { format: webp } } })
         width
         height
       }

@@ -6,6 +6,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
           <link rel="shortcut icon" href="/favicon.ico" />
 
           <link rel="preconnect" href="https://fonts.gstatic.com" />
