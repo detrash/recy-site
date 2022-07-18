@@ -1,5 +1,5 @@
-import { HomePageData } from '@src/graphql/queries';
-import { UTIL_LINKS } from '@src/utils/constants';
+import { HomePageData } from '@modules/home/graphql/queries';
+import { UTIL_LINKS } from '@modules/home/utils/constants';
 import Image from 'next/image';
 
 type TestimonialsProps = {

@@ -1,14 +1,14 @@
-import ContactForm from '@src/components/ContactForm';
+import ContactForm from '@modules/home/components/ContactForm';
 import {
   getPrivacyPolicyPageQuery,
   PrivacyPolicyData,
-} from '@src/graphql/queries';
-import { apolloClient } from '@src/lib/apollo';
+} from '@modules/home/graphql/queries';
+import { apolloClient } from '@modules/home/lib/apollo';
 import {
   ContactFormSchema,
   contactFormSchema,
   INITIAL_FORM_VALUES,
-} from '@src/utils/YupSchema';
+} from '@modules/home/utils/YupSchema';
 import { Formik } from 'formik';
 import { GetStaticProps } from 'next';
 
@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         messages: {
           ...data.privacyPolicyPages[0],
-          ...(await import(`@src/i18n/${locale}.json`)).default,
+          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day

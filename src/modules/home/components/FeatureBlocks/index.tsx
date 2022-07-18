@@ -1,4 +1,4 @@
-import { HomePageData } from '@src/graphql/queries';
+import { HomePageData } from '@modules/home/graphql/queries';
 
 type FeatureBlocksProps = {
   messages: HomePageData;

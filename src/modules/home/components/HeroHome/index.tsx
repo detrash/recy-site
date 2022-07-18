@@ -1,4 +1,4 @@
-import { HomePageData } from '@src/graphql/queries';
+import { HomePageData } from '@modules/home/graphql/queries';
 import Link from 'next/link';
 
 type HeroHomeProps = {
@@ -49,7 +49,7 @@ const HeroHome: React.FC<HeroHomeProps> = ({ messages }) => {
                   {messages.homeButton}
                 </button>
                 <div className="block md:hidden">
-                  <Link href="/">
+                  <Link href="app">
                     <button className="btn btn-neutral text-white w-full mb-4 md:w-auto md:mb-0">
                       Launch App
                     </button>

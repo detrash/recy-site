@@ -2,11 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { MenuIcon } from '@heroicons/react/outline';
-import Drawer from '../Drawer';
 import classNames from 'classnames';
 import DeTrashLogo from '@public/detrash-logo.svg';
-import { NAV_PAGES } from '@src/utils/constants';
+import { NAV_PAGES } from '@modules/home/utils/constants';
 import { useTranslations } from 'next-intl';
+import Drawer from '@shared/components/Drawer';
 
 const Header: React.FC = () => {
   const translate = useTranslations('navItems');
@@ -83,7 +83,7 @@ const Header: React.FC = () => {
               <ul className="hidden md:flex justify-end flex-wrap items-center">
                 {pageItems}
                 <li>
-                  <Link href="/">
+                  <Link href="app">
                     <a className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3">
                       <span>Launch app</span>
                       <svg

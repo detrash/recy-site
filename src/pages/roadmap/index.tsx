@@ -1,8 +1,11 @@
 import Image from 'next/image';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-import { apolloClient } from '@src/lib/apollo';
+import { apolloClient } from '@modules/home/lib/apollo';
 import { GetStaticProps } from 'next';
-import { getRoadMapPageQuery, RoadMapPageData } from '@src/graphql/queries';
+import {
+  getRoadMapPageQuery,
+  RoadMapPageData,
+} from '@modules/home/graphql/queries';
 
 type RoadMapPageProps = {
   messages: RoadMapPageData;
@@ -65,7 +68,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
       props: {
         messages: {
           ...data.roadmapPages[0],
-          ...(await import(`@src/i18n/${locale}.json`)).default,
+          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day

@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import RecyLogo from '@public/recy-logo.png';
 import Link from 'next/link';
-import { UTIL_LINKS } from '@src/utils/constants';
+import { UTIL_LINKS } from '@modules/home/utils/constants';
 import { GetStaticProps } from 'next';
-import { apolloClient } from '@src/lib/apollo';
-import { getRecyPageQuery, RecyPageData } from '@src/graphql/queries';
+import { apolloClient } from '@modules/home/lib/apollo';
+import { getRecyPageQuery, RecyPageData } from '@modules/home/graphql/queries';
 
 type RecyPageProps = {
   messages: RecyPageData;
@@ -114,7 +114,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         messages: {
           ...data.recyPages[0],
-          ...(await import(`@src/i18n/${locale}.json`)).default,
+          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day

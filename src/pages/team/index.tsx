@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
-import { apolloClient } from '@src/lib/apollo';
-import { getTeamPageQuery, TeamPageData } from '@src/graphql/queries';
-import AvatarCard from '@src/components/AvatarCard';
+import { apolloClient } from '@modules/home/lib/apollo';
+import { getTeamPageQuery, TeamPageData } from '@modules/home/graphql/queries';
+import AvatarCard from '@modules/home/components/AvatarCard';
 
 type TeamPageProps = {
   messages: TeamPageData;
@@ -59,7 +59,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
       props: {
         messages: {
           ...data.teamPages[0],
-          ...(await import(`@src/i18n/${locale}.json`)).default,
+          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day

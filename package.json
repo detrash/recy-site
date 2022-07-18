@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.9",
+    "@auth0/nextjs-auth0": "^1.9.1",
     "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
     "aos": "^3.0.0-beta.6",
@@ -20,7 +21,6 @@
     "next": "12.2.0",
     "next-intl": "^2.7.4",
     "next-seo": "^5.4.0",
-    "nodemailer": "^6.7.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",

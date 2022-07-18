@@ -1,6 +1,6 @@
-import Footer from '@src/components/Footer';
-import Header from '@src/components/Header';
-import { NAV_PAGES } from '@src/utils/constants';
+import Footer from '@modules/home/components/Footer';
+import Header from '@modules/home/components/Header';
+import { NAV_PAGES } from '@modules/home/utils/constants';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
@@ -12,7 +12,6 @@ type AppLayoutProps = {
 
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const router = useRouter();
-  console.log(router);
   const translate = useTranslations();
 
   const getCurrentPage = () => {

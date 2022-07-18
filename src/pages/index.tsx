@@ -1,16 +1,16 @@
-import ContactForm from '@src/components/ContactForm';
-import CTA from '@src/components/CTA';
-import FeatureBlocks from '@src/components/FeatureBlocks';
-import FeatureHome from '@src/components/FeatureHome';
-import HeroHome from '@src/components/HeroHome';
-import Testimonials from '@src/components/Testimonials';
-import { getHomePageQuery, HomePageData } from '@src/graphql/queries';
-import { apolloClient } from '@src/lib/apollo';
+import ContactForm from '@modules/home/components/ContactForm';
+import CTA from '@modules/home/components/CTA';
+import FeatureBlocks from '@modules/home/components/FeatureBlocks';
+import FeatureHome from '@modules/home/components/FeatureHome';
+import HeroHome from '@modules/home/components/HeroHome';
+import Testimonials from '@modules/home/components/Testimonials';
+import { getHomePageQuery, HomePageData } from '@modules/home/graphql/queries';
+import { apolloClient } from '@modules/home/lib/apollo';
 import {
   contactFormSchema,
   ContactFormSchema,
   INITIAL_FORM_VALUES,
-} from '@src/utils/YupSchema';
+} from '@modules/home/utils/YupSchema';
 import { Formik } from 'formik';
 import { GetStaticProps } from 'next';
 
@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         messages: {
           ...data.homePages[0]?.homePageJSON,
-          ...(await import(`@src/i18n/${locale}.json`)).default,
+          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
           homeImages: data.homePages[0]?.homeImages,
         },
       },
