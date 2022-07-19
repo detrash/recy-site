@@ -1,4 +1,3 @@
-import { CheckCircleIcon } from '@heroicons/react/solid';
 import {
   getRoadMapPageQuery,
   RoadMapPageData,
@@ -6,6 +5,7 @@ import {
 import { apolloClient } from '@modules/home/lib/apollo';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
+import { CheckCircle } from 'phosphor-react';
 
 type RoadMapPageProps = {
   messages: RoadMapPageData;
@@ -23,8 +23,8 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
                 {messages.pageSubtitle}
               </p>
               <div className="relative flex flex-col items-center p-6 bg-white rounded shadow-xl">
-                <CheckCircleIcon className="w-10 h-10 absolute -right-2 -top-2 " />
-                <p className="text-xl text-justify text-gray-600">
+                <CheckCircle className="w-10 h-10 absolute -right-2 -top-2 " />
+                <p className="text-xl text-gray-600">
                   {messages.panelDescription}
                 </p>
               </div>

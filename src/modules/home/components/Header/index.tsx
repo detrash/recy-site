@@ -1,4 +1,3 @@
-import { MenuIcon } from '@heroicons/react/outline';
 import { NAV_PAGES } from '@modules/home/utils/constants';
 import DeTrashLogo from '@public/detrash-logo.svg';
 import Drawer from '@shared/components/Drawer';
@@ -6,6 +5,7 @@ import classNames from 'classnames';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
+import { List } from 'phosphor-react';
 import { useEffect, useMemo, useState } from 'react';
 
 const Header: React.FC = () => {
@@ -76,7 +76,7 @@ const Header: React.FC = () => {
                   className="btn btn-accent btn-ghost shadow-none no-animation"
                   onClick={() => setIsDrawerMenuOpen(true)}
                 >
-                  <MenuIcon className="h-6 w-6" />
+                  <List className="h-6 w-6" />
                 </button>
               </div>
 

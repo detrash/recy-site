@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@heroicons/react/outline';
+import { X } from 'phosphor-react';
 
 type DrawerProps = {
   isOpen: boolean;
@@ -59,7 +59,7 @@ const Drawer: React.FC<DrawerProps> = ({
                         onClick={() => setIsOpen(false)}
                       >
                         <span className="sr-only">Close panel</span>
-                        <XIcon className="h-6 w-6" aria-hidden="true" />
+                        <X className="h-6 w-6" aria-hidden="true" />
                       </button>
                     </div>
                   </Transition.Child>
