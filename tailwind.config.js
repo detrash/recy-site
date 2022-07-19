@@ -14,7 +14,7 @@ module.exports = {
           500: '#7F7F7F',
           600: '#666666',
           700: '#4C4C4C',
-          800: '#333333',
+          800: '#272833',
           900: '#191919',
         },
         teal: {
@@ -129,7 +129,7 @@ module.exports = {
     themes: [
       {
         detrash_theme: {
-          primary: '#006bff',
+          primary: '#0B5FFF',
           secondary: '#2b9500',
           accent: '#002a69',
           neutral: '#191919',

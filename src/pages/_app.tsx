@@ -8,6 +8,7 @@ import { NextIntlProvider } from 'next-intl';
 import { apolloClient } from '@modules/home/lib/apollo';
 import { useRouter } from 'next/router';
 import { UserProvider } from '@auth0/nextjs-auth0';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const APP_PAGE_ROUTE = '/app';
@@ -26,9 +27,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   if (router.asPath === APP_PAGE_ROUTE) {
     return (
-      <UserProvider>
-        <Component {...pageProps} />
-      </UserProvider>
+      <>
+        <Head>
+          <title>DeTrash | App</title>
+        </Head>
+        <UserProvider>
+          <Component {...pageProps} />
+        </UserProvider>
+      </>
     );
   }
 
