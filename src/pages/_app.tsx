@@ -9,13 +9,17 @@ import { apolloClient } from '@modules/home/lib/apollo';
 import { useRouter } from 'next/router';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import Head from 'next/head';
+import { FormProvider } from '@modules/app/context/formContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const APP_PAGE_ROUTE = '/app';
+  const APP_PAGE_ROUTE = 'app';
   const router = useRouter();
 
+  const isOnAppPage =
+    router.asPath.split('/').filter(Boolean)[0] === APP_PAGE_ROUTE;
+
   useEffect(() => {
-    if (router.asPath !== APP_PAGE_ROUTE) {
+    if (!isOnAppPage) {
       AOS.init({
         once: true,
         disable: 'phone',
@@ -23,16 +27,18 @@ function MyApp({ Component, pageProps }: AppProps) {
         easing: 'ease-out-cubic',
       });
     }
-  }, [router.asPath]);
+  }, [isOnAppPage]);
 
-  if (router.asPath === APP_PAGE_ROUTE) {
+  if (isOnAppPage) {
     return (
       <>
         <Head>
           <title>DeTrash | App</title>
         </Head>
         <UserProvider>
-          <Component {...pageProps} />
+          <FormProvider>
+            <Component {...pageProps} />
+          </FormProvider>
         </UserProvider>
       </>
     );

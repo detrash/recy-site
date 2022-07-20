@@ -30,3 +30,18 @@ export const USER_WASTE_TYPES = [
     Icon: Hamburger,
   },
 ];
+
+export const FORM_STEPS = {
+  welcome: 1,
+  profile: 2,
+  wasteDetails: 3,
+  done: 4,
+};
+
+export const FORM_WASTE_TYPES = {
+  Plastic: 1,
+  Paper: 2,
+  Metal: 3,
+  Glass: 4,
+  Organic: 5,
+};

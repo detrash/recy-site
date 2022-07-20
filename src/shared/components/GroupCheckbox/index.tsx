@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import { Dispatch, ForwardRefExoticComponent, SetStateAction } from 'react';
-import { CheckCircle } from 'phosphor-react';
 
 type GroupCheckboxProps = {
   items: {
