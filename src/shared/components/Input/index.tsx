@@ -10,10 +10,11 @@ interface InputTypes extends InputHTMLAttributes<HTMLInputElement> {
   inputType?: 'input' | 'textarea';
   label: string;
   required?: boolean;
+  inputGroupLabel?: string;
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputTypes> = (
-  { label, required, inputType = 'input', ...props },
+  { label, required, inputType = 'input', inputGroupLabel, ...props },
   ref,
 ) => {
   const [field, meta] = useField(props as any);
@@ -24,7 +25,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputTypes> = (
         type="text"
         id={props.name}
         className={classNames(
-          'mt-1 p-3 disabled:bg-slate-50  focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md',
+          'p-3 disabled:bg-slate-50  focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md',
           {
             'border-error': meta.touched && meta.error,
             'border-success': meta.touched && !meta.error,
@@ -61,7 +62,15 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputTypes> = (
       >
         {label}
       </label>
-      {INPUT_TYPES[inputType]}
+      {inputGroupLabel ? (
+        <label className="input-group">
+          {INPUT_TYPES[inputType]}
+          <span>{inputGroupLabel}</span>
+        </label>
+      ) : (
+        INPUT_TYPES[inputType]
+      )}
+
       {(typeof meta.error === 'string' ||
         (meta.error as any) instanceof String) &&
         meta.touched && (

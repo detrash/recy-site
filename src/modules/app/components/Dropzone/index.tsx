@@ -2,9 +2,13 @@ import { useDropzone } from 'react-dropzone';
 import { CloudArrowUp, Warning, FileVideo } from 'phosphor-react';
 import classNames from 'classnames';
 
-const Dropzone: React.FC = () => {
+type DropzoneProps = {
+  setFileValue: (acceptedFiles: File[]) => void;
+  fileValue: File | undefined;
+};
+
+const Dropzone: React.FC<DropzoneProps> = ({ setFileValue, fileValue }) => {
   const {
-    acceptedFiles,
     getRootProps,
     getInputProps,
     open,
@@ -18,8 +22,8 @@ const Dropzone: React.FC = () => {
     },
     noClick: true,
     noKeyboard: true,
-    onDrop(acceptedFiles, fileRejections, event) {
-      console.log('dropped file');
+    onDropAccepted(file) {
+      setFileValue(file as any);
     },
   });
 
@@ -33,14 +37,14 @@ const Dropzone: React.FC = () => {
           }),
         })}
       >
-        <input {...getInputProps()} />
+        <input id="test" {...getInputProps()} />
         <div className="flex flex-col items-center gap-2">
           <CloudArrowUp className="w-32 h-32 text-gray-200" />
           <div className="flex items-center">
-            {acceptedFiles.length ? (
+            {fileValue ? (
               <>
                 <FileVideo className="text-primary h-8 w-8" />
-                <p className="text-lg">{acceptedFiles[0].name}</p>
+                <p className="text-lg">{fileValue.name}</p>
               </>
             ) : (
               <p className="text-lg">

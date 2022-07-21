@@ -33,10 +33,9 @@ const FormContext = createContext<FormContextData>({} as FormContextData);
 
 const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
   const [formStep, setFormStep] = useState(FORM_STEPS.welcome);
-  const [wasteTypesStep, setWasteTypesStep] = useState('');
   const [profileInfo, setProfileInfo] = useState('');
+  const [wasteTypesStep, setWasteTypesStep] = useState('');
   const [wasteTypes, setWasteTypes] = useState<string[]>([]);
-  // const [filesUploaded, setFilesUploaded] = useState<File[]>([]);
 
   const onNextWasteStep = useCallback(() => {
     setWasteTypesStep((previousWasteStep) => {
