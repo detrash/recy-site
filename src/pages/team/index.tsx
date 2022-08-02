@@ -1,6 +1,6 @@
 import AvatarCard from '@modules/home/components/AvatarCard';
 import { getTeamPageQuery, TeamPageData } from '@modules/home/graphql/queries';
-import { apolloClient } from '@modules/home/lib/apollo';
+import { homeApolloClient } from '@shared/lib/apollo';
 import { GetStaticProps } from 'next';
 
 type TeamPageProps = {
@@ -48,7 +48,7 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
 export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
   const otherLocale =
     locales?.filter((location) => location !== locale)[0] || '';
-  const { data } = await apolloClient.query({
+  const { data } = await homeApolloClient.query({
     query: getTeamPageQuery,
     variables: {
       locale: [locale, otherLocale],

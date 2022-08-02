@@ -13,7 +13,7 @@ const WelcomeForm: React.FC = () => {
           HELLO IAGO CHAVES,
         </h3>
         <h2 className="text-2xl sm:text-3xl text-gray-800 font-bold antialiased leading-relaxed">
-          Welcome to DeTrash App
+          Welcome to Recy App
         </h2>
       </section>
 

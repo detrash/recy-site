@@ -1,9 +1,10 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { getAccessToken, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import DoneForm from '@modules/app/components/FormSteps/Done';
 import RegisterType from '@modules/app/components/FormSteps/RegisterType';
 import WasteDetails from '@modules/app/components/FormSteps/WasteDetails';
 import WelcomeForm from '@modules/app/components/FormSteps/Welcome';
 import { useFormContext } from '@modules/app/context/formContext';
+import { getMeServerQuery } from '@modules/app/graphql/ssrQueries';
 import FormLayout from '@modules/app/layout/FormLayout';
 import { FORM_STEPS, USER_ROLE_TYPES } from '@modules/app/utils/constants';
 import { RecyFormSchema } from '@modules/app/utils/YupSchema';
@@ -87,4 +88,21 @@ export default OnboardingAppPage;
 
 export const getServerSideProps = withPageAuthRequired({
   returnTo: '/app',
+  async getServerSideProps({ req, res }) {
+    const { accessToken } = await getAccessToken(req, res);
+    const user = await getMeServerQuery(accessToken!);
+
+    if (user) {
+      return {
+        redirect: {
+          destination: 'app/',
+          permanent: false,
+        },
+      };
+    }
+
+    return {
+      props: {},
+    };
+  },
 });

@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { HomePageData } from '@modules/home/graphql/queries';
-import Link from 'next/link';
 
 type HeroHomeProps = {
   messages: HomePageData;
@@ -49,11 +49,12 @@ const HeroHome: React.FC<HeroHomeProps> = ({ messages }) => {
                   {messages.homeButton}
                 </button>
                 <div className="block md:hidden">
-                  <Link href="/">
-                    <button className="btn btn-neutral text-white w-full mb-4 md:w-auto md:mb-0">
-                      Launch App
-                    </button>
-                  </Link>
+                  <a
+                    href="/api/auth/login?returnTo=/app"
+                    className="btn btn-neutral text-white w-full mb-4 md:w-auto md:mb-0"
+                  >
+                    Launch App
+                  </a>
                 </div>
               </div>
             </div>

@@ -2,7 +2,7 @@ import {
   getRoadMapPageQuery,
   RoadMapPageData,
 } from '@modules/home/graphql/queries';
-import { apolloClient } from '@modules/home/lib/apollo';
+import { homeApolloClient } from '@shared/lib/apollo';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import { CheckCircle } from 'phosphor-react';
@@ -56,7 +56,7 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
 export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
   const otherLocale =
     locales?.filter((location) => location !== locale)[0] || '';
-  const { data } = await apolloClient.query({
+  const { data } = await homeApolloClient.query({
     query: getRoadMapPageQuery,
     variables: {
       locale: [locale, otherLocale],

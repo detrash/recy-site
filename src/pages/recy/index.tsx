@@ -1,7 +1,7 @@
 import { getRecyPageQuery, RecyPageData } from '@modules/home/graphql/queries';
-import { apolloClient } from '@modules/home/lib/apollo';
 import { UTIL_LINKS } from '@modules/home/utils/constants';
 import RecyLogo from '@public/recy-logo.png';
+import { homeApolloClient } from '@shared/lib/apollo';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -109,7 +109,7 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data } = await apolloClient.query({
+  const { data } = await homeApolloClient.query({
     query: getRecyPageQuery,
     variables: {
       locale,

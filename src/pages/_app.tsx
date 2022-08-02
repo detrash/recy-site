@@ -1,22 +1,26 @@
-import '../styles/globals.scss';
-import type { AppProps } from 'next/app';
+import { ApolloProvider } from '@apollo/client';
+import { UserProvider } from '@auth0/nextjs-auth0';
+import { FormProvider } from '@modules/app/context/formContext';
+import { homeApolloClient } from '@shared/lib/apollo';
 import AOS from 'aos';
+import { NextIntlProvider } from 'next-intl';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import AppLayout from '../modules/home/layout';
-import { ApolloProvider } from '@apollo/client';
-import { NextIntlProvider } from 'next-intl';
-import { apolloClient } from '@modules/home/lib/apollo';
-import { useRouter } from 'next/router';
-import { UserProvider } from '@auth0/nextjs-auth0';
-import Head from 'next/head';
-import { FormProvider } from '@modules/app/context/formContext';
+import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const APP_PAGE_ROUTE = 'app';
+  const API_PAGE_ROUTE = 'api';
   const router = useRouter();
 
   const isOnAppPage =
     router.asPath.split('/').filter(Boolean)[0] === APP_PAGE_ROUTE;
+
+  const isOnApiPage =
+    router.asPath.split('/').filter(Boolean)[0] === API_PAGE_ROUTE;
 
   useEffect(() => {
     if (!isOnAppPage) {
@@ -29,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [isOnAppPage]);
 
-  if (isOnAppPage) {
+  if (isOnAppPage || isOnApiPage) {
     return (
       <>
         <Head>
@@ -43,15 +47,16 @@ function MyApp({ Component, pageProps }: AppProps) {
       </>
     );
   }
-
   return (
-    <NextIntlProvider messages={pageProps.messages}>
-      <ApolloProvider client={apolloClient}>
-        <AppLayout>
-          <Component {...pageProps} />
-        </AppLayout>
+    <UserProvider>
+      <ApolloProvider client={homeApolloClient}>
+        <NextIntlProvider messages={pageProps?.messages || {}}>
+          <AppLayout>
+            <Component {...pageProps} />
+          </AppLayout>
+        </NextIntlProvider>
       </ApolloProvider>
-    </NextIntlProvider>
+    </UserProvider>
   );
 }
 

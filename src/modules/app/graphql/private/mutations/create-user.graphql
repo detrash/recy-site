@@ -1,0 +1,6 @@
+mutation CreateUser($profileType: ProfileType!) {
+  createUser(data: { profileType: $profileType }) {
+    authUserId
+    profileType
+  }
+}

@@ -1,7 +1,7 @@
 import { RecyFormSchema } from '@modules/app/utils/YupSchema';
 import Input from '@shared/components/Input';
 import { Form, FormikProps } from 'formik';
-import { ArrowLeft } from 'phosphor-react';
+import { ArrowLeft, Question } from 'phosphor-react';
 import Dropzone from '../Dropzone';
 import Steps from '../Steps';
 
@@ -20,11 +20,15 @@ const WasteDetails: React.FC<WasteDetails> = ({
   values,
   errors,
   setFieldValue,
+  submitForm,
 }) => {
   const isButtonDisabled =
     !values[wasteType]?.amount ||
     !!errors[wasteType]?.amount ||
     (isRecyclerPerson ? !values[wasteType]?.videoProof : false);
+
+  const helperText =
+    'Now record a video of the volume collected in a manner we can see the weight display of the scale. Make sure the video catches the whole uncovered volume and not only part of it. Please say the correct amount while filming so our validator can listen it.';
 
   return (
     <Form className="flex flex-col flex-1 gap-5">
@@ -52,12 +56,27 @@ const WasteDetails: React.FC<WasteDetails> = ({
       </section>
 
       {isRecyclerPerson && (
-        <Dropzone
-          setFileValue={(file) =>
-            setFieldValue(`${wasteType}.videoProof`, file[0])
-          }
-          fileValue={values[wasteType].videoProof}
-        />
+        <div>
+          <div className="mb-2">
+            <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px] flex items-center gap-1">
+              Upload a video representing the amount of waste
+              <div
+                className="tooltip hidden sm:inline normal-case	"
+                data-tip={helperText}
+              >
+                <Question className="h-6 w-6" />
+              </div>
+            </h2>
+
+            <p className="text-sm sm:hidden">{helperText}</p>
+          </div>
+          <Dropzone
+            setFileValue={(file) =>
+              setFieldValue(`${wasteType}.videoProof`, file[0])
+            }
+            fileValue={values[wasteType].videoProof}
+          />
+        </div>
       )}
 
       <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-between mt-auto">
@@ -72,7 +91,10 @@ const WasteDetails: React.FC<WasteDetails> = ({
           disabled={isButtonDisabled}
           className="btn btn-primary text-white no-animation w-full sm:w-auto"
           type="submit"
-          onClick={onNextWaste}
+          onClick={() => {
+            submitForm();
+            onNextWaste();
+          }}
         >
           Advance
         </button>

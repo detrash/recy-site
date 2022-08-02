@@ -3,12 +3,12 @@ import {
   getPrivacyPolicyPageQuery,
   PrivacyPolicyData,
 } from '@modules/home/graphql/queries';
-import { apolloClient } from '@modules/home/lib/apollo';
 import {
   ContactFormSchema,
   contactFormSchema,
   INITIAL_FORM_VALUES,
 } from '@modules/home/utils/YupSchema';
+import { homeApolloClient } from '@shared/lib/apollo';
 import { Formik } from 'formik';
 import { GetStaticProps } from 'next';
 
@@ -52,7 +52,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyPageProps> = ({ messages }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data } = await apolloClient.query({
+  const { data } = await homeApolloClient.query({
     query: getPrivacyPolicyPageQuery,
     variables: {
       locale,
