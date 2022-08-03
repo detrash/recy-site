@@ -1,12 +1,12 @@
+import { MenuIcon } from '@heroicons/react/outline';
+import { NAV_PAGES } from '@modules/home/utils/constants';
+import DeTrashLogo from '@public/detrash-logo.svg';
+import Drawer from '@shared/components/Drawer';
+import classNames from 'classnames';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { MenuIcon } from '@heroicons/react/outline';
-import classNames from 'classnames';
-import DeTrashLogo from '@public/detrash-logo.svg';
-import { NAV_PAGES } from '@modules/home/utils/constants';
-import { useTranslations } from 'next-intl';
-import Drawer from '@shared/components/Drawer';
 
 const Header: React.FC = () => {
   const translate = useTranslations('navItems');

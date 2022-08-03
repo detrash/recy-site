@@ -1,11 +1,11 @@
-import Image from 'next/image';
 import { CheckCircleIcon } from '@heroicons/react/solid';
-import { apolloClient } from '@modules/home/lib/apollo';
-import { GetStaticProps } from 'next';
 import {
   getRoadMapPageQuery,
   RoadMapPageData,
 } from '@modules/home/graphql/queries';
+import { apolloClient } from '@modules/home/lib/apollo';
+import { GetStaticProps } from 'next';
+import Image from 'next/image';
 
 type RoadMapPageProps = {
   messages: RoadMapPageData;
@@ -19,12 +19,12 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
           <div className="pt-32 pb-12 md:pt-40 md:pb-20">
             <div className="max-w-3xl mx-auto text-center pb-4">
               <h2 className="h2 mb-4">{messages.pageTitle}</h2>
-              <p className="text-xl text-gray-600 mb-4">
+              <p className="text-xl text-justify text-gray-600 mb-4">
                 {messages.pageSubtitle}
               </p>
               <div className="relative flex flex-col items-center p-6 bg-white rounded shadow-xl">
                 <CheckCircleIcon className="w-10 h-10 absolute -right-2 -top-2 " />
-                <p className="text-xl text-gray-600">
+                <p className="text-xl text-justify text-gray-600">
                   {messages.panelDescription}
                 </p>
               </div>

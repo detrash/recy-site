@@ -1,10 +1,10 @@
-import Image from 'next/image';
-import RecyLogo from '@public/recy-logo.png';
-import Link from 'next/link';
-import { UTIL_LINKS } from '@modules/home/utils/constants';
-import { GetStaticProps } from 'next';
-import { apolloClient } from '@modules/home/lib/apollo';
 import { getRecyPageQuery, RecyPageData } from '@modules/home/graphql/queries';
+import { apolloClient } from '@modules/home/lib/apollo';
+import { UTIL_LINKS } from '@modules/home/utils/constants';
+import RecyLogo from '@public/recy-logo.png';
+import { GetStaticProps } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 
 type RecyPageProps = {
   messages: RecyPageData;
@@ -18,7 +18,7 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
           <div className="pt-32 pb-12 md:pt-40 md:pb-20">
             <div className="max-w-3xl mx-auto text-center pb-4">
               <h2 className="h2 mb-4">{messages.pageTitle}</h2>
-              <p className="text-xl text-gray-600 mb-4">
+              <p className="text-xl text-justify text-gray-600 mb-4">
                 {messages.pageSubtitle}
               </p>
               <p
@@ -79,7 +79,10 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
           <div className="pt-12 md:pt-20">
             <div className="max-w-3xl mx-auto text-center pb-12">
               <h1 className="h2 mb-4 text-neutral">{messages.bannerTitle}</h1>
-              <p className="text-xl text-gray-600" data-aos="zoom-y-out">
+              <p
+                className="text-xl text-justify text-gray-600"
+                data-aos="zoom-y-out"
+              >
                 {messages.bannerDescription}
               </p>
             </div>

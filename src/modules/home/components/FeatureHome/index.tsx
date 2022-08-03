@@ -15,7 +15,7 @@ const FeatureHome: React.FC<FeatureHomeProps> = ({ messages }) => {
             <h1 className="h2 mb-4 text-neutral">
               {messages.featuresHomeTitle}
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-justify text-gray-600">
               {messages.featuresHomeSubTitle}
             </p>
           </div>
@@ -28,20 +28,20 @@ const FeatureHome: React.FC<FeatureHomeProps> = ({ messages }) => {
               <div className="md:pr-4 lg:pr-12 xl:pr-16 mb-8 space-y-10">
                 <div>
                   <h2 className="h2">7%</h2>
-                  <span className="text-xl text-gray-600 ">
+                  <span className="text-xl text-justify text-gray-600 ">
                     {messages.featuresHomeItem1}
                   </span>
                 </div>
                 <div>
                   <h2 className="h2">300mi+</h2>
-                  <span className="text-xl text-gray-600 ">
+                  <span className="text-xl text-justify text-gray-600 ">
                     {messages.featuresHomeItem2}
                   </span>
                 </div>
 
                 <div>
                   <h2 className="h2">100kg</h2>
-                  <span className="text-xl text-gray-600 ">
+                  <span className="text-xl text-justify text-gray-600 ">
                     {messages.featuresHomeItem3}
                   </span>
                 </div>

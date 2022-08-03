@@ -1,7 +1,7 @@
-import { GetStaticProps } from 'next';
-import { apolloClient } from '@modules/home/lib/apollo';
-import { getTeamPageQuery, TeamPageData } from '@modules/home/graphql/queries';
 import AvatarCard from '@modules/home/components/AvatarCard';
+import { getTeamPageQuery, TeamPageData } from '@modules/home/graphql/queries';
+import { apolloClient } from '@modules/home/lib/apollo';
+import { GetStaticProps } from 'next';
 
 type TeamPageProps = {
   messages: TeamPageData;
@@ -22,7 +22,7 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
               <h2 className="h2 mb-4">{messages?.pageTitle}</h2>
             </div>
 
-            <div className="max-w-sm mx-auto grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start md:max-w-2xl lg:max-w-none">
+            <div className="max-w-sm mx-auto grid gap-6 md:grid-cols-2 items-start md:max-w-2xl lg:max-w-none">
               {messages?.teamMember &&
                 messages.teamMember.map((teamMember) => (
                   <AvatarCard

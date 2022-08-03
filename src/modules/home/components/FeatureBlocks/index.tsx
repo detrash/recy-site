@@ -13,7 +13,7 @@ const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ messages }) => {
             <h2 className="h2 mb-4 text-neutral">
               {messages.featuresBlockTitle}
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-justify text-gray-600">
               {messages.featuresBlockSubTitle}
             </p>
           </div>
@@ -44,10 +44,10 @@ const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ messages }) => {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
+              <h4 className="text-xl text-justify font-bold leading-snug tracking-tight mb-1">
                 {messages.featuresBlockItem1Title}
               </h4>
-              <p className="text-gray-600 text-center">
+              <p className="text-gray-600 text-justify">
                 {messages.featuresBlockItem1Desc}
               </p>
             </div>
@@ -84,10 +84,10 @@ const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ messages }) => {
                   </g>
                 </g>
               </svg>
-              <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
+              <h4 className="text-xl text-justify font-bold leading-snug tracking-tight mb-1">
                 {messages.featuresBlockItem2Title}
               </h4>
-              <p className="text-gray-600 text-center">
+              <p className="text-gray-600 text-justify">
                 {messages.featuresBlockItem2Desc}
               </p>
             </div>
@@ -120,7 +120,7 @@ const FeatureBlocks: React.FC<FeatureBlocksProps> = ({ messages }) => {
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
                 {messages.featuresBlockItem3Title}
               </h4>
-              <p className="text-gray-600 text-center">
+              <p className="text-gray-600 text-justify">
                 {messages.featuresBlockItem3Desc}
               </p>
             </div>

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import {
-  RiLinkedinBoxFill,
-  RiInstagramLine,
   RiGithubFill,
+  RiInstagramLine,
+  RiLinkedinBoxFill,
   RiTwitterFill,
 } from 'react-icons/ri';
 
@@ -49,7 +49,7 @@ const AvatarCard: React.FC<AvatarCardProps> = ({
     },
   ];
   return (
-    <div className="flex flex-col items-center justify-center gap-y-5 p-6 pt-12 bg-white rounded shadow-xl z-10">
+    <div className="flex flex-col items-center justify-start h-full gap-y-5 p-6 pt-12 bg-white rounded shadow-xl z-10">
       <div className="relative w-44 h-44 rounded-full shadow-xl">
         <div className="absolute -inset-1 bg-neutral rounded-full"></div>
         <Image
@@ -77,14 +77,14 @@ const AvatarCard: React.FC<AvatarCardProps> = ({
         </p>
       </div>
       <p
-        className="text-center text-gray-600"
+        className="text-justify text-gray-600"
         data-aos="zoom-y-out"
         data-aos-delay="300"
       >
         {description}
       </p>
 
-      <div className="flex items-center justify-center gap-3">
+      <div className="flex items-center mt-auto gap-3">
         {socialMediaItems.map((socialMediaItem, index) => {
           if (socialMediaItem.url) {
             return (

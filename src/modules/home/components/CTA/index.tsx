@@ -11,7 +11,10 @@ const CTA: React.FC<CTAProps> = ({ messages }) => {
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-8">
             <h2 className="h2 mb-4 text-neutral">{messages.ctaTitle}</h2>
-            <p className="text-xl text-gray-600" data-aos="zoom-y-out">
+            <p
+              className="text-xl text-justify text-gray-600"
+              data-aos="zoom-y-out"
+            >
               {messages.ctaSubTitle}
             </p>
             <p

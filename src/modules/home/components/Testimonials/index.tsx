@@ -20,7 +20,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ messages }) => {
         <div className="py-12 md:py-20">
           <div className="max-w-3xl mx-auto text-center pb-12 ">
             <h2 className="h2 mb-4 text-white">{messages.testimonialsTitle}</h2>
-            <p className="text-xl text-gray-200" data-aos="zoom-y-out">
+            <p
+              className="text-xl text-justify text-gray-200"
+              data-aos="zoom-y-out"
+            >
               {messages.testimonialsSubTitle}
             </p>
           </div>
