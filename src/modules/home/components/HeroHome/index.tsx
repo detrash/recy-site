@@ -49,7 +49,7 @@ const HeroHome: React.FC<HeroHomeProps> = ({ messages }) => {
                   {messages.homeButton}
                 </button>
                 <div className="block md:hidden">
-                  <Link href="app">
+                  <Link href="/">
                     <button className="btn btn-neutral text-white w-full mb-4 md:w-auto md:mb-0">
                       Launch App
                     </button>

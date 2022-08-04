@@ -83,7 +83,7 @@ const Header: React.FC = () => {
               <ul className="hidden md:flex justify-end flex-wrap items-center">
                 {pageItems}
                 <li>
-                  <Link href="app">
+                  <Link href="/">
                     <a className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3">
                       <span>Launch app</span>
                       <svg
