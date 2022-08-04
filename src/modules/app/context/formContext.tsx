@@ -14,9 +14,6 @@ interface FormContextData {
   formStep: number;
   setFormStep: (step: number) => void;
 
-  profileInfo: string;
-  setProfileInfo: (profileInfo: string) => void;
-
   wasteTypes: string[];
   setWasteTypes: Dispatch<SetStateAction<string[]>>;
 
@@ -33,7 +30,6 @@ const FormContext = createContext<FormContextData>({} as FormContextData);
 
 const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
   const [formStep, setFormStep] = useState(FORM_STEPS.welcome);
-  const [profileInfo, setProfileInfo] = useState('');
   const [wasteTypesStep, setWasteTypesStep] = useState('');
   const [wasteTypes, setWasteTypes] = useState<string[]>([]);
 
@@ -78,8 +74,6 @@ const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
       value={{
         formStep,
         setFormStep,
-        profileInfo,
-        setProfileInfo,
         wasteTypes,
         setWasteTypes,
         wasteTypesStep,

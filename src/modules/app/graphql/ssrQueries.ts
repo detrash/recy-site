@@ -37,5 +37,7 @@ export const getMeServerQuery = async (accessToken: string) => {
 
   if (responseData?.errors) return null;
 
-  return responseData;
+  return {
+    data: responseData,
+  };
 };

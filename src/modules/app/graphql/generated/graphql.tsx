@@ -36,6 +36,7 @@ export type CreateFormResponse = {
 };
 
 export type CreateUserInput = {
+  phoneNumber: Scalars['String'];
   profileType: ProfileType;
 };
 
@@ -119,6 +120,7 @@ export type S3 = {
 };
 
 export type UpdateUserInput = {
+  phoneNumber?: InputMaybe<Scalars['String']>;
   profileType?: InputMaybe<ProfileType>;
 };
 
@@ -129,6 +131,7 @@ export type User = {
   createdAt: Scalars['DateTime'];
   forms: Array<Form>;
   lastLoginDate?: Maybe<Scalars['DateTime']>;
+  phoneNumber: Scalars['String'];
   profileType: ProfileType;
 };
 
@@ -139,22 +142,24 @@ export type _Service = {
 
 export type CreateUserMutationVariables = Exact<{
   profileType: ProfileType;
+  phoneNumber: Scalars['String'];
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', authUserId: string, profileType: ProfileType } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', authUserId: string, profileType: ProfileType, phoneNumber: string } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', authUserId: string, profileType: ProfileType } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', authUserId: string, profileType: ProfileType, phoneNumber: string } };
 
 
 export const CreateUserDocument = gql`
-    mutation CreateUser($profileType: ProfileType!) {
-  createUser(data: {profileType: $profileType}) {
+    mutation CreateUser($profileType: ProfileType!, $phoneNumber: String!) {
+  createUser(data: {profileType: $profileType, phoneNumber: $phoneNumber}) {
     authUserId
     profileType
+    phoneNumber
   }
 }
     `;
@@ -174,6 +179,7 @@ export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, C
  * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
  *      profileType: // value for 'profileType'
+ *      phoneNumber: // value for 'phoneNumber'
  *   },
  * });
  */
@@ -189,6 +195,7 @@ export const MeDocument = gql`
   me {
     authUserId
     profileType
+    phoneNumber
   }
 }
     `;

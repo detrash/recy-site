@@ -8,7 +8,10 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 import AppLayout from '../modules/home/layout';
+
+import 'react-toastify/dist/ReactToastify.css';
 import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -37,13 +40,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
       <>
         <Head>
-          <title>DeTrash | App</title>
+          <title>Recy | App</title>
         </Head>
         <UserProvider>
           <FormProvider>
             <Component {...pageProps} />
           </FormProvider>
         </UserProvider>
+        <ToastContainer />
       </>
     );
   }

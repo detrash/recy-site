@@ -1,12 +1,27 @@
 import {
-  Bag,
   Article,
+  Bag,
   BeerBottle,
-  Hamburger,
   CoinVertical,
+  Hamburger,
 } from 'phosphor-react';
+import { ProfileType } from '../graphql/generated/graphql';
 
-export const USER_ROLE_TYPES = ['Hodler', 'Recycler', 'Waste Generator'];
+export const USER_ROLE_TYPES = [
+  {
+    key: ProfileType.Hodler,
+    value: 'Hodler',
+  },
+  {
+    key: ProfileType.Recycler,
+    value: 'Recycler',
+  },
+  {
+    key: ProfileType.WasteGenerator,
+    value: 'Waste Generator',
+    isDisabled: true,
+  },
+];
 
 export const USER_WASTE_TYPES = [
   {
