@@ -179,8 +179,8 @@ export const getPrivacyPolicyPageQuery = gql`
 `;
 
 export const getAddRecyPageQuery = gql`
-  query getAddRecyPageQuery {
-    addRecyPages {
+  query getAddRecyPageQuery($locale: [Locale!]!) {
+    addRecyPages(locales: $locale) {
       pageEffect
       pageTitle
       qrCode {
