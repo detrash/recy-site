@@ -3,8 +3,8 @@ import {
   AddRecyPageData,
   getAddRecyPageQuery,
 } from '@modules/home/graphql/queries';
-import { apolloClient } from '@modules/home/lib/apollo';
 import DeTrashLogo from '@public/detrash-logo.svg';
+import { homeApolloClient } from '@shared/lib/apollo';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 
@@ -83,7 +83,7 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
 export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
   const otherLocale =
     locales?.filter((location) => location !== locale)[0] || '';
-  const { data } = await apolloClient.query({
+  const { data } = await homeApolloClient.query({
     query: getAddRecyPageQuery,
     variables: {
       locale: [locale, otherLocale],
