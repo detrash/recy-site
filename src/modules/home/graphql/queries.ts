@@ -51,6 +51,18 @@ export type RecyPageData = {
   whitepaperButtonLabel: string;
 };
 
+export type AddRecyPageData = {
+  pageTitle: string;
+  pageEffect: string;
+  trustWalletInfo: {
+    html: string;
+  };
+  bannerTitle: string;
+  qrCode: {
+    url: string;
+  };
+};
+
 export type RoadMapPageData = {
   pageSubtitle: string;
   pageTitle: string;
@@ -162,6 +174,22 @@ export const getPrivacyPolicyPageQuery = gql`
       privacyPolicyText {
         html
       }
+    }
+  }
+`;
+
+export const getAddRecyPageQuery = gql`
+  query getAddRecyPageQuery {
+    addRecyPages {
+      pageEffect
+      pageTitle
+      qrCode {
+        url(transformation: { document: { output: { format: webp } } })
+      }
+      trustWalletInfo {
+        html
+      }
+      bannerTitle
     }
   }
 `;

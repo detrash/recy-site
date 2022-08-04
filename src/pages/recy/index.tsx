@@ -21,52 +21,18 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
               <p className="text-xl text-justify text-gray-600 mb-4">
                 {messages.pageSubtitle}
               </p>
-              <p
-                className="text-xl text-blue-400 font-bold"
-                data-aos="zoom-y-out"
-              >
-                {messages.pageEffectTitle}
-              </p>
             </div>
 
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex items-center justify-center">
               <a
-                href={UTIL_LINKS.DETRASH_APP_URL}
+                className="btn btn-primary text-white w-full mb-4 md:w-auto md:mb-0"
+                data-aos="zoom-y-out"
                 target="_blank"
                 rel="noopener noreferrer"
+                href={UTIL_LINKS.WHITEPAPER_URL}
               >
-                <Image src={RecyLogo} alt="RECY token logo" />
+                {messages.whitepaperButtonLabel}
               </a>
-
-              <div className="my-4 mx-auto md:flex md:gap-3">
-                <a
-                  className="btn btn-primary w-full md:w-auto text-white mb-3 md:mb-0"
-                  data-aos="zoom-y-out"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={UTIL_LINKS.TOKEN_CONTRACT_URL}
-                >
-                  {messages.contractButtonLabel}
-                </a>
-                <a
-                  className="btn btn-neutral text-white w-full mb-4 md:w-auto md:mb-0"
-                  data-aos="zoom-y-out"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={UTIL_LINKS.WHITEPAPER_URL}
-                >
-                  {messages.whitepaperButtonLabel}
-                </a>
-              </div>
-
-              <Link href="/">
-                <button
-                  data-aos="zoom-y-out"
-                  className="btn btn-outline border border-neutral shadow-none w-full md:w-auto"
-                >
-                  {messages.addRecyButtonLabel}
-                </button>
-              </Link>
             </div>
           </div>
         </div>
@@ -78,24 +44,56 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="pt-12 md:pt-20">
             <div className="max-w-3xl mx-auto text-center pb-12">
-              <h1 className="h2 mb-4 text-neutral">{messages.bannerTitle}</h1>
+              <a
+                href={UTIL_LINKS.DETRASH_APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image src={RecyLogo} alt="RECY token logo" />
+              </a>
               <p
-                className="text-xl text-justify text-gray-600"
+                className="text-xl text-justify text-gray-600 mb-4"
                 data-aos="zoom-y-out"
               >
                 {messages.bannerDescription}
               </p>
+
+              <p
+                className="text-xl text-blue-400 font-bold"
+                data-aos="zoom-y-out"
+              >
+                {messages.pageEffectTitle}
+              </p>
             </div>
 
-            <div className=" flex items-center justify-center">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+              <a
+                className="btn btn-neutral w-full md:w-auto text-white md:mb-0"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={UTIL_LINKS.TOKEN_CONTRACT_URL}
+              >
+                {messages.contractButtonLabel}
+              </a>
               <a
                 href={UTIL_LINKS.BUY_RECY_URL}
-                className="btn btn-primary w-full md:w-auto text-white mb-3 md:mb-0"
+                className="btn btn-primary w-full md:w-auto text-white md:mb-0"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 {messages.bannerButton}
               </a>
+            </div>
+
+            <div className="flex items-center justify-center mt-2 md:mt-4">
+              <Link href="recy/add">
+                <button
+                  data-aos="zoom-y-out"
+                  className="btn btn-outline border border-neutral shadow-none w-full md:w-auto"
+                >
+                  {messages.addRecyButtonLabel}
+                </button>
+              </Link>
             </div>
           </div>
         </div>

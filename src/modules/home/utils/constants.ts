@@ -16,18 +16,18 @@ type NavPageProps = {
 export const NAV_PAGES: NavPageProps[] = [
   {
     name: 'recy',
-    path: 'recy',
+    path: '/recy',
   },
   {
     name: 'roadmap',
-    path: 'roadmap',
+    path: '/roadmap',
   },
   {
     name: 'team',
-    path: 'team',
+    path: '/team',
   },
   {
     name: 'privacyPolicy',
-    path: 'privacy-policy',
+    path: '/privacy-policy',
   },
 ];
