@@ -52,15 +52,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     );
   }
   return (
-    <UserProvider>
-      <ApolloProvider client={homeApolloClient}>
-        <NextIntlProvider messages={pageProps?.messages || {}}>
-          <AppLayout>
-            <Component {...pageProps} />
-          </AppLayout>
-        </NextIntlProvider>
-      </ApolloProvider>
-    </UserProvider>
+    <ApolloProvider client={homeApolloClient}>
+      <NextIntlProvider messages={pageProps?.messages || {}}>
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
+      </NextIntlProvider>
+    </ApolloProvider>
   );
 }
 

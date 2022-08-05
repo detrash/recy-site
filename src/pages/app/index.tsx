@@ -1,13 +1,19 @@
-import { getAccessToken, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import {
+  getAccessToken,
+  useUser,
+  withPageAuthRequired,
+} from '@auth0/nextjs-auth0';
+import DashboardHeader from '@modules/app/components/Header';
 import { PageMeComp } from '@modules/app/graphql/generated/page';
 import { getMeServerQuery } from '@modules/app/graphql/ssrQueries';
 import { withPrivateApollo } from '@shared/lib/withPrivateApollo';
 
 const AppHome: PageMeComp = ({ data }) => {
-  console.log(data?.me);
+  const user = useUser();
   return (
     <>
-      <h1>{JSON.stringify(data, null, 2)}</h1>
+      <DashboardHeader />
+      <h1>{JSON.stringify(user, null, 2)}</h1>
     </>
   );
 };

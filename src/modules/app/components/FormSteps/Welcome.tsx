@@ -1,16 +1,18 @@
-import Image from 'next/image';
-import RecyLogo from '@public/recy-logo.png';
+import { useUser } from '@auth0/nextjs-auth0';
 import { useFormContext } from '@modules/app/context/formContext';
 import { FORM_STEPS } from '@modules/app/utils/constants';
+import RecyLogo from '@public/recy-logo.png';
+import Image from 'next/image';
 
 const WelcomeForm: React.FC = () => {
   const { setFormStep } = useFormContext();
+  const { user } = useUser();
 
   return (
     <div className="flex flex-col flex-1 justify-between">
       <section>
         <h3 className="text-primary text-sm font-bold uppercase leading-5 tracking-[0.05em]">
-          HELLO IAGO CHAVES,
+          {`HELLO ${user?.name},`}
         </h3>
         <h2 className="text-2xl sm:text-3xl text-gray-800 font-bold antialiased leading-relaxed">
           Welcome to Recy App

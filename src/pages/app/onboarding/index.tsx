@@ -19,13 +19,7 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
 const OnboardingAppPage: React.FC = () => {
-  const {
-    formStep,
-    wasteTypesStep,
-    onNextWasteStep,
-    onPreviousWasteStep,
-    wasteTypes,
-  } = useFormContext();
+  const { formStep } = useFormContext();
   const router = useRouter();
   // const [initialFormState, setInitialFormState] = useState<RecyFormSchema>({});
   // const [initialFormSchemaValidation, setInitialFormSchemaValidation] =
@@ -70,7 +64,6 @@ const OnboardingAppPage: React.FC = () => {
       },
     });
 
-    console.log(createUser);
     if (!createUser.errors) {
       return router.push('/app');
     }

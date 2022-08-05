@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { NAV_PAGES } from '@modules/home/utils/constants';
 import DeTrashLogo from '@public/detrash-logo.svg';
 import Drawer from '@shared/components/Drawer';
