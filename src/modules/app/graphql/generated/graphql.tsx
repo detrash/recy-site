@@ -58,6 +58,18 @@ export type FormVideoUrl = {
   formVideoUrl: Scalars['String'];
 };
 
+export type Me = {
+  __typename?: 'Me';
+  /** Auth0 User ID */
+  authUserId: Scalars['ID'];
+  createdAt: Scalars['DateTime'];
+  forms: Array<Form>;
+  lastLoginDate?: Maybe<Scalars['DateTime']>;
+  permissions: Array<Permissions>;
+  phoneNumber: Scalars['String'];
+  profileType: ProfileType;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createForm: CreateFormResponse;
@@ -80,6 +92,11 @@ export type MutationUpdateUserArgs = {
   data: UpdateUserInput;
 };
 
+export type Permissions = {
+  __typename?: 'Permissions';
+  type: Scalars['String'];
+};
+
 /** Represents the user type */
 export enum ProfileType {
   Hodler = 'HODLER',
@@ -93,7 +110,7 @@ export type Query = {
   form: Form;
   formVideoUrl: FormVideoUrl;
   forms: Array<Form>;
-  me: User;
+  me: Me;
   user: User;
   users: Array<User>;
 };
@@ -151,7 +168,7 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __type
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', authUserId: string, profileType: ProfileType, phoneNumber: string } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, profileType: ProfileType, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }> } };
 
 
 export const CreateUserDocument = gql`
@@ -196,6 +213,9 @@ export const MeDocument = gql`
     authUserId
     profileType
     phoneNumber
+    permissions {
+      type
+    }
   }
 }
     `;

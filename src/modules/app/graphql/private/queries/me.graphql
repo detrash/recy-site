@@ -3,5 +3,8 @@ query Me {
     authUserId
     profileType
     phoneNumber
+    permissions {
+      type
+    }
   }
 }

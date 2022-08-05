@@ -7,6 +7,14 @@ import {
 } from 'phosphor-react';
 import { ProfileType } from '../graphql/generated/graphql';
 
+export enum Role {
+  Admin = 'admin',
+}
+
+export const PERMISSION_SCOPES = {
+  [Role.Admin]: ['read:users'],
+};
+
 export const USER_ROLE_TYPES = [
   {
     key: ProfileType.Hodler,

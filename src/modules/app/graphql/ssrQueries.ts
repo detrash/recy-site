@@ -7,6 +7,9 @@ const getUserQuery = gql`
     me {
       authUserId
       profileType
+      permissions {
+        type
+      }
     }
   }
 `;
