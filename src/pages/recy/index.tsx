@@ -95,6 +95,10 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
                 </button>
               </Link>
             </div>
+
+            <h2 className="text-2xl sm:text-3xl text-center text-accent font-semibold pt-8 sm:pt-12">
+              {messages.finalTextEffect}
+            </h2>
           </div>
         </div>
       </section>

@@ -45,6 +45,7 @@ export type RecyPageData = {
   bannerDescription: string;
   bannerTitle: string;
   contractButtonLabel: string;
+  finalTextEffect: string;
   pageEffectTitle: string;
   pageSubtitle: string;
   pageTitle: string;
@@ -119,6 +120,7 @@ export const getRecyPageQuery = gql`
       bannerDescription
       bannerTitle
       contractButtonLabel
+      finalTextEffect
       pageEffectTitle
       pageSubtitle
       pageTitle
