@@ -1,6 +1,17 @@
-mutation CreateUser($profileType: ProfileType!, $phoneNumber: String!) {
-  createUser(data: { profileType: $profileType, phoneNumber: $phoneNumber }) {
+mutation CreateUser(
+  $profileType: ProfileType!
+  $phoneNumber: String!
+  $email: String!
+) {
+  createUser(
+    data: {
+      profileType: $profileType
+      phoneNumber: $phoneNumber
+      email: $email
+    }
+  ) {
     authUserId
+    email
     profileType
     phoneNumber
   }

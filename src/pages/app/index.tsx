@@ -20,7 +20,7 @@ const AppHome: PageMeComp = ({ data }) => {
 
     if (permissions?.length) {
       return PERMISSION_SCOPES[Role.Admin].every((roleProp) =>
-        permissions.some((permission) => permission.type === roleProp),
+        permissions.some((permission) => permission.type === roleProp)
       );
     }
 
@@ -30,9 +30,9 @@ const AppHome: PageMeComp = ({ data }) => {
   return (
     <main className="flex flex-col min-h-screen">
       <DashboardHeader />
-      <section className="flex-grow py-12 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <PrivatePanel />
+      <section className="flex-grow py-6 sm:py-12 bg-gray-100">
+        <div className="max-w-screen-2xl mx-auto px-2 sm:px-6 lg:px-8">
+          {isAdmin ? <PrivatePanel /> : <h2>User non admin panel</h2>}
         </div>
       </section>
     </main>

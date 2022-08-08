@@ -6,6 +6,7 @@ const getUserQuery = gql`
   query getUserQuery {
     me {
       authUserId
+      email
       profileType
       permissions {
         type
@@ -17,7 +18,7 @@ const getUserQuery = gql`
 const fetchGraphQL = async (
   query: string,
   variables: any,
-  accessToken: string,
+  accessToken: string
 ) => {
   const fetchData = await fetch(`${process.env.GRAPHQL_PROXY_ENDPOINT}`, {
     method: 'POST',

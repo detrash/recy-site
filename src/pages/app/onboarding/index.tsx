@@ -1,4 +1,8 @@
-import { getAccessToken, withPageAuthRequired } from '@auth0/nextjs-auth0';
+import {
+  getAccessToken,
+  useUser,
+  withPageAuthRequired,
+} from '@auth0/nextjs-auth0';
 import RegisterUser from '@modules/app/components/FormSteps/RegisterUser';
 import WelcomeForm from '@modules/app/components/FormSteps/Welcome';
 import { useFormContext } from '@modules/app/context/formContext';
@@ -21,6 +25,7 @@ import { toast } from 'react-toastify';
 const OnboardingAppPage: React.FC = () => {
   const { formStep } = useFormContext();
   const router = useRouter();
+  const { user } = useUser();
   // const [initialFormState, setInitialFormState] = useState<RecyFormSchema>({});
   // const [initialFormSchemaValidation, setInitialFormSchemaValidation] =
   //   useState<any>();
@@ -61,6 +66,7 @@ const OnboardingAppPage: React.FC = () => {
       variables: {
         phoneNumber,
         profileType,
+        email: user?.email || '',
       },
     });
 

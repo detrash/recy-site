@@ -1,0 +1,13 @@
+query Forms {
+  forms {
+    plasticKgs
+    paperKgs
+    metalKgs
+    glassKgs
+    organicKgs
+    user {
+      phoneNumber
+      email
+    }
+  }
+}

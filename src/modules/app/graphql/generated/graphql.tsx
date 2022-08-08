@@ -36,6 +36,7 @@ export type CreateFormResponse = {
 };
 
 export type CreateUserInput = {
+  email: Scalars['String'];
   phoneNumber: Scalars['String'];
   profileType: ProfileType;
 };
@@ -63,6 +64,7 @@ export type Me = {
   /** Auth0 User ID */
   authUserId: Scalars['ID'];
   createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
   forms: Array<Form>;
   lastLoginDate?: Maybe<Scalars['DateTime']>;
   permissions: Array<Permissions>;
@@ -137,6 +139,7 @@ export type S3 = {
 };
 
 export type UpdateUserInput = {
+  email?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
   profileType?: InputMaybe<ProfileType>;
 };
@@ -146,6 +149,7 @@ export type User = {
   /** Auth0 User ID */
   authUserId: Scalars['ID'];
   createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
   forms: Array<Form>;
   lastLoginDate?: Maybe<Scalars['DateTime']>;
   phoneNumber: Scalars['String'];
@@ -160,21 +164,35 @@ export type _Service = {
 export type CreateUserMutationVariables = Exact<{
   profileType: ProfileType;
   phoneNumber: Scalars['String'];
+  email: Scalars['String'];
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', authUserId: string, profileType: ProfileType, phoneNumber: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', authUserId: string, email: string, profileType: ProfileType, phoneNumber: string } };
+
+export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', plasticKgs?: number | null, paperKgs?: number | null, metalKgs?: number | null, glassKgs?: number | null, organicKgs?: number | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, profileType: ProfileType, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }> } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, profileType: ProfileType, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }> } };
+
+export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string }> };
 
 
 export const CreateUserDocument = gql`
-    mutation CreateUser($profileType: ProfileType!, $phoneNumber: String!) {
-  createUser(data: {profileType: $profileType, phoneNumber: $phoneNumber}) {
+    mutation CreateUser($profileType: ProfileType!, $phoneNumber: String!, $email: String!) {
+  createUser(
+    data: {profileType: $profileType, phoneNumber: $phoneNumber, email: $email}
+  ) {
     authUserId
+    email
     profileType
     phoneNumber
   }
@@ -197,6 +215,7 @@ export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, C
  *   variables: {
  *      profileType: // value for 'profileType'
  *      phoneNumber: // value for 'phoneNumber'
+ *      email: // value for 'email'
  *   },
  * });
  */
@@ -207,10 +226,53 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const FormsDocument = gql`
+    query Forms {
+  forms {
+    plasticKgs
+    paperKgs
+    metalKgs
+    glassKgs
+    organicKgs
+    user {
+      phoneNumber
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useFormsQuery__
+ *
+ * To run a query within a React component, call `useFormsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFormsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFormsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFormsQuery(baseOptions?: Apollo.QueryHookOptions<FormsQuery, FormsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FormsQuery, FormsQueryVariables>(FormsDocument, options);
+      }
+export function useFormsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FormsQuery, FormsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FormsQuery, FormsQueryVariables>(FormsDocument, options);
+        }
+export type FormsQueryHookResult = ReturnType<typeof useFormsQuery>;
+export type FormsLazyQueryHookResult = ReturnType<typeof useFormsLazyQuery>;
+export type FormsQueryResult = Apollo.QueryResult<FormsQuery, FormsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
     authUserId
+    email
     profileType
     phoneNumber
     permissions {
@@ -246,3 +308,40 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const UsersDocument = gql`
+    query Users {
+  users {
+    email
+    profileType
+    lastLoginDate
+    phoneNumber
+  }
+}
+    `;
+
+/**
+ * __useUsersQuery__
+ *
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+      }
+export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+        }
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;
