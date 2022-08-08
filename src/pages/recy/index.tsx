@@ -5,6 +5,7 @@ import RecyLogo from '@public/recy-logo.png';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import RecyNetworkLogo from '@public/recy-network-logo.png';
 
 type RecyPageProps = {
   messages: RecyPageData;
@@ -17,7 +18,8 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="pt-32 pb-12 md:pt-40 md:pb-20">
             <div className="max-w-3xl mx-auto text-center pb-4">
-              <h2 className="h2 mb-4">{messages.pageTitle}</h2>
+              <Image alt="Recy Network logo" src={RecyNetworkLogo} />
+              <h2 className="h2 mb-4 mt-8 sm:mt-12">{messages.pageTitle}</h2>
               <p className="text-xl text-justify text-gray-600 mb-4">
                 {messages.pageSubtitle}
               </p>

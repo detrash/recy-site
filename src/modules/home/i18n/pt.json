@@ -1,13 +1,13 @@
 {
   "navItems": {
-    "privacyPolicy": "Política de Privacidade",
     "recy": "RECY",
     "roadmap": "Roadmap",
     "team": "Time",
     "home": "Tokens que salvam o mundo"
   },
   "footer": {
-    "language": "Trocar para Inglês"
+    "language": "Trocar para Inglês",
+    "privacyPolicy": "Política de Privacidade"
   },
   "form": {
     "formContactTitle": "Entre em contato",

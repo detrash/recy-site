@@ -25,8 +25,4 @@ export const NAV_PAGES: NavPageProps[] = [
     name: 'team',
     path: '/team',
   },
-  {
-    name: 'privacyPolicy',
-    path: '/privacy-policy',
-  },
 ];
