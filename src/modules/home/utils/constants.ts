@@ -8,7 +8,7 @@ export const UTIL_LINKS = {
 };
 
 type NavPageProps = {
-  name: 'privacyPolicy' | 'recy' | 'roadmap' | 'team';
+  name: 'recy' | 'roadmap' | 'team';
   path: string;
 };
 
