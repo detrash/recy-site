@@ -1,4 +1,5 @@
 import { HomePageData } from '@modules/home/graphql/queries';
+import { UTIL_LINKS } from '@modules/home/utils/constants';
 
 type CTAProps = {
   messages: HomePageData;
@@ -30,9 +31,14 @@ const CTA: React.FC<CTAProps> = ({ messages }) => {
             data-aos="zoom-y-out"
             data-aos-delay="300"
           >
-            <button className="btn btn-primary text-white  w-full mb-4 sm:w-auto sm:mb-0">
+            <a
+              className="btn btn-primary text-white  w-full mb-4 sm:w-auto sm:mb-0"
+              href={UTIL_LINKS.BUY_RECY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {messages.ctaButton}
-            </button>
+            </a>
           </div>
         </div>
       </div>
