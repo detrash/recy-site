@@ -25,6 +25,9 @@
   }
 }
 
+.table th:first-child {
+  position: inherit;
+}
 // Buttons
 .btn,
 .btn-sm {

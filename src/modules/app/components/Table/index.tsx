@@ -132,7 +132,7 @@ const TableComponent = <ObjectType extends { id: string }>({
     <>
       <TableSearch handleOnSearch={handleOnSearch} />
       <div className="overflow-x-auto">
-        <table className="table w-full">
+        <table className="w-full">
           <TableHeader
             columns={columns}
             additionalFeature={!!additionalFeature}
@@ -148,11 +148,11 @@ const TableComponent = <ObjectType extends { id: string }>({
                       const value = object[key] as any;
 
                       return cell ? (
-                        <td className="border-0" key={key as string}>
+                        <td className="border-0 p-4" key={key as string}>
                           {cell(object)}
                         </td>
                       ) : (
-                        <td className="border-0" key={key as string}>
+                        <td className="border-0 p-4" key={key as string}>
                           {value}
                         </td>
                       );
@@ -168,7 +168,7 @@ const TableComponent = <ObjectType extends { id: string }>({
 
       {sortedData && !sortedData.length && (
         <div>
-          <p className="text-sm text-gray-400">No data based on your search</p>
+          <p className="text-sm text-gray-400 p-3">No results found</p>
         </div>
       )}
 
@@ -178,7 +178,7 @@ const TableComponent = <ObjectType extends { id: string }>({
         onPageChange={onPageChange}
         registerPerPage={rowsCount}
       />
-      <div className="">
+      <div>
         <select
           className="select select-bordered focus:outline-0 max-w-xs"
           defaultValue={rowsCount}
@@ -193,11 +193,5 @@ const TableComponent = <ObjectType extends { id: string }>({
     </>
   );
 };
-
-// const TableComponent = forwardRef(TableComponentRef) as <
-//   ObjectType extends { id: string }
-// >(
-//   p: TableComponentProps<ObjectType> & { ref?: Ref<RefProps> },
-// ) => JSX.Element;
 
 export default TableComponent;

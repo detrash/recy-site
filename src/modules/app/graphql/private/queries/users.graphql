@@ -5,5 +5,14 @@ query Users {
     profileType
     lastLoginDate
     phoneNumber
+    forms {
+      id
+      glassKgs
+      metalKgs
+      organicKgs
+      paperKgs
+      plasticKgs
+      recyclerVideoFileName
+    }
   }
 }

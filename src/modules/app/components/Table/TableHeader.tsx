@@ -19,7 +19,6 @@ type HeadCellProps = {
 
 const HeaderCell = ({ children, handleSortBy, accessor }: HeadCellProps) => {
   const [sortBy, setSortBy] = useState<'asc' | 'desc'>('asc');
-  const [hasClicked, setHasClicked] = useState(false);
 
   const handleOnClick = useCallback(() => {
     setSortBy((prev) => (prev === 'asc' ? 'desc' : 'asc'));
@@ -28,7 +27,7 @@ const HeaderCell = ({ children, handleSortBy, accessor }: HeadCellProps) => {
 
   return (
     <th
-      className="cursor-pointer transition-colors duration-150 bg-white border-b pb-1 text-gray-500 relative select-none"
+      className="cursor-pointer uppercase text-xs font-bold transition-colors duration-150 bg-white border-b pt-4 px-4 pb-1 text-gray-500 select-none"
       onClick={handleOnClick}
     >
       <div className="flex items-center">
@@ -62,7 +61,7 @@ const TableHeader: React.FC<HeadProps> = ({
             {column.title}
           </HeaderCell>
         ))}
-        {additionalFeature && <th />}
+        {additionalFeature && <th className="border-b pt-4 px-4 pb-1" />}
       </tr>
     </thead>
   );

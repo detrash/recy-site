@@ -44,8 +44,8 @@ export type CreateUserInput = {
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
-  formId: Scalars['ID'];
   glassKgs?: Maybe<Scalars['Float']>;
+  id: Scalars['ID'];
   metalKgs?: Maybe<Scalars['Float']>;
   organicKgs?: Maybe<Scalars['Float']>;
   paperKgs?: Maybe<Scalars['Float']>;
@@ -185,7 +185,7 @@ export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserI
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', id: string, glassKgs?: number | null, metalKgs?: number | null, organicKgs?: number | null, paperKgs?: number | null, plasticKgs?: number | null, recyclerVideoFileName?: string | null }> }> };
 
 
 export const CreateUserDocument = gql`
@@ -318,6 +318,15 @@ export const UsersDocument = gql`
     profileType
     lastLoginDate
     phoneNumber
+    forms {
+      id
+      glassKgs
+      metalKgs
+      organicKgs
+      paperKgs
+      plasticKgs
+      recyclerVideoFileName
+    }
   }
 }
     `;

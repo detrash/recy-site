@@ -1,18 +1,15 @@
-import { ProfileType } from '@modules/app/graphql/generated/graphql';
+import { UsersQuery } from '@modules/app/graphql/generated/graphql';
 import { format } from 'date-fns';
-import { useMemo, useState } from 'react';
+import { Article } from 'phosphor-react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import TableComponent, { ColumnProps } from '../Table';
+// import UserFormDetails from './UserFormDetails';
+const UserFormDetails = lazy(() => import('./UserFormDetails'));
 
-type UsersQuery = {
-  id: string;
-  email: string;
-  profileType: ProfileType;
-  lastLoginDate?: any | null;
-  phoneNumber: string;
-};
+export type UsersType = UsersQuery['users'][0];
 
 type ActiveUsersTableProps = {
-  users: UsersQuery[] | undefined;
+  users: UsersType[] | undefined;
   isLoading: boolean;
   hasError: boolean;
 };
@@ -24,11 +21,12 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
 }) => {
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
+  const [isOpen, setIsOpen] = useState(false);
 
   const dataByPage =
     users?.slice((page - 1) * rowsCount, rowsCount * page) || [];
 
-  const columns = useMemo<ColumnProps<UsersQuery>>(() => {
+  const columns = useMemo<ColumnProps<UsersType>>(() => {
     return [
       {
         key: 'email',
@@ -59,21 +57,45 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
   }, []);
 
   return (
-    <TableComponent<UsersQuery>
-      allData={users || []}
-      columns={columns}
-      data={dataByPage}
-      error={hasError}
-      isLoading={isLoading}
-      onPageChange={(newPage) => setPage(newPage)}
-      page={page}
-      rowsCount={rowsCount}
-      setRowsCount={(newRowsCount) => {
-        setPage(1);
-        setRowsCount(newRowsCount);
-      }}
-      totalCount={users?.length || 0}
-    />
+    <>
+      <TableComponent<UsersType>
+        additionalFeature={(user) => (
+          <>
+            <button
+              className="btn btn-sm text-white h-auto py-1 px-2 btn-neutral flex items-center gap-1 whitespace-nowrap"
+              onClick={() => setIsOpen(true)}
+            >
+              <p>Forms</p>
+              <Article className="hidden sm:block h-6 w-6" />
+            </button>
+            {isOpen && (
+              <Suspense fallback={<h1>Loading...</h1>}>
+                <UserFormDetails
+                  formDetails={user.forms}
+                  hasError={hasError}
+                  isLoading={isLoading}
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                />
+              </Suspense>
+            )}
+          </>
+        )}
+        allData={users || []}
+        columns={columns}
+        data={dataByPage}
+        error={hasError}
+        isLoading={isLoading}
+        onPageChange={(newPage) => setPage(newPage)}
+        page={page}
+        rowsCount={rowsCount}
+        setRowsCount={(newRowsCount) => {
+          setPage(1);
+          setRowsCount(newRowsCount);
+        }}
+        totalCount={users?.length || 0}
+      />
+    </>
   );
 };
 
