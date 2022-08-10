@@ -62,10 +62,11 @@ export type FormVideoUrl = {
 export type Me = {
   __typename?: 'Me';
   /** Auth0 User ID */
-  authUserId: Scalars['ID'];
+  authUserId: Scalars['String'];
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
   forms: Array<Form>;
+  id: Scalars['ID'];
   lastLoginDate?: Maybe<Scalars['DateTime']>;
   permissions: Array<Permissions>;
   phoneNumber: Scalars['String'];
@@ -147,10 +148,11 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   /** Auth0 User ID */
-  authUserId: Scalars['ID'];
+  authUserId: Scalars['String'];
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
   forms: Array<Form>;
+  id: Scalars['ID'];
   lastLoginDate?: Maybe<Scalars['DateTime']>;
   phoneNumber: Scalars['String'];
   profileType: ProfileType;
@@ -183,7 +185,7 @@ export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserI
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string }> };
 
 
 export const CreateUserDocument = gql`
@@ -311,6 +313,7 @@ export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UsersDocument = gql`
     query Users {
   users {
+    id
     email
     profileType
     lastLoginDate
