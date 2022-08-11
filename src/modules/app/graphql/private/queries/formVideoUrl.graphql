@@ -1,0 +1,5 @@
+query FormVideoUrl($formId: String!) {
+  formVideoUrl(formId: $formId) {
+    formVideoUrl
+  }
+}

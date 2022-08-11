@@ -43,6 +43,41 @@ export const ssrAggregateFormTypes = {
       withPage: withPageAggregateFormTypes,
       usePage: useAggregateFormTypes,
     }
+export async function getServerPageFormVideoUrl
+    (options: Omit<Apollo.QueryOptions<Types.FormVideoUrlQueryVariables>, 'query'>, ctx: ApolloClientContext ){
+        const apolloClient = getApolloClient(ctx);
+        
+        const data = await apolloClient.query<Types.FormVideoUrlQuery>({ ...options, query: Operations.FormVideoUrlDocument });
+        
+        const apolloState = apolloClient.cache.extract();
+
+        return {
+            props: {
+                apolloState: apolloState,
+                data: data?.data,
+                error: data?.error ?? data?.errors ?? null,
+            },
+        };
+      }
+export const useFormVideoUrl = (
+  optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.FormVideoUrlQuery, Types.FormVideoUrlQueryVariables>) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.FormVideoUrlDocument, options);
+};
+export type PageFormVideoUrlComp = React.FC<{data?: Types.FormVideoUrlQuery, error?: Apollo.ApolloError}>;
+export const withPageFormVideoUrl = (optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.FormVideoUrlQuery, Types.FormVideoUrlQueryVariables>) => (WrappedComponent:PageFormVideoUrlComp) : NextPage  => (props) => {
+                const router = useRouter()
+                const options = optionsFunc ? optionsFunc(router) : {};
+                const {data, error } = useQuery(Operations.FormVideoUrlDocument, options)    
+                return <WrappedComponent {...props} data={data} error={error} /> ;
+                   
+            }; 
+export const ssrFormVideoUrl = {
+      getServerPage: getServerPageFormVideoUrl,
+      withPage: withPageFormVideoUrl,
+      usePage: useFormVideoUrl,
+    }
 export async function getServerPageForms
     (options: Omit<Apollo.QueryOptions<Types.FormsQueryVariables>, 'query'>, ctx: ApolloClientContext ){
         const apolloClient = getApolloClient(ctx);

@@ -1,3 +1,4 @@
+import { useFormVideoUrlLazyQuery } from '@modules/app/graphql/generated/graphql';
 import Modal from '@shared/components/Modal';
 import { Download } from 'phosphor-react';
 import { useMemo, useState } from 'react';
@@ -23,6 +24,16 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
 }) => {
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
+  const [useFormVideoUrlQuery, { loading }] = useFormVideoUrlLazyQuery();
+
+  const loadVideoAndOpen = async (formId: string) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data } = await useFormVideoUrlQuery({ variables: { formId } });
+
+    if (data) {
+      window.open(data.formVideoUrl.formVideoUrl, '_blank');
+    }
+  };
 
   const columns = useMemo<ColumnProps<FormDetail>>(() => {
     return [
@@ -54,7 +65,7 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
           return (
             <button
               className="btn btn-sm text-white h-auto py-1 px-2 btn-primary flex items-center gap-1 mx-auto"
-              onClick={() => setIsOpen(true)}
+              onClick={() => loadVideoAndOpen(form.id)}
             >
               <Download className="h-6 w-6" />
             </button>
@@ -62,7 +73,8 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         },
       },
     ];
-  }, [setIsOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const dataByPage =
     formDetails?.slice((page - 1) * rowsCount, rowsCount * page) || [];

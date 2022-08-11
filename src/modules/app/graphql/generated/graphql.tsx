@@ -193,6 +193,13 @@ export type AggregateFormTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: { __typename?: 'AggregateFormData', glassKgs?: number | null, metalKgs?: number | null, organicKgs?: number | null, paperKgs?: number | null, plasticKgs?: number | null } }> };
 
+export type FormVideoUrlQueryVariables = Exact<{
+  formId: Scalars['String'];
+}>;
+
+
+export type FormVideoUrlQuery = { __typename?: 'Query', formVideoUrl: { __typename?: 'FormVideoUrl', formVideoUrl: string } };
+
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -290,6 +297,41 @@ export function useAggregateFormTypesLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type AggregateFormTypesQueryHookResult = ReturnType<typeof useAggregateFormTypesQuery>;
 export type AggregateFormTypesLazyQueryHookResult = ReturnType<typeof useAggregateFormTypesLazyQuery>;
 export type AggregateFormTypesQueryResult = Apollo.QueryResult<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>;
+export const FormVideoUrlDocument = gql`
+    query FormVideoUrl($formId: String!) {
+  formVideoUrl(formId: $formId) {
+    formVideoUrl
+  }
+}
+    `;
+
+/**
+ * __useFormVideoUrlQuery__
+ *
+ * To run a query within a React component, call `useFormVideoUrlQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFormVideoUrlQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFormVideoUrlQuery({
+ *   variables: {
+ *      formId: // value for 'formId'
+ *   },
+ * });
+ */
+export function useFormVideoUrlQuery(baseOptions: Apollo.QueryHookOptions<FormVideoUrlQuery, FormVideoUrlQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FormVideoUrlQuery, FormVideoUrlQueryVariables>(FormVideoUrlDocument, options);
+      }
+export function useFormVideoUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FormVideoUrlQuery, FormVideoUrlQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FormVideoUrlQuery, FormVideoUrlQueryVariables>(FormVideoUrlDocument, options);
+        }
+export type FormVideoUrlQueryHookResult = ReturnType<typeof useFormVideoUrlQuery>;
+export type FormVideoUrlLazyQueryHookResult = ReturnType<typeof useFormVideoUrlLazyQuery>;
+export type FormVideoUrlQueryResult = Apollo.QueryResult<FormVideoUrlQuery, FormVideoUrlQueryVariables>;
 export const FormsDocument = gql`
     query Forms {
   forms {
