@@ -5,6 +5,7 @@ query Forms {
     metalKgs
     glassKgs
     organicKgs
+    recyclerVideoFileName
     user {
       phoneNumber
       email

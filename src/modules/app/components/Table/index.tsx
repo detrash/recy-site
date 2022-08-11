@@ -14,10 +14,12 @@ export type ColumnProps<ObjectType> = {
 
 interface TableComponentProps<ObjectType> {
   additionalFeature?: (value: ObjectType) => JSX.Element;
-  allData: ObjectType[];
+  allData?: ObjectType[];
   columns: ColumnProps<ObjectType>;
   data: ObjectType[];
   error: boolean;
+  hasPagination?: boolean;
+  hasSearch?: boolean;
   isLoading: boolean;
   onPageChange: (page: number) => void;
   page: number;
@@ -33,10 +35,12 @@ type FiltersProps = {
 
 const TableComponent = <ObjectType extends { id: string }>({
   additionalFeature,
-  allData,
+  allData = [],
   columns,
   data,
   error,
+  hasPagination = true,
+  hasSearch = true,
   isLoading,
   onPageChange,
   page,
@@ -130,7 +134,7 @@ const TableComponent = <ObjectType extends { id: string }>({
 
   return (
     <>
-      <TableSearch handleOnSearch={handleOnSearch} />
+      {hasSearch && <TableSearch handleOnSearch={handleOnSearch} />}
       <div className="overflow-x-auto">
         <table className="w-full">
           <TableHeader
@@ -172,24 +176,28 @@ const TableComponent = <ObjectType extends { id: string }>({
         </div>
       )}
 
-      <Pagination
-        totalCountOfRegister={totalCount}
-        currentPage={page}
-        onPageChange={onPageChange}
-        registerPerPage={rowsCount}
-      />
-      <div>
-        <select
-          className="select select-bordered focus:outline-0 max-w-xs"
-          defaultValue={rowsCount}
-          onChange={(e) => setRowsCount(Number(e.target.value))}
-        >
-          <option value={5}>Show 5</option>
-          <option value={10}>Show 10</option>
-          <option value={20}>Show 20</option>
-          <option value={50}>Show 50</option>
-        </select>
-      </div>
+      {hasPagination && (
+        <>
+          <Pagination
+            totalCountOfRegister={totalCount}
+            currentPage={page}
+            onPageChange={onPageChange}
+            registerPerPage={rowsCount}
+          />
+          <div>
+            <select
+              className="select select-bordered focus:outline-0 max-w-xs"
+              defaultValue={rowsCount}
+              onChange={(e) => setRowsCount(Number(e.target.value))}
+            >
+              <option value={5}>Show 5</option>
+              <option value={10}>Show 10</option>
+              <option value={20}>Show 20</option>
+              <option value={50}>Show 50</option>
+            </select>
+          </div>
+        </>
+      )}
     </>
   );
 };

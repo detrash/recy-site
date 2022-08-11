@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 import { Article } from 'phosphor-react';
 import { lazy, Suspense, useMemo, useState } from 'react';
 import TableComponent, { ColumnProps } from '../Table';
-// import UserFormDetails from './UserFormDetails';
 const UserFormDetails = lazy(() => import('./UserFormDetails'));
 
 export type UsersType = UsersQuery['users'][0];

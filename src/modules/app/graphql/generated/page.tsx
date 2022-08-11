@@ -8,6 +8,41 @@ import * as Apollo from '@apollo/client';
 import type React from 'react';
 import { getApolloClient , ApolloClientContext} from '../../../../shared/lib/withPrivateApollo';
 
+export async function getServerPageAggregateFormTypes
+    (options: Omit<Apollo.QueryOptions<Types.AggregateFormTypesQueryVariables>, 'query'>, ctx: ApolloClientContext ){
+        const apolloClient = getApolloClient(ctx);
+        
+        const data = await apolloClient.query<Types.AggregateFormTypesQuery>({ ...options, query: Operations.AggregateFormTypesDocument });
+        
+        const apolloState = apolloClient.cache.extract();
+
+        return {
+            props: {
+                apolloState: apolloState,
+                data: data?.data,
+                error: data?.error ?? data?.errors ?? null,
+            },
+        };
+      }
+export const useAggregateFormTypes = (
+  optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.AggregateFormTypesQuery, Types.AggregateFormTypesQueryVariables>) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.AggregateFormTypesDocument, options);
+};
+export type PageAggregateFormTypesComp = React.FC<{data?: Types.AggregateFormTypesQuery, error?: Apollo.ApolloError}>;
+export const withPageAggregateFormTypes = (optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.AggregateFormTypesQuery, Types.AggregateFormTypesQueryVariables>) => (WrappedComponent:PageAggregateFormTypesComp) : NextPage  => (props) => {
+                const router = useRouter()
+                const options = optionsFunc ? optionsFunc(router) : {};
+                const {data, error } = useQuery(Operations.AggregateFormTypesDocument, options)    
+                return <WrappedComponent {...props} data={data} error={error} /> ;
+                   
+            }; 
+export const ssrAggregateFormTypes = {
+      getServerPage: getServerPageAggregateFormTypes,
+      withPage: withPageAggregateFormTypes,
+      usePage: useAggregateFormTypes,
+    }
 export async function getServerPageForms
     (options: Omit<Apollo.QueryOptions<Types.FormsQueryVariables>, 'query'>, ctx: ApolloClientContext ){
         const apolloClient = getApolloClient(ctx);

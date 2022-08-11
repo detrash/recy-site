@@ -19,6 +19,21 @@ export type Scalars = {
   link__Import: any;
 };
 
+export type AggregateFormByUserProfileResponse = {
+  __typename?: 'AggregateFormByUserProfileResponse';
+  data: AggregateFormData;
+  id: ProfileType;
+};
+
+export type AggregateFormData = {
+  __typename?: 'AggregateFormData';
+  glassKgs?: Maybe<Scalars['Float']>;
+  metalKgs?: Maybe<Scalars['Float']>;
+  organicKgs?: Maybe<Scalars['Float']>;
+  paperKgs?: Maybe<Scalars['Float']>;
+  plasticKgs?: Maybe<Scalars['Float']>;
+};
+
 export type CreateFormInput = {
   fileName?: InputMaybe<Scalars['String']>;
   glassKgs?: InputMaybe<Scalars['Float']>;
@@ -110,6 +125,7 @@ export enum ProfileType {
 export type Query = {
   __typename?: 'Query';
   _service: _Service;
+  aggregateFormByUserProfile: Array<AggregateFormByUserProfileResponse>;
   form: Form;
   formVideoUrl: FormVideoUrl;
   forms: Array<Form>;
@@ -172,10 +188,15 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', authUserId: string, email: string, profileType: ProfileType, phoneNumber: string } };
 
+export type AggregateFormTypesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: { __typename?: 'AggregateFormData', glassKgs?: number | null, metalKgs?: number | null, organicKgs?: number | null, paperKgs?: number | null, plasticKgs?: number | null } }> };
+
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', plasticKgs?: number | null, paperKgs?: number | null, metalKgs?: number | null, glassKgs?: number | null, organicKgs?: number | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
+export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', plasticKgs?: number | null, paperKgs?: number | null, metalKgs?: number | null, glassKgs?: number | null, organicKgs?: number | null, recyclerVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -228,6 +249,47 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const AggregateFormTypesDocument = gql`
+    query AggregateFormTypes {
+  aggregateFormByUserProfile {
+    id
+    data {
+      glassKgs
+      metalKgs
+      organicKgs
+      paperKgs
+      plasticKgs
+    }
+  }
+}
+    `;
+
+/**
+ * __useAggregateFormTypesQuery__
+ *
+ * To run a query within a React component, call `useAggregateFormTypesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAggregateFormTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAggregateFormTypesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAggregateFormTypesQuery(baseOptions?: Apollo.QueryHookOptions<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>(AggregateFormTypesDocument, options);
+      }
+export function useAggregateFormTypesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>(AggregateFormTypesDocument, options);
+        }
+export type AggregateFormTypesQueryHookResult = ReturnType<typeof useAggregateFormTypesQuery>;
+export type AggregateFormTypesLazyQueryHookResult = ReturnType<typeof useAggregateFormTypesLazyQuery>;
+export type AggregateFormTypesQueryResult = Apollo.QueryResult<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>;
 export const FormsDocument = gql`
     query Forms {
   forms {
@@ -236,6 +298,7 @@ export const FormsDocument = gql`
     metalKgs
     glassKgs
     organicKgs
+    recyclerVideoFileName
     user {
       phoneNumber
       email

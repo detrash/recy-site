@@ -42,6 +42,7 @@ const AppHome: PageMeComp = ({ data }) => {
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ req, res }) {
     const { accessToken } = await getAccessToken(req, res);
+    console.log(accessToken);
     const user = await getMeServerQuery(accessToken!);
     if (!user) {
       return {

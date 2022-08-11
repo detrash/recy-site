@@ -1,4 +1,5 @@
 import Modal from '@shared/components/Modal';
+import { Download } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import TableComponent, { ColumnProps } from '../Table';
 import { UsersType } from './ActiveUsersTable';
@@ -49,11 +50,19 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         key: 'recyclerVideoFileName',
         title: 'Uploaded Video',
         cell: (form) => {
-          return <button className="btn btn-primary">Download Video</button>;
+          if (!form.recyclerVideoFileName) return <p></p>;
+          return (
+            <button
+              className="btn btn-sm text-white h-auto py-1 px-2 btn-primary flex items-center gap-1 mx-auto"
+              onClick={() => setIsOpen(true)}
+            >
+              <Download className="h-6 w-6" />
+            </button>
+          );
         },
       },
     ];
-  }, []);
+  }, [setIsOpen]);
 
   const dataByPage =
     formDetails?.slice((page - 1) * rowsCount, rowsCount * page) || [];

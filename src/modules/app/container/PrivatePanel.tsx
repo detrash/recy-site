@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Article, Coin, Users } from 'phosphor-react';
 import { useMemo } from 'react';
 import ActiveUsersTable from '../components/withTable/ActiveUsersTable';
+import AggregateUsersTypeTable from '../components/withTable/AggregateUsersTypeTable';
 import { useFormsQuery, useUsersQuery } from '../graphql/generated/graphql';
 
 const PrivatePanel: React.FC = () => {
@@ -35,19 +36,15 @@ const PrivatePanel: React.FC = () => {
   return (
     <div className="flex flex-col gap-3">
       <StackedStats isLoading={isUsersLoading} stats={users} />
-      <div className="flex flex-col md:items-start gap-3 md:flex-row">
-        <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
+      <div className="grid grid-cols-6 gap-3">
+        <div className="py-4 px-6 bg-white shadow rounded-md flex-1 col-span-6 sm:col-span-4">
           <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-            Active users
+            Total residues reported by user profile
           </h2>
-          <ActiveUsersTable
-            hasError={!!error}
-            isLoading={isUsersLoading}
-            users={usersData?.users}
-          />
+          <AggregateUsersTypeTable />
         </div>
 
-        <div className="py-4 px-6 bg-white shadow rounded-md flex flex-col gap-3 w-full md:w-96 md:min-w-48">
+        <div className="py-4 px-6 bg-white shadow rounded-md flex flex-col gap-3 col-span-6 sm:col-span-2">
           <div>
             <h2 className="text-xl tracking-wide leading-relaxed font-bold">
               Submit your report
@@ -63,6 +60,16 @@ const PrivatePanel: React.FC = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
+        <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
+          Active users
+        </h2>
+        <ActiveUsersTable
+          hasError={!!error}
+          isLoading={isUsersLoading}
+          users={usersData?.users}
+        />
       </div>
     </div>
   );
