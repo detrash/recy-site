@@ -1,3 +1,5 @@
+import { APP_NAV_LINKS } from '@modules/app/utils/navLinks';
+import Link from 'next/link';
 import { CheckCircle } from 'phosphor-react';
 
 const DoneForm: React.FC = () => {
@@ -12,9 +14,11 @@ const DoneForm: React.FC = () => {
         </h3>
       </section>
       <div className="flex items-end justify-center">
-        <button className="btn btn-primary text-white no-animation w-full sm:w-auto">
-          Go to Dashboard
-        </button>
+        <Link href={APP_NAV_LINKS.APP}>
+          <button className="btn btn-primary text-white no-animation w-full sm:w-auto">
+            Go to Dashboard
+          </button>
+        </Link>
       </div>
     </div>
   );

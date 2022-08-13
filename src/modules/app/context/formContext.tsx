@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   createContext,
   Dispatch,
@@ -9,6 +10,7 @@ import {
   useState,
 } from 'react';
 import { FORM_STEPS } from '../utils/constants';
+import { APP_NAV_LINKS } from '../utils/navLinks';
 
 interface FormContextData {
   formStep: number;
@@ -18,7 +20,7 @@ interface FormContextData {
   setWasteTypes: Dispatch<SetStateAction<string[]>>;
 
   wasteTypesStep: string;
-  onNextWasteStep: () => void;
+  onNextWasteStep: (submitForm: () => void) => void;
   onPreviousWasteStep: () => void;
 }
 
@@ -29,36 +31,49 @@ interface FormProviderProps {
 const FormContext = createContext<FormContextData>({} as FormContextData);
 
 const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
-  const [formStep, setFormStep] = useState(FORM_STEPS.welcome);
+  const router = useRouter();
+  const [formStep, setFormStep] = useState(() => {
+    if (router.asPath === APP_NAV_LINKS.SUBMIT_FORM)
+      return FORM_STEPS.wasteDefinitions;
+
+    return FORM_STEPS.welcome;
+  });
   const [wasteTypesStep, setWasteTypesStep] = useState('');
   const [wasteTypes, setWasteTypes] = useState<string[]>([]);
 
-  const onNextWasteStep = useCallback(() => {
-    setWasteTypesStep((previousWasteStep) => {
-      const previousWasteStepIndex = wasteTypes.findIndex(
-        (wasteType) => wasteType === previousWasteStep,
-      );
-      const isLastWasteStep = wasteTypes.slice(-1)[0] === previousWasteStep;
+  const onNextWasteStep = useCallback(
+    (submitForm: () => void) => {
+      setWasteTypesStep((previousWasteStep) => {
+        const previousWasteStepIndex = wasteTypes.findIndex(
+          (wasteType) => wasteType === previousWasteStep
+        );
+        const isLastWasteStep = wasteTypes.slice(-1)[0] === previousWasteStep;
 
-      if (previousWasteStepIndex !== -1 && !isLastWasteStep) {
-        return wasteTypes[previousWasteStepIndex + 1];
-      }
-      setFormStep(FORM_STEPS.done);
-      return '';
-    });
-  }, [wasteTypes]);
+        if (previousWasteStepIndex !== -1 && !isLastWasteStep) {
+          return wasteTypes[previousWasteStepIndex + 1];
+        }
+
+        if (isLastWasteStep) {
+          submitForm();
+        }
+
+        return previousWasteStep;
+      });
+    },
+    [wasteTypes]
+  );
 
   const onPreviousWasteStep = useCallback(() => {
     setWasteTypesStep((previousWasteStep) => {
       const previousWasteStepIndex = wasteTypes.findIndex(
-        (wasteType) => wasteType === previousWasteStep,
+        (wasteType) => wasteType === previousWasteStep
       );
       const isFirstStep = wasteTypes[0] === previousWasteStep;
 
       if (previousWasteStepIndex !== -1 && !isFirstStep) {
         return wasteTypes[previousWasteStepIndex - 1];
       }
-      setFormStep(FORM_STEPS.profile);
+      setFormStep(FORM_STEPS.wasteDefinitions);
       return previousWasteStep;
     });
   }, [wasteTypes]);

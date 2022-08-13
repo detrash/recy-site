@@ -1,5 +1,3 @@
-query FormVideoUrl($formId: String!) {
-  formVideoUrl(formId: $formId) {
-    formVideoUrl
-  }
+query FormVideoUrl($formId: String!, $residueType: ResidueType!) {
+  formVideoUrlByResidue(formId: $formId, residueType: $residueType)
 }

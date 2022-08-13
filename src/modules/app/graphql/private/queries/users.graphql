@@ -8,11 +8,15 @@ query Users {
     forms {
       id
       glassKgs
+      glassVideoFileName
       metalKgs
+      metalVideoFileName
       organicKgs
+      organicVideoFileName
       paperKgs
+      paperVideoFileName
       plasticKgs
-      recyclerVideoFileName
+      plasticVideoFileName
     }
   }
 }

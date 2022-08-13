@@ -1,18 +1,21 @@
 import { RecyFormSchema } from '@modules/app/utils/YupSchema';
 import Input from '@shared/components/Input';
-import { Form, FormikProps } from 'formik';
+import classNames from 'classnames';
+import { FormikProps } from 'formik';
 import { ArrowLeft, Question } from 'phosphor-react';
 import Dropzone from '../Dropzone';
 import Steps from '../Steps';
 
 interface WasteDetails extends FormikProps<RecyFormSchema> {
+  isLoading: boolean;
   isRecyclerPerson: boolean;
-  onNextWaste: () => void;
+  onNextWaste: (submitForm: () => void) => void;
   onPreviousWaste: () => void;
   wasteType: string;
 }
 
 const WasteDetails: React.FC<WasteDetails> = ({
+  isLoading,
   isRecyclerPerson,
   onNextWaste,
   onPreviousWaste,
@@ -25,13 +28,13 @@ const WasteDetails: React.FC<WasteDetails> = ({
   const isButtonDisabled =
     !values[wasteType]?.amount ||
     !!errors[wasteType]?.amount ||
-    (isRecyclerPerson ? !values[wasteType]?.videoProof : false);
+    (isRecyclerPerson ? !values[wasteType]?.videoFile : false);
 
   const helperText =
     'Now record a video of the volume collected in a manner we can see the weight display of the scale. Make sure the video catches the whole uncovered volume and not only part of it. Please say the correct amount while filming so our validator can listen it.';
 
   return (
-    <Form className="flex flex-col flex-1 gap-5">
+    <div className="flex flex-col flex-1 gap-5">
       <section>
         <h2 className="text-2xl mb-1 text-gray-800 font-bold antialiased leading-relaxed">
           How many kgs of <span className="text-secondary">{wasteType}</span>{' '}
@@ -71,16 +74,17 @@ const WasteDetails: React.FC<WasteDetails> = ({
             <p className="text-sm sm:hidden">{helperText}</p>
           </div>
           <Dropzone
-            setFileValue={(file) =>
-              setFieldValue(`${wasteType}.videoProof`, file[0])
-            }
-            fileValue={values[wasteType].videoProof}
+            setFileValue={(file) => {
+              setFieldValue(`${wasteType}.videoFile`, file[0]);
+            }}
+            fileValue={values[wasteType].videoFile}
           />
         </div>
       )}
 
       <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-between mt-auto">
         <button
+          type="button"
           className="btn btn-outline text-neutral border border-neutral no-animation shadow-none w-full sm:w-auto flex items-center gap-2"
           onClick={onPreviousWaste}
         >
@@ -89,17 +93,21 @@ const WasteDetails: React.FC<WasteDetails> = ({
         </button>
         <button
           disabled={isButtonDisabled}
-          className="btn btn-primary text-white no-animation w-full sm:w-auto"
-          type="submit"
+          className={classNames(
+            'btn btn-primary text-white no-animation w-full sm:w-auto',
+            {
+              'loading btn-disabled': isLoading,
+            }
+          )}
+          type="button"
           onClick={() => {
-            submitForm();
-            onNextWaste();
+            onNextWaste(submitForm);
           }}
         >
-          Advance
+          {isLoading ? 'Saving form' : 'Advance'}
         </button>
       </div>
-    </Form>
+    </div>
   );
 };
 export default WasteDetails;

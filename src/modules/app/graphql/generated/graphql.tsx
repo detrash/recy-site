@@ -35,19 +35,18 @@ export type AggregateFormData = {
 };
 
 export type CreateFormInput = {
-  fileName?: InputMaybe<Scalars['String']>;
-  glassKgs?: InputMaybe<Scalars['Float']>;
-  metalKgs?: InputMaybe<Scalars['Float']>;
-  organicKgs?: InputMaybe<Scalars['Float']>;
-  paperKgs?: InputMaybe<Scalars['Float']>;
-  plasticKgs?: InputMaybe<Scalars['Float']>;
+  GLASS?: InputMaybe<ResidueInput>;
+  METAL?: InputMaybe<ResidueInput>;
+  ORGANIC?: InputMaybe<ResidueInput>;
+  PAPER?: InputMaybe<ResidueInput>;
+  PLASTIC?: InputMaybe<ResidueInput>;
 };
 
 export type CreateFormResponse = {
   __typename?: 'CreateFormResponse';
   form: Form;
   /** Field regarding informations on AWS S3 */
-  s3?: Maybe<S3>;
+  s3?: Maybe<Array<S3>>;
 };
 
 export type CreateUserInput = {
@@ -60,18 +59,17 @@ export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
   glassKgs?: Maybe<Scalars['Float']>;
+  glassVideoFileName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   metalKgs?: Maybe<Scalars['Float']>;
+  metalVideoFileName?: Maybe<Scalars['String']>;
   organicKgs?: Maybe<Scalars['Float']>;
+  organicVideoFileName?: Maybe<Scalars['String']>;
   paperKgs?: Maybe<Scalars['Float']>;
+  paperVideoFileName?: Maybe<Scalars['String']>;
   plasticKgs?: Maybe<Scalars['Float']>;
-  recyclerVideoFileName?: Maybe<Scalars['String']>;
+  plasticVideoFileName?: Maybe<Scalars['String']>;
   user: User;
-};
-
-export type FormVideoUrl = {
-  __typename?: 'FormVideoUrl';
-  formVideoUrl: Scalars['String'];
 };
 
 export type Me = {
@@ -127,7 +125,7 @@ export type Query = {
   _service: _Service;
   aggregateFormByUserProfile: Array<AggregateFormByUserProfileResponse>;
   form: Form;
-  formVideoUrl: FormVideoUrl;
+  formVideoUrlByResidue: Scalars['String'];
   forms: Array<Form>;
   me: Me;
   user: User;
@@ -140,8 +138,9 @@ export type QueryFormArgs = {
 };
 
 
-export type QueryFormVideoUrlArgs = {
+export type QueryFormVideoUrlByResidueArgs = {
   formId: Scalars['String'];
+  residueType: ResidueType;
 };
 
 
@@ -149,10 +148,25 @@ export type QueryUserArgs = {
   userAuthId: Scalars['String'];
 };
 
+export type ResidueInput = {
+  amount?: InputMaybe<Scalars['Float']>;
+  videoFileName?: InputMaybe<Scalars['String']>;
+};
+
+/** Represents the residue type */
+export enum ResidueType {
+  Glass = 'GLASS',
+  Metal = 'METAL',
+  Organic = 'ORGANIC',
+  Paper = 'PAPER',
+  Plastic = 'PLASTIC'
+}
+
 export type S3 = {
   __typename?: 'S3';
-  createUrl?: Maybe<Scalars['String']>;
-  fileName?: Maybe<Scalars['String']>;
+  createUrl: Scalars['String'];
+  fileName: Scalars['String'];
+  residue: ResidueType;
 };
 
 export type UpdateUserInput = {
@@ -179,6 +193,17 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']>;
 };
 
+export type CreateFormMutationVariables = Exact<{
+  GLASS?: InputMaybe<ResidueInput>;
+  METAL?: InputMaybe<ResidueInput>;
+  ORGANIC?: InputMaybe<ResidueInput>;
+  PAPER?: InputMaybe<ResidueInput>;
+  PLASTIC?: InputMaybe<ResidueInput>;
+}>;
+
+
+export type CreateFormMutation = { __typename?: 'Mutation', createForm: { __typename?: 'CreateFormResponse', s3?: Array<{ __typename?: 'S3', createUrl: string, fileName: string, residue: ResidueType }> | null } };
+
 export type CreateUserMutationVariables = Exact<{
   profileType: ProfileType;
   phoneNumber: Scalars['String'];
@@ -195,15 +220,16 @@ export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUse
 
 export type FormVideoUrlQueryVariables = Exact<{
   formId: Scalars['String'];
+  residueType: ResidueType;
 }>;
 
 
-export type FormVideoUrlQuery = { __typename?: 'Query', formVideoUrl: { __typename?: 'FormVideoUrl', formVideoUrl: string } };
+export type FormVideoUrlQuery = { __typename?: 'Query', formVideoUrlByResidue: string };
 
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', plasticKgs?: number | null, paperKgs?: number | null, metalKgs?: number | null, glassKgs?: number | null, organicKgs?: number | null, recyclerVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
+export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs?: number | null, glassVideoFileName?: string | null, metalKgs?: number | null, metalVideoFileName?: string | null, organicKgs?: number | null, organicVideoFileName?: string | null, paperKgs?: number | null, paperVideoFileName?: string | null, plasticKgs?: number | null, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -213,9 +239,52 @@ export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserI
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', id: string, glassKgs?: number | null, metalKgs?: number | null, organicKgs?: number | null, paperKgs?: number | null, plasticKgs?: number | null, recyclerVideoFileName?: string | null }> }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', id: string, glassKgs?: number | null, glassVideoFileName?: string | null, metalKgs?: number | null, metalVideoFileName?: string | null, organicKgs?: number | null, organicVideoFileName?: string | null, paperKgs?: number | null, paperVideoFileName?: string | null, plasticKgs?: number | null, plasticVideoFileName?: string | null }> }> };
 
 
+export const CreateFormDocument = gql`
+    mutation CreateForm($GLASS: ResidueInput, $METAL: ResidueInput, $ORGANIC: ResidueInput, $PAPER: ResidueInput, $PLASTIC: ResidueInput) {
+  createForm(
+    data: {GLASS: $GLASS, METAL: $METAL, ORGANIC: $ORGANIC, PAPER: $PAPER, PLASTIC: $PLASTIC}
+  ) {
+    s3 {
+      createUrl
+      fileName
+      residue
+    }
+  }
+}
+    `;
+export type CreateFormMutationFn = Apollo.MutationFunction<CreateFormMutation, CreateFormMutationVariables>;
+
+/**
+ * __useCreateFormMutation__
+ *
+ * To run a mutation, you first call `useCreateFormMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFormMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFormMutation, { data, loading, error }] = useCreateFormMutation({
+ *   variables: {
+ *      GLASS: // value for 'GLASS'
+ *      METAL: // value for 'METAL'
+ *      ORGANIC: // value for 'ORGANIC'
+ *      PAPER: // value for 'PAPER'
+ *      PLASTIC: // value for 'PLASTIC'
+ *   },
+ * });
+ */
+export function useCreateFormMutation(baseOptions?: Apollo.MutationHookOptions<CreateFormMutation, CreateFormMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateFormMutation, CreateFormMutationVariables>(CreateFormDocument, options);
+      }
+export type CreateFormMutationHookResult = ReturnType<typeof useCreateFormMutation>;
+export type CreateFormMutationResult = Apollo.MutationResult<CreateFormMutation>;
+export type CreateFormMutationOptions = Apollo.BaseMutationOptions<CreateFormMutation, CreateFormMutationVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($profileType: ProfileType!, $phoneNumber: String!, $email: String!) {
   createUser(
@@ -298,10 +367,8 @@ export type AggregateFormTypesQueryHookResult = ReturnType<typeof useAggregateFo
 export type AggregateFormTypesLazyQueryHookResult = ReturnType<typeof useAggregateFormTypesLazyQuery>;
 export type AggregateFormTypesQueryResult = Apollo.QueryResult<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>;
 export const FormVideoUrlDocument = gql`
-    query FormVideoUrl($formId: String!) {
-  formVideoUrl(formId: $formId) {
-    formVideoUrl
-  }
+    query FormVideoUrl($formId: String!, $residueType: ResidueType!) {
+  formVideoUrlByResidue(formId: $formId, residueType: $residueType)
 }
     `;
 
@@ -318,6 +385,7 @@ export const FormVideoUrlDocument = gql`
  * const { data, loading, error } = useFormVideoUrlQuery({
  *   variables: {
  *      formId: // value for 'formId'
+ *      residueType: // value for 'residueType'
  *   },
  * });
  */
@@ -335,12 +403,16 @@ export type FormVideoUrlQueryResult = Apollo.QueryResult<FormVideoUrlQuery, Form
 export const FormsDocument = gql`
     query Forms {
   forms {
-    plasticKgs
-    paperKgs
-    metalKgs
     glassKgs
+    glassVideoFileName
+    metalKgs
+    metalVideoFileName
     organicKgs
-    recyclerVideoFileName
+    organicVideoFileName
+    paperKgs
+    paperVideoFileName
+    plasticKgs
+    plasticVideoFileName
     user {
       phoneNumber
       email
@@ -426,11 +498,15 @@ export const UsersDocument = gql`
     forms {
       id
       glassKgs
+      glassVideoFileName
       metalKgs
+      metalVideoFileName
       organicKgs
+      organicVideoFileName
       paperKgs
+      paperVideoFileName
       plasticKgs
-      recyclerVideoFileName
+      plasticVideoFileName
     }
   }
 }

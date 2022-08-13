@@ -1,19 +1,14 @@
-import {
-  getAccessToken,
-  useUser,
-  withPageAuthRequired,
-} from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0';
 import DashboardHeader from '@modules/app/components/Header';
 import PrivatePanel from '@modules/app/container/PrivatePanel';
 import { PageMeComp } from '@modules/app/graphql/generated/page';
-import { getMeServerQuery } from '@modules/app/graphql/ssrQueries';
 import { PERMISSION_SCOPES, Role } from '@modules/app/utils/constants';
+import { userSSRMethods } from '@modules/app/utils/userSSRMethods';
 import { withPrivateApollo } from '@shared/lib/withPrivateApollo';
 import { useMemo } from 'react';
 
 const AppHome: PageMeComp = ({ data }) => {
   const user = useUser();
-  console.log(data);
 
   const isAdmin = useMemo(() => {
     const permissions = data?.me?.permissions;
@@ -39,24 +34,6 @@ const AppHome: PageMeComp = ({ data }) => {
   );
 };
 
-export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, res }) {
-    const { accessToken } = await getAccessToken(req, res);
-    console.log(accessToken);
-    const user = await getMeServerQuery(accessToken!);
-    if (!user) {
-      return {
-        redirect: {
-          destination: '/app/onboarding',
-          permanent: false,
-        },
-      };
-    }
-
-    return {
-      props: user.data,
-    };
-  },
-});
+export const getServerSideProps = userSSRMethods.checkUserAccess;
 
 export default withPrivateApollo(AppHome);

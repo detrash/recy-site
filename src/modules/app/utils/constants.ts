@@ -5,7 +5,7 @@ import {
   CoinVertical,
   Hamburger,
 } from 'phosphor-react';
-import { ProfileType } from '../graphql/generated/graphql';
+import { ProfileType, ResidueType } from '../graphql/generated/graphql';
 
 export enum Role {
   Admin = 'admin',
@@ -33,32 +33,38 @@ export const USER_ROLE_TYPES = [
 
 export const USER_WASTE_TYPES = [
   {
-    key: 'Plastic',
     Icon: Bag,
+    key: ResidueType.Plastic,
+    value: 'Plastic',
   },
   {
-    key: 'Paper',
     Icon: Article,
+    key: ResidueType.Paper,
+    value: 'Paper',
   },
   {
-    key: 'Metal',
     Icon: CoinVertical,
+    key: ResidueType.Metal,
+    value: 'Metal',
   },
   {
-    key: 'Glass',
     Icon: BeerBottle,
+    key: ResidueType.Glass,
+    value: 'Glass',
   },
   {
-    key: 'Organic',
     Icon: Hamburger,
+    key: ResidueType.Organic,
+    value: 'Organic',
   },
 ];
 
 export const FORM_STEPS = {
   welcome: 1,
   profile: 2,
-  wasteDetails: 3,
-  done: 4,
+  wasteDefinitions: 3,
+  wasteDetails: 4,
+  done: 5,
 };
 
 export const FORM_WASTE_TYPES = {

@@ -5,6 +5,7 @@ type GroupCheckboxProps = {
   items: {
     key: string;
     Icon: ForwardRefExoticComponent<any>;
+    value: string;
   }[];
   setValues: Dispatch<SetStateAction<string[]>>;
   values: string[];
@@ -19,7 +20,7 @@ const GroupCheckbox: React.FC<GroupCheckboxProps> = ({
 }) => {
   const handleOnCheck = (
     hasPreviouslyChecked: boolean,
-    checkboxItem: string,
+    checkboxItem: string
   ) => {
     if (hasPreviouslyChecked) {
       setValues((values) => values.filter((value) => value !== checkboxItem));
@@ -41,17 +42,17 @@ const GroupCheckbox: React.FC<GroupCheckboxProps> = ({
               {
                 'border-primary': isActive,
               },
-              checkboxClassName,
+              checkboxClassName
             )}
             onClick={() => handleOnCheck(isActive, checkboxItem.key)}
           >
             <div className="flex justify-between items-center">
               <h2
                 className={classNames(
-                  'text-base text-left font-bold tracking-wider',
+                  'text-base text-left font-bold tracking-wider'
                 )}
               >
-                {checkboxItem.key}
+                {checkboxItem.value}
               </h2>
               <checkboxItem.Icon
                 className={classNames('w-6 h-6', {

@@ -6,7 +6,7 @@ const phoneRegExp =
 export type RecyFormSchema = {
   [wasteType: string]: {
     amount: number;
-    videoProof?: File;
+    videoFile?: File;
   };
 };
 

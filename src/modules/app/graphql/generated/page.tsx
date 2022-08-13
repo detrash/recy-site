@@ -8,6 +8,7 @@ import * as Apollo from '@apollo/client';
 import type React from 'react';
 import { getApolloClient , ApolloClientContext} from '../../../../shared/lib/withPrivateApollo';
 
+
 export async function getServerPageAggregateFormTypes
     (options: Omit<Apollo.QueryOptions<Types.AggregateFormTypesQueryVariables>, 'query'>, ctx: ApolloClientContext ){
         const apolloClient = getApolloClient(ctx);

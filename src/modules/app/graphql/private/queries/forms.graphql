@@ -1,11 +1,15 @@
 query Forms {
   forms {
-    plasticKgs
-    paperKgs
-    metalKgs
     glassKgs
+    glassVideoFileName
+    metalKgs
+    metalVideoFileName
     organicKgs
-    recyclerVideoFileName
+    organicVideoFileName
+    paperKgs
+    paperVideoFileName
+    plasticKgs
+    plasticVideoFileName
     user {
       phoneNumber
       email

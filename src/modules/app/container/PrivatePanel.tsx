@@ -1,15 +1,22 @@
 import StackedStats from '@modules/app/components/StackedStats';
 import CreateFormLogo from '@public/create-form.jpg';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { Article, Coin, Users } from 'phosphor-react';
 import { useMemo } from 'react';
 import ActiveUsersTable from '../components/withTable/ActiveUsersTable';
 import AggregateUsersTypeTable from '../components/withTable/AggregateUsersTypeTable';
+import { useFormContext } from '../context/formContext';
 import { useFormsQuery, useUsersQuery } from '../graphql/generated/graphql';
+import { FORM_STEPS } from '../utils/constants';
+import { APP_NAV_LINKS } from '../utils/navLinks';
 
 const PrivatePanel: React.FC = () => {
+  const { setFormStep } = useFormContext();
   const { data: usersData, loading: isUsersLoading, error } = useUsersQuery();
   const { data: formsData, loading: isFormsLoading } = useFormsQuery();
+
+  const router = useRouter();
 
   const users = useMemo(() => {
     const totalUsers = usersData?.users;
@@ -33,6 +40,12 @@ const PrivatePanel: React.FC = () => {
     ];
   }, [formsData?.forms, usersData?.users]);
 
+  const handleCreateSubmitForm = () => {
+    setFormStep(FORM_STEPS.wasteDefinitions);
+
+    router.push(APP_NAV_LINKS.SUBMIT_FORM);
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <StackedStats isLoading={isUsersLoading} stats={users} />
@@ -55,7 +68,10 @@ const PrivatePanel: React.FC = () => {
           </div>
           <Image src={CreateFormLogo} alt="create form" />
           <div className="text-center">
-            <button className="btn btn-primary text-white w-full sm:w-auto text-center">
+            <button
+              className="btn btn-primary text-white w-full sm:w-auto text-center"
+              onClick={handleCreateSubmitForm}
+            >
               Submit
             </button>
           </div>

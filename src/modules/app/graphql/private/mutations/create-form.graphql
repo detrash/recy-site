@@ -1,0 +1,23 @@
+mutation CreateForm(
+  $GLASS: ResidueInput
+  $METAL: ResidueInput
+  $ORGANIC: ResidueInput
+  $PAPER: ResidueInput
+  $PLASTIC: ResidueInput
+) {
+  createForm(
+    data: {
+      GLASS: $GLASS
+      METAL: $METAL
+      ORGANIC: $ORGANIC
+      PAPER: $PAPER
+      PLASTIC: $PLASTIC
+    }
+  ) {
+    s3 {
+      createUrl
+      fileName
+      residue
+    }
+  }
+}
