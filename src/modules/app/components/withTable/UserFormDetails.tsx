@@ -1,5 +1,9 @@
-import { useFormVideoUrlLazyQuery } from '@modules/app/graphql/generated/graphql';
+import {
+  ResidueType,
+  useFormVideoUrlLazyQuery,
+} from '@modules/app/graphql/generated/graphql';
 import Modal from '@shared/components/Modal';
+import classNames from 'classnames';
 import { Download } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import TableComponent, { ColumnProps } from '../Table';
@@ -15,6 +19,13 @@ type UserFormDetailsProps = {
   hasError: boolean;
 };
 
+type ResidueCellProps = {
+  amount: number;
+  fileName: string | null | undefined;
+  id: string;
+  residueType: ResidueType;
+};
+
 const UserFormDetails: React.FC<UserFormDetailsProps> = ({
   formDetails,
   hasError,
@@ -24,51 +35,76 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
 }) => {
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
-  const [useFormVideoUrlQuery, { loading }] = useFormVideoUrlLazyQuery();
-
-  const loadVideoAndOpen = async (formId: string) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { data } = await useFormVideoUrlQuery({ variables: { formId } });
-
-    if (data) {
-      window.open(data.formVideoUrl.formVideoUrl, '_blank');
-    }
-  };
 
   const columns = useMemo<ColumnProps<FormDetail>>(() => {
     return [
       {
         key: 'glassKgs',
         title: 'Glass Kgs',
+        cell: (form) => {
+          return (
+            <ResidueCell
+              amount={form.glassKgs}
+              fileName={form.glassVideoFileName}
+              id={form.id}
+              residueType={ResidueType.Glass}
+            />
+          );
+        },
       },
       {
         key: 'metalKgs',
         title: 'Metal Kgs',
+        cell: (form) => {
+          return (
+            <ResidueCell
+              amount={form.metalKgs}
+              fileName={form.metalVideoFileName}
+              id={form.id}
+              residueType={ResidueType.Metal}
+            />
+          );
+        },
       },
       {
         key: 'organicKgs',
         title: 'Organic Kgs',
+        cell: (form) => {
+          return (
+            <ResidueCell
+              amount={form.organicKgs}
+              fileName={form.organicVideoFileName}
+              id={form.id}
+              residueType={ResidueType.Organic}
+            />
+          );
+        },
       },
       {
         key: 'paperKgs',
         title: 'Paper Kgs',
+        cell: (form) => {
+          return (
+            <ResidueCell
+              amount={form.paperKgs}
+              fileName={form.paperVideoFileName}
+              id={form.id}
+              residueType={ResidueType.Paper}
+            />
+          );
+        },
       },
       {
         key: 'plasticKgs',
         title: 'Plastic Kgs',
-      },
-      {
-        key: 'recyclerVideoFileName',
-        title: 'Uploaded Video',
         cell: (form) => {
-          if (!form.recyclerVideoFileName) return <p></p>;
           return (
-            <button
-              className="btn btn-sm text-white h-auto py-1 px-2 btn-primary flex items-center gap-1 mx-auto"
-              onClick={() => loadVideoAndOpen(form.id)}
-            >
-              <Download className="h-6 w-6" />
-            </button>
+            <ResidueCell
+              amount={form.plasticKgs}
+              fileName={form.plasticVideoFileName}
+              id={form.id}
+              residueType={ResidueType.Plastic}
+            />
           );
         },
       },
@@ -104,6 +140,49 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         }
       />
     </>
+  );
+};
+
+const ResidueCell: React.FC<ResidueCellProps> = ({
+  amount,
+  fileName,
+  id,
+  residueType,
+}) => {
+  const [downloadedVideo, setDownloadedVideo] = useState<ResidueType>();
+  const [useFormVideoUrlQuery, { loading }] = useFormVideoUrlLazyQuery();
+
+  const loadVideoAndOpen = async (formId: string, residueType: ResidueType) => {
+    setDownloadedVideo(residueType);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { data } = await useFormVideoUrlQuery({
+      variables: { formId, residueType },
+    });
+
+    if (data) {
+      window.open(data.formVideoUrlByResidue, '_blank');
+    }
+  };
+
+  const isDownloadingVideo = downloadedVideo === residueType && loading;
+
+  return (
+    <div className="flex gap-1 items-center">
+      <p>{`${amount} Kgs`}</p>
+      {fileName && (
+        <button
+          className={classNames(
+            'btn btn-sm text-white h-auto py-1 px-2 btn-primary',
+            {
+              'loading btn-disabled': isDownloadingVideo,
+            }
+          )}
+          onClick={() => loadVideoAndOpen(id, residueType)}
+        >
+          <Download className="h-6 w-6" />
+        </button>
+      )}
+    </div>
   );
 };
 
