@@ -51,6 +51,7 @@ export type CreateFormResponse = {
 
 export type CreateUserInput = {
   email: Scalars['String'];
+  name: Scalars['String'];
   phoneNumber: Scalars['String'];
   profileType: ProfileType;
 };
@@ -58,16 +59,16 @@ export type CreateUserInput = {
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
-  glassKgs?: Maybe<Scalars['Float']>;
+  glassKgs: Scalars['Float'];
   glassVideoFileName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  metalKgs?: Maybe<Scalars['Float']>;
+  metalKgs: Scalars['Float'];
   metalVideoFileName?: Maybe<Scalars['String']>;
-  organicKgs?: Maybe<Scalars['Float']>;
+  organicKgs: Scalars['Float'];
   organicVideoFileName?: Maybe<Scalars['String']>;
-  paperKgs?: Maybe<Scalars['Float']>;
+  paperKgs: Scalars['Float'];
   paperVideoFileName?: Maybe<Scalars['String']>;
-  plasticKgs?: Maybe<Scalars['Float']>;
+  plasticKgs: Scalars['Float'];
   plasticVideoFileName?: Maybe<Scalars['String']>;
   user: User;
 };
@@ -81,6 +82,7 @@ export type Me = {
   forms: Array<Form>;
   id: Scalars['ID'];
   lastLoginDate?: Maybe<Scalars['DateTime']>;
+  name: Scalars['String'];
   permissions: Array<Permissions>;
   phoneNumber: Scalars['String'];
   profileType: ProfileType;
@@ -171,6 +173,7 @@ export type S3 = {
 
 export type UpdateUserInput = {
   email?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   phoneNumber?: InputMaybe<Scalars['String']>;
   profileType?: InputMaybe<ProfileType>;
 };
@@ -184,6 +187,7 @@ export type User = {
   forms: Array<Form>;
   id: Scalars['ID'];
   lastLoginDate?: Maybe<Scalars['DateTime']>;
+  name: Scalars['String'];
   phoneNumber: Scalars['String'];
   profileType: ProfileType;
 };
@@ -205,9 +209,10 @@ export type CreateFormMutationVariables = Exact<{
 export type CreateFormMutation = { __typename?: 'Mutation', createForm: { __typename?: 'CreateFormResponse', s3?: Array<{ __typename?: 'S3', createUrl: string, fileName: string, residue: ResidueType }> | null } };
 
 export type CreateUserMutationVariables = Exact<{
-  profileType: ProfileType;
-  phoneNumber: Scalars['String'];
   email: Scalars['String'];
+  name: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  profileType: ProfileType;
 }>;
 
 
@@ -229,17 +234,17 @@ export type FormVideoUrlQuery = { __typename?: 'Query', formVideoUrlByResidue: s
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs?: number | null, glassVideoFileName?: string | null, metalKgs?: number | null, metalVideoFileName?: string | null, organicKgs?: number | null, organicVideoFileName?: string | null, paperKgs?: number | null, paperVideoFileName?: string | null, plasticKgs?: number | null, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
+export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, profileType: ProfileType, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }> } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, name: string, profileType: ProfileType, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }>, forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null }> } };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', id: string, glassKgs?: number | null, glassVideoFileName?: string | null, metalKgs?: number | null, metalVideoFileName?: string | null, organicKgs?: number | null, organicVideoFileName?: string | null, paperKgs?: number | null, paperVideoFileName?: string | null, plasticKgs?: number | null, plasticVideoFileName?: string | null }> }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', id: string, glassKgs: number, glassVideoFileName?: string | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null }> }> };
 
 
 export const CreateFormDocument = gql`
@@ -286,9 +291,9 @@ export type CreateFormMutationHookResult = ReturnType<typeof useCreateFormMutati
 export type CreateFormMutationResult = Apollo.MutationResult<CreateFormMutation>;
 export type CreateFormMutationOptions = Apollo.BaseMutationOptions<CreateFormMutation, CreateFormMutationVariables>;
 export const CreateUserDocument = gql`
-    mutation CreateUser($profileType: ProfileType!, $phoneNumber: String!, $email: String!) {
+    mutation CreateUser($email: String!, $name: String!, $phoneNumber: String!, $profileType: ProfileType!) {
   createUser(
-    data: {profileType: $profileType, phoneNumber: $phoneNumber, email: $email}
+    data: {email: $email, name: $name, phoneNumber: $phoneNumber, profileType: $profileType}
   ) {
     authUserId
     email
@@ -312,9 +317,10 @@ export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, C
  * @example
  * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
- *      profileType: // value for 'profileType'
- *      phoneNumber: // value for 'phoneNumber'
  *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      phoneNumber: // value for 'phoneNumber'
+ *      profileType: // value for 'profileType'
  *   },
  * });
  */
@@ -452,10 +458,24 @@ export const MeDocument = gql`
   me {
     authUserId
     email
+    name
     profileType
     phoneNumber
     permissions {
       type
+    }
+    forms {
+      glassKgs
+      glassVideoFileName
+      id
+      metalKgs
+      metalVideoFileName
+      organicKgs
+      organicVideoFileName
+      paperKgs
+      paperVideoFileName
+      plasticKgs
+      plasticVideoFileName
     }
   }
 }

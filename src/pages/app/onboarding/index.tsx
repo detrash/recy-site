@@ -8,6 +8,7 @@ import {
 } from '@modules/app/graphql/generated/graphql';
 import FormLayout from '@modules/app/layout/FormLayout';
 import { FORM_STEPS } from '@modules/app/utils/constants';
+import { APP_NAV_LINKS } from '@modules/app/utils/navLinks';
 import { userSSRMethods } from '@modules/app/utils/userSSRMethods';
 import {
   UserRegistrationSchema,
@@ -26,20 +27,18 @@ const OnboardingAppPage: React.FC = () => {
   const [createUserMutation, { loading: isCreatingUser, error }] =
     useCreateUserMutation();
 
-  const handleSubmitUserRegistration = async ({
-    phoneNumber,
-    profileType,
-  }: UserRegistrationSchema) => {
+  const handleSubmitUserRegistration = async (
+    userForm: UserRegistrationSchema
+  ) => {
     const createUser = await createUserMutation({
       variables: {
-        phoneNumber,
-        profileType,
+        ...userForm,
         email: user?.email || '',
       },
     });
 
     if (!createUser.errors) {
-      return router.push('/app');
+      return router.push(APP_NAV_LINKS.APP);
     }
 
     toast.error('Error while creating a user, please try again later', {
@@ -58,6 +57,7 @@ const OnboardingAppPage: React.FC = () => {
     [FORM_STEPS.profile]: (
       <Formik
         initialValues={{
+          name: '',
           phoneNumber: '',
           profileType: '' as ProfileType,
         }}

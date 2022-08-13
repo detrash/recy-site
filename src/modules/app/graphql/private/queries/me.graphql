@@ -2,10 +2,24 @@ query Me {
   me {
     authUserId
     email
+    name
     profileType
     phoneNumber
     permissions {
       type
+    }
+    forms {
+      glassKgs
+      glassVideoFileName
+      id
+      metalKgs
+      metalVideoFileName
+      organicKgs
+      organicVideoFileName
+      paperKgs
+      paperVideoFileName
+      plasticKgs
+      plasticVideoFileName
     }
   }
 }

@@ -18,6 +18,7 @@ const Radio: React.FC<RadioProps> = ({
 }) => {
   return (
     <button
+      type="button"
       disabled={isDisabled}
       className={classNames(
         'p-4 border-2 rounded-md transition-all duration-150',
@@ -26,7 +27,7 @@ const Radio: React.FC<RadioProps> = ({
         },
         {
           'opacity-30 cursor-not-allowed': isDisabled,
-        },
+        }
       )}
       onClick={() => setValue(id)}
     >

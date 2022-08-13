@@ -1,13 +1,15 @@
 mutation CreateUser(
-  $profileType: ProfileType!
-  $phoneNumber: String!
   $email: String!
+  $name: String!
+  $phoneNumber: String!
+  $profileType: ProfileType!
 ) {
   createUser(
     data: {
-      profileType: $profileType
-      phoneNumber: $phoneNumber
       email: $email
+      name: $name
+      phoneNumber: $phoneNumber
+      profileType: $profileType
     }
   ) {
     authUserId

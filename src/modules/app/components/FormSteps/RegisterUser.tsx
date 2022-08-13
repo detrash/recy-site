@@ -2,7 +2,9 @@ import { USER_ROLE_TYPES } from '@modules/app/utils/constants';
 import { UserRegistrationSchema } from '@modules/app/utils/YupSchema';
 import Input from '@shared/components/Input';
 import Radio from '@shared/components/Radio';
+import classNames from 'classnames';
 import { Form, FormikProps } from 'formik';
+import * as R from 'ramda';
 
 interface RegisterUserProps extends FormikProps<UserRegistrationSchema> {
   isCreatingUser: boolean;
@@ -25,8 +27,16 @@ const RegisterUser: React.FC<RegisterUserProps> = ({
         </p>
       </section>
 
-      <section className="grid grid-cols-6">
-        <div className="col-span-6 sm:col-span-4">
+      <section className="grid grid-cols-6 gap-3">
+        <div className="col-span-6 sm:col-span-3">
+          <Input
+            label="Preferred Name"
+            name="name"
+            placeholder="Type your name"
+            required
+          />
+        </div>
+        <div className="col-span-6 sm:col-span-3">
           <Input
             label="Phone Number"
             name="phoneNumber"
@@ -54,32 +64,19 @@ const RegisterUser: React.FC<RegisterUserProps> = ({
         </div>
       </section>
 
-      {/* <section className="mb-4">
-        <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px]">
-          What kinds of waste are you reporting today?
-        </h2>
-        <div className="grid grid-cols-6 gap-3">
-          <GroupCheckbox
-            items={USER_WASTE_TYPES}
-            setValues={setWasteTypes}
-            values={wasteTypes}
-            checkboxClassName="col-span-6 sm:col-span-3"
-          />
-        </div>
-      </section> */}
-
       <div className="flex items-end justify-center mt-auto">
-        {!isCreatingUser ? (
-          <button
-            type="submit"
-            disabled={!!errors.phoneNumber || !!errors.profileType}
-            className="btn btn-primary text-white no-animation w-full sm:w-auto"
-          >
-            Confirm
-          </button>
-        ) : (
-          <button className="btn btn-primary loading">Creating user...</button>
-        )}
+        <button
+          type="submit"
+          disabled={!R.isEmpty(errors)}
+          className={classNames(
+            'btn btn-primary text-white no-animation w-full sm:w-auto',
+            {
+              'loading btn-disabled': isCreatingUser,
+            }
+          )}
+        >
+          {isCreatingUser ? 'Creating user... ' : 'Confirm'}
+        </button>
       </div>
     </Form>
   );

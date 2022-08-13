@@ -11,6 +11,7 @@ export type RecyFormSchema = {
 };
 
 export type UserRegistrationSchema = {
+  name: string;
   phoneNumber: string;
   profileType: ProfileType;
 };
@@ -20,4 +21,7 @@ export const userRegistrationSchema = Yup.object({
     .matches(phoneRegExp, 'Phone number is not valid')
     .required('Phone is required'),
   profileType: Yup.string().required('Profile Type is required'),
+  name: Yup.string()
+    .required('Name is required')
+    .max(50, 'Maximum of 50 characters'),
 });
