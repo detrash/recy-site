@@ -7,14 +7,22 @@ import { useMemo } from 'react';
 import ActiveUsersTable from '../components/withTable/ActiveUsersTable';
 import AggregateUsersTypeTable from '../components/withTable/AggregateUsersTypeTable';
 import { useFormContext } from '../context/formContext';
-import { useFormsQuery, useUsersQuery } from '../graphql/generated/graphql';
+import {
+  ProfileType,
+  useFormsQuery,
+  useUsersQuery,
+} from '../graphql/generated/graphql';
 import { FORM_STEPS } from '../utils/constants';
 import { APP_NAV_LINKS } from '../utils/navLinks';
 
-const PrivatePanel: React.FC = () => {
+type PrivatePanelProps = {
+  userProfileType: ProfileType;
+};
+
+const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
   const { setFormStep } = useFormContext();
   const { data: usersData, loading: isUsersLoading, error } = useUsersQuery();
-  const { data: formsData, loading: isFormsLoading } = useFormsQuery();
+  const { data: formsData } = useFormsQuery();
 
   const router = useRouter();
 
@@ -68,12 +76,18 @@ const PrivatePanel: React.FC = () => {
           </div>
           <Image src={CreateFormLogo} alt="create form" />
           <div className="text-center">
-            <button
-              className="btn btn-primary text-white w-full sm:w-auto text-center"
-              onClick={handleCreateSubmitForm}
-            >
-              Submit
-            </button>
+            {userProfileType !== ProfileType.Hodler ? (
+              <button
+                className="btn btn-primary text-white w-full sm:w-auto text-center"
+                onClick={handleCreateSubmitForm}
+              >
+                Submit
+              </button>
+            ) : (
+              <p className="text-sm">
+                You can&apos;t submit a form being a Hodler
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -91,4 +105,4 @@ const PrivatePanel: React.FC = () => {
   );
 };
 
-export default PrivatePanel;
+export default AdminPanel;
