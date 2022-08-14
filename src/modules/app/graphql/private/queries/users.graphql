@@ -6,9 +6,9 @@ query Users {
     lastLoginDate
     phoneNumber
     forms {
-      id
       glassKgs
       glassVideoFileName
+      id
       metalKgs
       metalVideoFileName
       organicKgs

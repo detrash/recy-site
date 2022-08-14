@@ -1,6 +1,5 @@
-import { useUser } from '@auth0/nextjs-auth0';
 import DashboardHeader from '@modules/app/components/Header';
-import PrivatePanel from '@modules/app/container/PrivatePanel';
+import UserPanel from '@modules/app/container/UserPanel';
 import { PageMeComp } from '@modules/app/graphql/generated/page';
 import { PERMISSION_SCOPES, Role } from '@modules/app/utils/constants';
 import { userSSRMethods } from '@modules/app/utils/userSSRMethods';
@@ -8,8 +7,6 @@ import { withPrivateApollo } from '@shared/lib/withPrivateApollo';
 import { useMemo } from 'react';
 
 const AppHome: PageMeComp = ({ data }) => {
-  const user = useUser();
-
   const isAdmin = useMemo(() => {
     const permissions = data?.me?.permissions;
 
@@ -27,7 +24,12 @@ const AppHome: PageMeComp = ({ data }) => {
       <DashboardHeader />
       <section className="flex-grow py-6 sm:py-12 bg-gray-100">
         <div className="max-w-screen-2xl mx-auto px-2 sm:px-6 lg:px-8">
-          {isAdmin ? <PrivatePanel /> : <h2>User non admin panel</h2>}
+          <UserPanel user={data} />
+          {/* {isAdmin ? (
+            <AdminPanel userProfileType={data?.me.profileType!} />
+          ) : (
+            <UserPanel user={data!} />
+          )} */}
         </div>
       </section>
     </main>

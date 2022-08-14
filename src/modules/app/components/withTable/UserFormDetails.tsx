@@ -2,7 +2,6 @@ import {
   ResidueType,
   useFormVideoUrlLazyQuery,
 } from '@modules/app/graphql/generated/graphql';
-import Modal from '@shared/components/Modal';
 import classNames from 'classnames';
 import { Download } from 'phosphor-react';
 import { useMemo, useState } from 'react';
@@ -13,10 +12,9 @@ type FormDetail = UsersType['forms'][0];
 
 type UserFormDetailsProps = {
   formDetails: FormDetail[];
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  isLoading: boolean;
-  hasError: boolean;
+  isLoading?: boolean;
+  hasError?: boolean;
+  hasVideoAccess: boolean;
 };
 
 type ResidueCellProps = {
@@ -28,10 +26,9 @@ type ResidueCellProps = {
 
 const UserFormDetails: React.FC<UserFormDetailsProps> = ({
   formDetails,
-  hasError,
-  isLoading,
-  isOpen,
-  setIsOpen,
+  hasError = false,
+  hasVideoAccess,
+  isLoading = false,
 }) => {
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
@@ -42,6 +39,9 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         key: 'glassKgs',
         title: 'Glass Kgs',
         cell: (form) => {
+          if (!hasVideoAccess) {
+            return <p>{`${form.glassKgs} Kgs`}</p>;
+          }
           return (
             <ResidueCell
               amount={form.glassKgs}
@@ -56,6 +56,9 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         key: 'metalKgs',
         title: 'Metal Kgs',
         cell: (form) => {
+          if (!hasVideoAccess) {
+            return <p>{`${form.metalKgs} Kgs`}</p>;
+          }
           return (
             <ResidueCell
               amount={form.metalKgs}
@@ -70,6 +73,9 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         key: 'organicKgs',
         title: 'Organic Kgs',
         cell: (form) => {
+          if (!hasVideoAccess) {
+            return <p>{`${form.organicKgs} Kgs`}</p>;
+          }
           return (
             <ResidueCell
               amount={form.organicKgs}
@@ -84,6 +90,9 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         key: 'paperKgs',
         title: 'Paper Kgs',
         cell: (form) => {
+          if (!hasVideoAccess) {
+            return <p>{`${form.paperKgs} Kgs`}</p>;
+          }
           return (
             <ResidueCell
               amount={form.paperKgs}
@@ -98,6 +107,9 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         key: 'plasticKgs',
         title: 'Plastic Kgs',
         cell: (form) => {
+          if (!hasVideoAccess) {
+            return <p>{`${form.plasticKgs} Kgs`}</p>;
+          }
           return (
             <ResidueCell
               amount={form.plasticKgs}
@@ -116,30 +128,21 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
     formDetails?.slice((page - 1) * rowsCount, rowsCount * page) || [];
 
   return (
-    <>
-      <Modal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="User Form Details"
-        content={
-          <TableComponent<FormDetail>
-            allData={formDetails || []}
-            columns={columns}
-            data={dataByPage}
-            error={hasError}
-            isLoading={isLoading}
-            onPageChange={(newPage) => setPage(newPage)}
-            page={page}
-            rowsCount={rowsCount}
-            setRowsCount={(newRowsCount) => {
-              setPage(1);
-              setRowsCount(newRowsCount);
-            }}
-            totalCount={formDetails?.length || 0}
-          />
-        }
-      />
-    </>
+    <TableComponent<FormDetail>
+      allData={formDetails || []}
+      columns={columns}
+      data={dataByPage}
+      error={hasError}
+      isLoading={isLoading}
+      onPageChange={(newPage) => setPage(newPage)}
+      page={page}
+      rowsCount={rowsCount}
+      setRowsCount={(newRowsCount) => {
+        setPage(1);
+        setRowsCount(newRowsCount);
+      }}
+      totalCount={formDetails?.length || 0}
+    />
   );
 };
 

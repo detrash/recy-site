@@ -4,6 +4,7 @@ query Me {
     email
     name
     profileType
+    lastLoginDate
     phoneNumber
     permissions {
       type

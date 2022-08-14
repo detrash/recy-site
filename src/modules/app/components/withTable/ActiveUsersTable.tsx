@@ -1,4 +1,5 @@
 import { UsersQuery } from '@modules/app/graphql/generated/graphql';
+import Modal from '@shared/components/Modal';
 import { format } from 'date-fns';
 import { Article } from 'phosphor-react';
 import { lazy, Suspense, useMemo, useState } from 'react';
@@ -68,13 +69,19 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
               <Article className="hidden sm:block h-6 w-6" />
             </button>
             {isOpen && (
-              <Suspense fallback={<h1>Loading...</h1>}>
-                <UserFormDetails
-                  formDetails={user.forms}
-                  hasError={hasError}
-                  isLoading={isLoading}
+              <Suspense fallback={<p></p>}>
+                <Modal
                   isOpen={isOpen}
                   setIsOpen={setIsOpen}
+                  title="User Form Details"
+                  content={
+                    <UserFormDetails
+                      hasVideoAccess
+                      formDetails={user.forms}
+                      hasError={hasError}
+                      isLoading={isLoading}
+                    />
+                  }
                 />
               </Suspense>
             )}
