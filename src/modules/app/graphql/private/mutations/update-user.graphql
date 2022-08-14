@@ -1,0 +1,20 @@
+mutation UpdateUser(
+  $email: String!
+  $name: String!
+  $phoneNumber: String!
+  $profileType: ProfileType!
+) {
+  updateUser(
+    data: {
+      email: $email
+      name: $name
+      phoneNumber: $phoneNumber
+      profileType: $profileType
+    }
+  ) {
+    authUserId
+    email
+    profileType
+    phoneNumber
+  }
+}

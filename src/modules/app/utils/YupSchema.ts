@@ -16,6 +16,10 @@ export type UserRegistrationSchema = {
   profileType: ProfileType;
 };
 
+export interface ProfileFormSchema extends UserRegistrationSchema {
+  email: string;
+}
+
 export const userRegistrationSchema = Yup.object({
   phoneNumber: Yup.string()
     .matches(phoneRegExp, 'Phone number is not valid')

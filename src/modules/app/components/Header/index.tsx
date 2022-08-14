@@ -1,4 +1,5 @@
 import { Disclosure } from '@headlessui/react';
+import { ProfileType } from '@modules/app/graphql/generated/graphql';
 import { APP_HEADER_LINKS } from '@modules/app/utils/navLinks';
 import classNames from 'classnames';
 import Image from 'next/image';
@@ -10,9 +11,13 @@ import Wallet from './Wallet';
 
 type DashboardHeaderProps = {
   isAdmin: boolean;
+  userProfileType: ProfileType;
 };
 
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({ isAdmin }) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({
+  isAdmin,
+  userProfileType,
+}) => {
   const router = useRouter();
 
   return (
@@ -31,7 +36,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ isAdmin }) => {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex-1 flex items-center justify-center sm:justify-start">
+              <div className="hidden flex-1 sm:flex items-center sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
                   <div className="h-16 w-16 relative">
                     <Image
@@ -45,9 +50,14 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ isAdmin }) => {
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
                     {APP_HEADER_LINKS.map((headerItem) => {
-                      if (headerItem.isAdminAccess && !isAdmin) {
+                      if (headerItem.isAdminAccess && !isAdmin) return null;
+
+                      if (
+                        headerItem.isRecyclerOrWasteAccess &&
+                        userProfileType === ProfileType.Hodler
+                      )
                         return null;
-                      }
+
                       return (
                         <Link
                           key={headerItem.name}
@@ -77,9 +87,10 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ isAdmin }) => {
                   </div>
                 </div>
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center gap-3 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="flex-1 flex items-center justify-center sm:justify-end">
                 <Wallet />
-
+              </div>
+              <div className="absolute inset-y-0 right-0 flex items-center gap-3 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Profile />
               </div>
             </div>
@@ -87,24 +98,33 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ isAdmin }) => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {APP_HEADER_LINKS.map((headerItem) => (
-                <Disclosure.Button
-                  key={headerItem.name}
-                  as="a"
-                  href={headerItem.href}
-                  className={classNames(
-                    router.asPath === headerItem.href
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block px-3 py-2 rounded-md text-base font-medium'
-                  )}
-                  aria-current={
-                    router.asPath === headerItem.href ? 'page' : undefined
-                  }
-                >
-                  {headerItem.name}
-                </Disclosure.Button>
-              ))}
+              {APP_HEADER_LINKS.map((headerItem) => {
+                if (headerItem.isAdminAccess && !isAdmin) return null;
+
+                if (
+                  headerItem.isRecyclerOrWasteAccess &&
+                  userProfileType === ProfileType.Hodler
+                )
+                  return null;
+                return (
+                  <Disclosure.Button
+                    key={headerItem.name}
+                    as="a"
+                    href={headerItem.href}
+                    className={classNames(
+                      router.asPath === headerItem.href
+                        ? 'bg-gray-900 text-white'
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      'block px-3 py-2 rounded-md text-base font-medium'
+                    )}
+                    aria-current={
+                      router.asPath === headerItem.href ? 'page' : undefined
+                    }
+                  >
+                    {headerItem.name}
+                  </Disclosure.Button>
+                );
+              })}
             </div>
           </Disclosure.Panel>
         </>
