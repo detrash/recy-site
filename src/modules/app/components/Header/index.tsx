@@ -1,6 +1,6 @@
 import { Disclosure } from '@headlessui/react';
 import { ProfileType } from '@modules/app/graphql/generated/graphql';
-import { APP_HEADER_LINKS } from '@modules/app/utils/navLinks';
+import { APP_HEADER_LINKS, APP_NAV_LINKS } from '@modules/app/utils/navLinks';
 import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,14 +38,16 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               </div>
               <div className="hidden flex-1 sm:flex items-center sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <div className="h-16 w-16 relative">
-                    <Image
-                      layout="fill"
-                      objectFit="cover"
-                      src="/recy-logo.png"
-                      alt="Workflow"
-                    />
-                  </div>
+                  <Link href={APP_NAV_LINKS.APP}>
+                    <a className="h-16 w-16 relative cursor-pointer">
+                      <Image
+                        layout="fill"
+                        objectFit="cover"
+                        src="/recy-logo.png"
+                        alt="Workflow"
+                      />
+                    </a>
+                  </Link>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">

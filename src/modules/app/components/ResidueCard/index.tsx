@@ -45,7 +45,7 @@ const ResidueCard: React.FC<ResidueCardProps> = ({
         <div className="w-14 h-14 sm:w-20 sm:h-20 font-bold">
           <CircularProgressbar
             value={percent}
-            text={`${percent}%`}
+            text={`${percent || 0}%`}
             styles={buildStyles({
               textColor: '#000',
               trailColor: '#fff',

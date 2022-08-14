@@ -12,6 +12,9 @@ import { ToastContainer } from 'react-toastify';
 import AppLayout from '../modules/home/layout';
 
 import 'react-toastify/dist/ReactToastify.css';
+
+import { WagmiClient } from '@shared/lib/wagmi';
+import { WagmiConfig } from 'wagmi';
 import '../styles/globals.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -42,11 +45,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Head>
           <title>Recy | App</title>
         </Head>
-        <UserProvider>
-          <FormProvider>
-            <Component {...pageProps} />
-          </FormProvider>
-        </UserProvider>
+        <WagmiConfig client={WagmiClient}>
+          <UserProvider>
+            <FormProvider>
+              <Component {...pageProps} />
+            </FormProvider>
+          </UserProvider>
+        </WagmiConfig>
+
         <ToastContainer />
       </>
     );
