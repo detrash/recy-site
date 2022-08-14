@@ -1,18 +1,20 @@
 import { Disclosure } from '@headlessui/react';
+import { APP_HEADER_LINKS } from '@modules/app/utils/navLinks';
 import classNames from 'classnames';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { List, X } from 'phosphor-react';
 import Profile from './Profile';
 import Wallet from './Wallet';
 
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-];
+type DashboardHeaderProps = {
+  isAdmin: boolean;
+};
 
-const DashboardHeader: React.FC = () => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({ isAdmin }) => {
+  const router = useRouter();
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -42,24 +44,36 @@ const DashboardHeader: React.FC = () => {
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          'transition-all duration-150 px-3 py-2 rounded-md text-sm font-medium',
-                          {
-                            'bg-gray-900 hover:bg-black text-white':
-                              item.current,
-                            'text-gray-300 hover:bg-gray-700 hover:text-white':
-                              !item.current,
+                    {APP_HEADER_LINKS.map((headerItem) => {
+                      if (headerItem.isAdminAccess && !isAdmin) {
+                        return null;
+                      }
+                      return (
+                        <Link
+                          key={headerItem.name}
+                          href={headerItem.href}
+                          aria-current={
+                            router.asPath === headerItem.href
+                              ? 'page'
+                              : undefined
                           }
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </a>
-                    ))}
+                        >
+                          <button
+                            className={classNames(
+                              'transition-all duration-150 px-3 py-2 rounded-md text-sm font-medium',
+                              {
+                                'bg-gray-900 hover:bg-black text-white':
+                                  router.asPath === headerItem.href,
+                                'text-gray-300 hover:bg-gray-700 hover:text-white':
+                                  router.asPath !== headerItem.href,
+                              }
+                            )}
+                          >
+                            {headerItem.name}
+                          </button>
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -73,20 +87,22 @@ const DashboardHeader: React.FC = () => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
+              {APP_HEADER_LINKS.map((headerItem) => (
                 <Disclosure.Button
-                  key={item.name}
+                  key={headerItem.name}
                   as="a"
-                  href={item.href}
+                  href={headerItem.href}
                   className={classNames(
-                    item.current
+                    router.asPath === headerItem.href
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block px-3 py-2 rounded-md text-base font-medium'
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={
+                    router.asPath === headerItem.href ? 'page' : undefined
+                  }
                 >
-                  {item.name}
+                  {headerItem.name}
                 </Disclosure.Button>
               ))}
             </div>

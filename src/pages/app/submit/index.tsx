@@ -100,6 +100,10 @@ const SubmitRecyForm: PageMeComp = ({ data }) => {
     }
   }, [wasteTypes]);
 
+  useEffect(() => {
+    setFormStep(FORM_STEPS.wasteDefinitions);
+  }, [setFormStep]);
+
   const FORM_STEPS_LAYOUTS = {
     [FORM_STEPS.wasteDefinitions]: <WasteDefinitions />,
     [FORM_STEPS.wasteDetails]: (

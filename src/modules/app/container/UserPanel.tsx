@@ -96,7 +96,10 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user }) => {
                   const currentItem = USER_WASTE_TYPES.find(
                     (wasteType) => wasteType.key === residueType
                   );
-                  const percent = (residueValue / highlitedItems.Total) * 100;
+                  const percent = (
+                    (residueValue / highlitedItems.Total) *
+                    100
+                  ).toFixed(1);
                   return (
                     <div
                       key={residueType}
@@ -107,7 +110,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user }) => {
                           value={residueValue}
                           Icon={currentItem.Icon}
                           color={index % 2 === 0 ? 'primary' : 'secondary'}
-                          percent={percent}
+                          percent={Number(percent)}
                           title={currentItem.value}
                         />
                       ) : (

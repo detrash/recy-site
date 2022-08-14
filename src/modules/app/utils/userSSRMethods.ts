@@ -2,6 +2,7 @@ import { getAccessToken, withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { ProfileType } from '../graphql/generated/graphql';
 import { getMeServerQuery } from '../graphql/ssrQueries';
 import { USER_ROLE_TYPES } from './constants';
+import { getAdminAccess } from './getAdminAccess';
 import { APP_NAV_LINKS } from './navLinks';
 
 const REDIRECS_TO = {
@@ -72,7 +73,26 @@ const checkOnboardingAccess = withPageAuthRequired({
   },
 });
 
+const checkAdminAccess = withPageAuthRequired({
+  async getServerSideProps({ req, res }) {
+    const { accessToken } = await getAccessToken(req, res);
+    const user = await getMeServerQuery(accessToken!);
+    if (!user) {
+      return REDIRECS_TO.onboarding;
+    }
+
+    const isAdmin = getAdminAccess(user.data.data);
+    return {
+      props: {
+        ...user.data,
+        isAdmin,
+      },
+    };
+  },
+});
+
 export const userSSRMethods = {
+  checkAdminAccess,
   checkFormSubmitAccess,
   checkOnboardingAccess,
   checkUserAccess,

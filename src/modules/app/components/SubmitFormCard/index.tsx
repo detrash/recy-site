@@ -1,25 +1,14 @@
-import { useFormContext } from '@modules/app/context/formContext';
 import { ProfileType } from '@modules/app/graphql/generated/graphql';
-import { FORM_STEPS } from '@modules/app/utils/constants';
 import { APP_NAV_LINKS } from '@modules/app/utils/navLinks';
 import CreateFormLogo from '@public/create-form.jpg';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 type SubmitFormCardProps = {
   userProfileType: ProfileType;
 };
 
 const SubmitFormCard: React.FC<SubmitFormCardProps> = ({ userProfileType }) => {
-  const { setFormStep } = useFormContext();
-  const router = useRouter();
-
-  const handleCreateSubmitForm = () => {
-    setFormStep(FORM_STEPS.wasteDefinitions);
-
-    router.push(APP_NAV_LINKS.SUBMIT_FORM);
-  };
-
   return (
     <div className="py-4 px-6 bg-white shadow rounded-md flex flex-col gap-3 col-span-6 sm:col-span-2">
       <div>
@@ -33,12 +22,11 @@ const SubmitFormCard: React.FC<SubmitFormCardProps> = ({ userProfileType }) => {
       <Image src={CreateFormLogo} alt="create form" />
       <div className="text-center">
         {userProfileType !== ProfileType.Hodler ? (
-          <button
-            className="btn btn-primary text-white w-full sm:w-auto text-center"
-            onClick={handleCreateSubmitForm}
-          >
-            Submit
-          </button>
+          <Link href={APP_NAV_LINKS.SUBMIT_FORM}>
+            <a className="btn btn-primary text-white w-full sm:w-auto text-center">
+              Submit
+            </a>
+          </Link>
         ) : (
           <p className="text-sm">You can&apos;t submit a form being a Hodler</p>
         )}
