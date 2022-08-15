@@ -25,7 +25,7 @@ export function getApolloClient(
   ssrCache?: NormalizedCacheObject
 ) {
   const httpLink = createHttpLink({
-    uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/api`,
+    uri: `${process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT}`,
     fetch,
   });
 
