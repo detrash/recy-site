@@ -22,10 +22,10 @@ export const withPrivateApollo = (Component: NextPage) => {
 
 export function getApolloClient(
   ctx?: ApolloClientContext,
-  ssrCache?: NormalizedCacheObject,
+  ssrCache?: NormalizedCacheObject
 ) {
   const httpLink = createHttpLink({
-    uri: `${process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT}`,
+    uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/api`,
     fetch,
   });
 
