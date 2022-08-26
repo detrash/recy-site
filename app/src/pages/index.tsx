@@ -1,28 +1,70 @@
-import DashboardHeader from 'src/components/Header';
-import UserPanel from 'src/container/UserPanel';
-import { PageMeComp } from 'src/graphql/generated/page';
-import { withPrivateApollo } from 'src/lib/withPrivateApollo';
-import { getAdminAccess } from 'src/utils/getAdminAccess';
-import { userSSRMethods } from 'src/utils/userSSRMethods';
+/* eslint-disable @next/next/no-html-link-for-pages */
+/* eslint-disable @next/next/no-img-element */
 
-const AppHome: PageMeComp = ({ data }) => {
-  const isAdmin = getAdminAccess(data!);
+import Image from 'next/image';
 
+const navigation = [
+  { name: 'Product', href: '#' },
+  { name: 'Features', href: '#' },
+  { name: 'Marketplace', href: '#' },
+  { name: 'Company', href: '#' },
+];
+
+const AppHome: React.FC = () => {
   return (
-    <main className="flex flex-col min-h-screen">
-      <DashboardHeader
-        userProfileType={data?.me.profileType!}
-        isAdmin={isAdmin}
-      />
-      <section className="flex-grow py-6 sm:py-12 bg-gray-100">
-        <div className="max-w-screen-2xl mx-auto px-2 sm:px-6 lg:px-8">
-          <UserPanel user={data} />
+    <div className="bg-white h-screen w-screen">
+      <div className="max-w-screen-2xl mx-auto h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
+          <div className="pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+            <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
+              <nav
+                className="relative flex items-center justify-between sm:h-10 lg:justify-start"
+                aria-label="Global"
+              >
+                <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
+                  <span className="sr-only">Workflow</span>
+                  <Image
+                    src="/recy-logo.png"
+                    width={100}
+                    height={100}
+                    alt="Recy Logo"
+                  />
+                </div>
+              </nav>
+            </div>
+
+            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+              <div className="sm:text-center lg:text-left">
+                <h1 className="text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl md:text-6xl">
+                  <span className="block xl:inline">Welcome to</span>{' '}
+                  <span className="block text-primary xl:inline">Recy App</span>
+                </h1>
+                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                  Let&apos;s end waste pollution at its source. Let&apos;s
+                  transform how we think about trash and recycling.
+                </p>
+                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                  <a
+                    href="/api/auth/login?returnTo=/dashboard"
+                    className="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-darker md:py-4 md:text-lg md:px-10"
+                  >
+                    Get started
+                  </a>
+                </div>
+              </div>
+            </main>
+          </div>
+          <div className="lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <img
+              className="w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+              src="/ocean.jpg"
+              alt="Ocean"
+            />
+          </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 };
 
-export const getServerSideProps = userSSRMethods.checkUserAccess;
-
-export default withPrivateApollo(AppHome);
+export default AppHome;

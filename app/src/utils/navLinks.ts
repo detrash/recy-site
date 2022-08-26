@@ -1,6 +1,6 @@
 export const APP_NAV_LINKS = {
   ADMIN_PANEL: '/admin',
-  APP: '/',
+  APP: '/dashboard',
   ONBOARDING: '/onboarding',
   PROFILE: '/profile',
   SUBMIT_FORM: '/submit',
