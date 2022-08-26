@@ -1,20 +1,6 @@
 @tailwind base;
 @tailwind components;
-
-@import 'additional-styles/utility-patterns.scss';
-@import 'additional-styles/theme.scss';
-
 @tailwind utilities;
 
-@layer utilities {
-  .rtl {
-    direction: rtl;
-  }
-}
 
-[x-cloak] {
-  display: none;
-}
 
-$aos-distance: 10px;
-@import 'node_modules/aos/src/sass/aos.scss';
