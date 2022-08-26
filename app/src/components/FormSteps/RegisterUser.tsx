@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import { Form, FormikProps } from 'formik';
-import { Radio } from 'phosphor-react';
-import { Input } from 'postcss';
 import * as R from 'ramda';
 import { USER_ROLE_TYPES } from 'src/utils/constants';
 import { UserRegistrationSchema } from 'src/utils/YupSchema';
+import Input from '../Input';
+import Radio from '../Radio';
 
 interface RegisterUserProps extends FormikProps<UserRegistrationSchema> {
   isCreatingUser: boolean;
