@@ -1,11 +1,11 @@
-import { getRecyPageQuery, RecyPageData } from '@modules/home/graphql/queries';
-import { UTIL_LINKS } from '@modules/home/utils/constants';
-import RecyLogo from '@public/recy-logo.png';
-import { homeApolloClient } from '@shared/lib/apollo';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import RecyNetworkLogo from '@public/recy-network-logo.png';
+import RecyLogo from 'public/recy-logo.png';
+import RecyNetworkLogo from 'public/recy-network-logo.png';
+import { getRecyPageQuery, RecyPageData } from 'src/graphql/queries';
+import { apolloClient } from 'src/lib/apollo';
+import { UTIL_LINKS } from 'src/utils/constants';
 
 type RecyPageProps = {
   messages: RecyPageData;
@@ -109,7 +109,7 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data } = await homeApolloClient.query({
+  const { data } = await apolloClient.query({
     query: getRecyPageQuery,
     variables: {
       locale,
@@ -121,7 +121,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         messages: {
           ...data.recyPages[0],
-          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
+          ...(await import(`src/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day

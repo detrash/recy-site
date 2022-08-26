@@ -1,16 +1,16 @@
-import ContactForm from '@modules/home/components/ContactForm';
+import { Formik } from 'formik';
+import { GetStaticProps } from 'next';
+import ContactForm from 'src/components/ContactForm';
 import {
   getPrivacyPolicyPageQuery,
   PrivacyPolicyData,
-} from '@modules/home/graphql/queries';
+} from 'src/graphql/queries';
+import { apolloClient } from 'src/lib/apollo';
 import {
   ContactFormSchema,
   contactFormSchema,
   INITIAL_FORM_VALUES,
-} from '@modules/home/utils/YupSchema';
-import { homeApolloClient } from '@shared/lib/apollo';
-import { Formik } from 'formik';
-import { GetStaticProps } from 'next';
+} from 'src/utils/YupSchema';
 
 type PrivacyPolicyPageProps = {
   messages: PrivacyPolicyData;
@@ -52,7 +52,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyPageProps> = ({ messages }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data } = await homeApolloClient.query({
+  const { data } = await apolloClient.query({
     query: getPrivacyPolicyPageQuery,
     variables: {
       locale,
@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         messages: {
           ...data.privacyPolicyPages[0],
-          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
+          ...(await import(`src/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day

@@ -1,0 +1,21 @@
+{
+  "navItems": {
+    "recy": "RECY",
+    "roadmap": "Roadmap",
+    "team": "Time",
+    "home": "Tokens que salvam o mundo"
+  },
+  "footer": {
+    "language": "Trocar para Inglês",
+    "privacyPolicy": "Política de Privacidade"
+  },
+  "form": {
+    "formContactTitle": "Entre em contato",
+    "formContactSubTitle": "Envie para nós sua mensagem",
+    "namePlaceholder": "Digite seu nome",
+    "emailPlaceholder": "Digite seu endereço de email",
+    "messagePlaceholder": "Digite sua mensagem",
+    "formContactButton": "Enviar"
+  },
+  "description": "Vamos limpar o mundo na origem do problema. Vamos repensar a indústria dos resíduos"
+}

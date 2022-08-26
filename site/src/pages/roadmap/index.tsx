@@ -1,11 +1,8 @@
-import {
-  getRoadMapPageQuery,
-  RoadMapPageData,
-} from '@modules/home/graphql/queries';
-import { homeApolloClient } from '@shared/lib/apollo';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import { CheckCircle } from 'phosphor-react';
+import { getRoadMapPageQuery, RoadMapPageData } from 'src/graphql/queries';
+import { apolloClient } from 'src/lib/apollo';
 
 type RoadMapPageProps = {
   messages: RoadMapPageData;
@@ -56,7 +53,7 @@ const RoadMap: React.FC<RoadMapPageProps> = ({ messages }) => {
 export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
   const otherLocale =
     locales?.filter((location) => location !== locale)[0] || '';
-  const { data } = await homeApolloClient.query({
+  const { data } = await apolloClient.query({
     query: getRoadMapPageQuery,
     variables: {
       locale: [locale, otherLocale],
@@ -68,7 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
       props: {
         messages: {
           ...data.roadmapPages[0],
-          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
+          ...(await import(`src/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day

@@ -1,12 +1,9 @@
-import CeloLogo from '@modules/home/assets/CeloLogo';
-import {
-  AddRecyPageData,
-  getAddRecyPageQuery,
-} from '@modules/home/graphql/queries';
-import DeTrashLogo from '@public/detrash-logo.svg';
-import { homeApolloClient } from '@shared/lib/apollo';
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
+import DeTrashLogo from 'public/detrash-logo.svg';
+import CeloLogo from 'src/assets/CeloLogo';
+import { AddRecyPageData, getAddRecyPageQuery } from 'src/graphql/queries';
+import { apolloClient } from 'src/lib/apollo';
 
 type TeamPageProps = {
   messages: AddRecyPageData;
@@ -83,7 +80,7 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
 export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
   const otherLocale =
     locales?.filter((location) => location !== locale)[0] || '';
-  const { data } = await homeApolloClient.query({
+  const { data } = await apolloClient.query({
     query: getAddRecyPageQuery,
     variables: {
       locale: [locale, otherLocale],
@@ -94,7 +91,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
       props: {
         messages: {
           ...data.addRecyPages[0],
-          ...(await import(`@modules/home/i18n/${locale}.json`)).default,
+          ...(await import(`src/i18n/${locale}.json`)).default,
         },
       },
       revalidate: 60 * 60 * 24, // 1 day
