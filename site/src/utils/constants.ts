@@ -1,5 +1,5 @@
 export const UTIL_LINKS = {
-  APP_URL: '/',
+  APP_URL: 'https://detrash.io',
   BUY_RECY_URL: 'https://www.detrash.org/',
   DETRASH_APP_URL: 'http://detrash.vercel.app/',
   TOKEN_CONTRACT_URL:
