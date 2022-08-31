@@ -1,6 +1,7 @@
 import { UserProvider } from '@auth0/nextjs-auth0';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import 'react-circular-progressbar/dist/styles.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FormProvider } from 'src/context/formContext';

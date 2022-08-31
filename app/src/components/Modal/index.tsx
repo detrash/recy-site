@@ -5,13 +5,18 @@ import { Fragment } from 'react';
 type ModalProps = {
   content: JSX.Element;
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  onCloseModal: (isOpen: boolean) => void;
   title: string;
 };
 
-const Modal: React.FC<ModalProps> = ({ content, isOpen, setIsOpen, title }) => {
+const Modal: React.FC<ModalProps> = ({
+  content,
+  isOpen,
+  onCloseModal,
+  title,
+}) => {
   function closeModal() {
-    setIsOpen(false);
+    onCloseModal(false);
   }
 
   return (

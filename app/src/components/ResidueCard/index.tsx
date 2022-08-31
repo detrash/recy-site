@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
 
 type ResidueCardProps = {
   color: 'primary' | 'secondary' | 'neutral';

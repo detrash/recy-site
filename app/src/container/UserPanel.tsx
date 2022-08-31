@@ -7,12 +7,14 @@ import SubmitFormCard from '../components/SubmitFormCard';
 import UserFormDetails from '../components/withTable/UserFormDetails';
 import { MeQuery, ResidueType } from '../graphql/generated/graphql';
 import { USER_WASTE_TYPES } from '../utils/constants';
+import { UserPanelSkeleton } from './UserPanelSkeleton';
 
 type PrivatePanelProps = {
   user: MeQuery | undefined;
+  isLoading: boolean;
 };
 
-const UserPanel: React.FC<PrivatePanelProps> = ({ user }) => {
+const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
   const highlitedPanel = useMemo(() => {
     const totalForms = user?.me.forms;
     const totalAmountResiduesReported = user?.me?.forms?.reduce(
@@ -76,6 +78,10 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user }) => {
   const lastLoginDate = user?.me.lastLoginDate
     ? format(new Date(user?.me.lastLoginDate), 'MM/dd/yyyy HH:mm')
     : '';
+
+  if (isLoading) {
+    return <UserPanelSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-3">

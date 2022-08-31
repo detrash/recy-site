@@ -1,10 +1,10 @@
 import { format } from 'date-fns';
 import { Article } from 'phosphor-react';
-import { lazy, Suspense, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { UsersQuery } from 'src/graphql/generated/graphql';
 import Modal from '../Modal';
 import TableComponent, { ColumnProps } from '../Table';
-const UserFormDetails = lazy(() => import('./UserFormDetails'));
+import UserFormDetails from './UserFormDetails';
 
 export type UsersType = UsersQuery['users'][0];
 
@@ -21,7 +21,7 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
 }) => {
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
-  const [isOpen, setIsOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<UsersType>();
 
   const dataByPage =
     users?.slice((page - 1) * rowsCount, rowsCount * page) || [];
@@ -60,32 +60,13 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
     <>
       <TableComponent<UsersType>
         additionalFeature={(user) => (
-          <>
-            <button
-              className="btn btn-sm text-white h-auto py-1 px-2 btn-neutral flex items-center gap-1 whitespace-nowrap"
-              onClick={() => setIsOpen(true)}
-            >
-              <p>Forms</p>
-              <Article className="hidden sm:block h-6 w-6" />
-            </button>
-            {isOpen && (
-              <Suspense fallback={<p></p>}>
-                <Modal
-                  isOpen={isOpen}
-                  setIsOpen={setIsOpen}
-                  title="User Form Details"
-                  content={
-                    <UserFormDetails
-                      hasVideoAccess
-                      formDetails={user.forms}
-                      hasError={hasError}
-                      isLoading={isLoading}
-                    />
-                  }
-                />
-              </Suspense>
-            )}
-          </>
+          <button
+            className="btn btn-sm text-white h-auto py-1 px-2 btn-neutral flex items-center gap-1 whitespace-nowrap"
+            onClick={() => setCurrentUser(user)}
+          >
+            <p>Forms</p>
+            <Article className="hidden sm:block h-6 w-6" />
+          </button>
         )}
         allData={users || []}
         columns={columns}
@@ -101,6 +82,22 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
         }}
         totalCount={users?.length || 0}
       />
+
+      {currentUser && (
+        <Modal
+          isOpen={!!currentUser}
+          onCloseModal={() => setCurrentUser(undefined)}
+          title="User Form Details"
+          content={
+            <UserFormDetails
+              hasVideoAccess
+              formDetails={currentUser.forms}
+              hasError={hasError}
+              isLoading={isLoading}
+            />
+          }
+        />
+      )}
     </>
   );
 };

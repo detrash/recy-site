@@ -3,18 +3,11 @@
 
 import Image from 'next/image';
 
-const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-];
-
 const AppHome: React.FC = () => {
   return (
     <div className="bg-white h-screen w-screen">
       <div className="max-w-screen-2xl mx-auto h-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
+        <div className="flex flex-col flex-1 md:grid md:grid-cols-1 lg:grid-cols-2 h-full">
           <div className="pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
             <div className="relative pt-6 px-4 sm:px-6 lg:px-8">
               <nav
@@ -54,9 +47,10 @@ const AppHome: React.FC = () => {
               </div>
             </main>
           </div>
-          <div className="lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-            <img
-              className="w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+          <div className="relative flex-1 lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+            <Image
+              className="w-full object-cover sm:h-72 md:h-96"
+              layout="fill"
               src="/ocean.jpg"
               alt="Ocean"
             />
