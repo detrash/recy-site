@@ -6,35 +6,40 @@ import { MeQuery, useMeLazyQuery } from 'src/graphql/generated/graphql';
 type UseMeClientData = {
   data: MeQuery | undefined;
   isLoading: boolean;
-  error: any;
+  userError: any;
 };
 
 export const useMeClient = (): UseMeClientData => {
-  const [MeQuery, { data, error }] = useMeLazyQuery();
-  const { user, error: userError, isLoading: isLoadingUser } = useUser();
+  const [MeQuery, { data, error: userError }] = useMeLazyQuery();
+  const { user, error: auth0Error, isLoading: isLoadingUser } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoadingUser && !userError && !user) {
-      // Redirect to login user
+    // If user is not logged on Auth0, redirect to login
+    if (!isLoadingUser && !auth0Error && !user) {
       return window.location.assign('/api/auth/login?returnTo=/dashboard');
     }
 
-    if (userError) {
+    if (auth0Error) {
       router.push('/');
       return;
+    }
+
+    // If user is not registered in our back end, redirect to onboarding page
+    if (userError) {
+      return window.location.assign('/onboarding');
     }
 
     if (user) {
       MeQuery();
     }
-  }, [MeQuery, isLoadingUser, router, user, userError]);
+  }, [MeQuery, isLoadingUser, router, user, auth0Error, userError]);
 
   const isLoading = !(!!user && !!data);
 
   return {
     data,
     isLoading,
-    error,
+    userError,
   };
 };
