@@ -1,0 +1,6 @@
+mutation AuthorizeForm($FORM_ID: String!, $FORM_STATUS: Boolean!) {
+  authorizeForm(formId: $FORM_ID, isFormAuthorized: $FORM_STATUS) {
+    id
+    isFormAuthorizedByAdmin
+  }
+}

@@ -6,6 +6,7 @@ interface HeadProps {
   columns: {
     key: number | symbol | string;
     title: string;
+    headerPosition?: 'center';
   }[];
   additionalFeature?: boolean;
   handleSortBy: (sortBy: 'asc' | 'desc', accessor: string) => void;
@@ -15,9 +16,15 @@ type HeadCellProps = {
   accessor: string;
   children: ReactNode;
   handleSortBy: (sortBy: 'asc' | 'desc', accessor: string) => void;
+  headerPosition?: 'center';
 };
 
-const HeaderCell = ({ children, handleSortBy, accessor }: HeadCellProps) => {
+const HeaderCell = ({
+  children,
+  handleSortBy,
+  accessor,
+  headerPosition,
+}: HeadCellProps) => {
   const [sortBy, setSortBy] = useState<'asc' | 'desc'>('asc');
 
   const handleOnClick = useCallback(() => {
@@ -30,7 +37,11 @@ const HeaderCell = ({ children, handleSortBy, accessor }: HeadCellProps) => {
       className="cursor-pointer uppercase text-xs font-bold transition-colors duration-150 bg-white border-b pt-4 px-4 pb-1 text-gray-500 select-none"
       onClick={handleOnClick}
     >
-      <div className="flex items-center">
+      <div
+        className={classNames('flex items-center', {
+          'justify-center': headerPosition === 'center',
+        })}
+      >
         {children}
         <span>
           <ArrowUp
@@ -55,8 +66,9 @@ const TableHeader: React.FC<HeadProps> = ({
         {columns.map((column) => (
           <HeaderCell
             accessor={String(column.key)}
-            key={String(column.key)}
             handleSortBy={handleSortBy}
+            {...column}
+            key={String(column.key)}
           >
             {column.title}
           </HeaderCell>

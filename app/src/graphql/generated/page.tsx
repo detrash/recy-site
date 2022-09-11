@@ -76,6 +76,58 @@ export const ssrAggregateFormTypes = {
   withPage: withPageAggregateFormTypes,
   usePage: useAggregateFormTypes,
 };
+export async function getServerPageFormById(
+  options: Omit<Apollo.QueryOptions<Types.FormByIdQueryVariables>, 'query'>,
+  ctx: ApolloClientContext
+) {
+  const apolloClient = getApolloClient(ctx);
+
+  const data = await apolloClient.query<Types.FormByIdQuery>({
+    ...options,
+    query: Operations.FormByIdDocument,
+  });
+
+  const apolloState = apolloClient.cache.extract();
+
+  return {
+    props: {
+      apolloState: apolloState,
+      data: data?.data,
+      error: data?.error ?? data?.errors ?? null,
+    },
+  };
+}
+export const useFormById = (
+  optionsFunc?: (
+    router: NextRouter
+  ) => QueryHookOptions<Types.FormByIdQuery, Types.FormByIdQueryVariables>
+) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.FormByIdDocument, options);
+};
+export type PageFormByIdComp = React.FC<{
+  data?: Types.FormByIdQuery;
+  error?: Apollo.ApolloError;
+}>;
+export const withPageFormById =
+  (
+    optionsFunc?: (
+      router: NextRouter
+    ) => QueryHookOptions<Types.FormByIdQuery, Types.FormByIdQueryVariables>
+  ) =>
+  (WrappedComponent: PageFormByIdComp): NextPage =>
+  (props) => {
+    const router = useRouter();
+    const options = optionsFunc ? optionsFunc(router) : {};
+    const { data, error } = useQuery(Operations.FormByIdDocument, options);
+    return <WrappedComponent {...props} data={data} error={error} />;
+  };
+export const ssrFormById = {
+  getServerPage: getServerPageFormById,
+  withPage: withPageFormById,
+  usePage: useFormById,
+};
 export async function getServerPageFormVideoUrl(
   options: Omit<Apollo.QueryOptions<Types.FormVideoUrlQueryVariables>, 'query'>,
   ctx: ApolloClientContext

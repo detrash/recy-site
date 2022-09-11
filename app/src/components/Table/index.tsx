@@ -10,6 +10,7 @@ export type ColumnProps<ObjectType> = {
   cell?: (value: ObjectType) => JSX.Element;
   key: keyof ObjectType;
   title: string;
+  headerPosition?: 'center';
 }[];
 
 interface TableComponentProps<ObjectType> {
@@ -18,6 +19,7 @@ interface TableComponentProps<ObjectType> {
   columns: ColumnProps<ObjectType>;
   data: ObjectType[];
   error: boolean;
+  filtersElement?: JSX.Element;
   hasPagination?: boolean;
   hasSearch?: boolean;
   isLoading: boolean;
@@ -39,6 +41,7 @@ const TableComponent = <ObjectType extends { id: string }>({
   columns,
   data,
   error,
+  filtersElement,
   hasPagination = true,
   hasSearch = true,
   isLoading,
@@ -134,7 +137,10 @@ const TableComponent = <ObjectType extends { id: string }>({
 
   return (
     <>
-      {hasSearch && <TableSearch handleOnSearch={handleOnSearch} />}
+      <div className="flex items-center justify-between">
+        {hasSearch && <TableSearch handleOnSearch={handleOnSearch} />}
+        {filtersElement}
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full">
           <TableHeader

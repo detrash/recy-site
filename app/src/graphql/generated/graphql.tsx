@@ -14,9 +14,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
-  _Any: any;
-  _FieldSet: any;
-  link__Import: any;
 };
 
 export type AggregateFormByUserProfileResponse = {
@@ -62,6 +59,7 @@ export type Form = {
   glassKgs: Scalars['Float'];
   glassVideoFileName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  isFormAuthorizedByAdmin?: Maybe<Scalars['Boolean']>;
   metalKgs: Scalars['Float'];
   metalVideoFileName?: Maybe<Scalars['String']>;
   organicKgs: Scalars['Float'];
@@ -90,9 +88,16 @@ export type Me = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  authorizeForm: Form;
   createForm: CreateFormResponse;
   createUser: User;
   updateUser: User;
+};
+
+
+export type MutationAuthorizeFormArgs = {
+  formId: Scalars['String'];
+  isFormAuthorized: Scalars['Boolean'];
 };
 
 
@@ -124,7 +129,6 @@ export enum ProfileType {
 
 export type Query = {
   __typename?: 'Query';
-  _service: _Service;
   aggregateFormByUserProfile: Array<AggregateFormByUserProfileResponse>;
   form: Form;
   formVideoUrlByResidue: Scalars['String'];
@@ -192,10 +196,13 @@ export type User = {
   profileType: ProfileType;
 };
 
-export type _Service = {
-  __typename?: '_Service';
-  sdl?: Maybe<Scalars['String']>;
-};
+export type AuthorizeFormMutationVariables = Exact<{
+  FORM_ID: Scalars['String'];
+  FORM_STATUS: Scalars['Boolean'];
+}>;
+
+
+export type AuthorizeFormMutation = { __typename?: 'Mutation', authorizeForm: { __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null } };
 
 export type CreateFormMutationVariables = Exact<{
   GLASS?: InputMaybe<ResidueInput>;
@@ -233,6 +240,13 @@ export type AggregateFormTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: { __typename?: 'AggregateFormData', glassKgs?: number | null, metalKgs?: number | null, organicKgs?: number | null, paperKgs?: number | null, plasticKgs?: number | null } }> };
 
+export type FormByIdQueryVariables = Exact<{
+  FORM_ID: Scalars['String'];
+}>;
+
+
+export type FormByIdQuery = { __typename?: 'Query', form: { __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } } };
+
 export type FormVideoUrlQueryVariables = Exact<{
   formId: Scalars['String'];
   residueType: ResidueType;
@@ -244,12 +258,12 @@ export type FormVideoUrlQuery = { __typename?: 'Query', formVideoUrlByResidue: s
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
+export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, name: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }>, forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null }> } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, name: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }>, forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null }> } };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -257,6 +271,41 @@ export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null }> }> };
 
 
+export const AuthorizeFormDocument = gql`
+    mutation AuthorizeForm($FORM_ID: String!, $FORM_STATUS: Boolean!) {
+  authorizeForm(formId: $FORM_ID, isFormAuthorized: $FORM_STATUS) {
+    id
+    isFormAuthorizedByAdmin
+  }
+}
+    `;
+export type AuthorizeFormMutationFn = Apollo.MutationFunction<AuthorizeFormMutation, AuthorizeFormMutationVariables>;
+
+/**
+ * __useAuthorizeFormMutation__
+ *
+ * To run a mutation, you first call `useAuthorizeFormMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAuthorizeFormMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [authorizeFormMutation, { data, loading, error }] = useAuthorizeFormMutation({
+ *   variables: {
+ *      FORM_ID: // value for 'FORM_ID'
+ *      FORM_STATUS: // value for 'FORM_STATUS'
+ *   },
+ * });
+ */
+export function useAuthorizeFormMutation(baseOptions?: Apollo.MutationHookOptions<AuthorizeFormMutation, AuthorizeFormMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AuthorizeFormMutation, AuthorizeFormMutationVariables>(AuthorizeFormDocument, options);
+      }
+export type AuthorizeFormMutationHookResult = ReturnType<typeof useAuthorizeFormMutation>;
+export type AuthorizeFormMutationResult = Apollo.MutationResult<AuthorizeFormMutation>;
+export type AuthorizeFormMutationOptions = Apollo.BaseMutationOptions<AuthorizeFormMutation, AuthorizeFormMutationVariables>;
 export const CreateFormDocument = gql`
     mutation CreateForm($GLASS: ResidueInput, $METAL: ResidueInput, $ORGANIC: ResidueInput, $PAPER: ResidueInput, $PLASTIC: ResidueInput) {
   createForm(
@@ -423,6 +472,56 @@ export function useAggregateFormTypesLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type AggregateFormTypesQueryHookResult = ReturnType<typeof useAggregateFormTypesQuery>;
 export type AggregateFormTypesLazyQueryHookResult = ReturnType<typeof useAggregateFormTypesLazyQuery>;
 export type AggregateFormTypesQueryResult = Apollo.QueryResult<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>;
+export const FormByIdDocument = gql`
+    query FormById($FORM_ID: String!) {
+  form(formId: $FORM_ID) {
+    glassKgs
+    glassVideoFileName
+    id
+    isFormAuthorizedByAdmin
+    metalKgs
+    metalVideoFileName
+    organicKgs
+    organicVideoFileName
+    paperKgs
+    paperVideoFileName
+    plasticKgs
+    plasticVideoFileName
+    user {
+      phoneNumber
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useFormByIdQuery__
+ *
+ * To run a query within a React component, call `useFormByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFormByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFormByIdQuery({
+ *   variables: {
+ *      FORM_ID: // value for 'FORM_ID'
+ *   },
+ * });
+ */
+export function useFormByIdQuery(baseOptions: Apollo.QueryHookOptions<FormByIdQuery, FormByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FormByIdQuery, FormByIdQueryVariables>(FormByIdDocument, options);
+      }
+export function useFormByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FormByIdQuery, FormByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FormByIdQuery, FormByIdQueryVariables>(FormByIdDocument, options);
+        }
+export type FormByIdQueryHookResult = ReturnType<typeof useFormByIdQuery>;
+export type FormByIdLazyQueryHookResult = ReturnType<typeof useFormByIdLazyQuery>;
+export type FormByIdQueryResult = Apollo.QueryResult<FormByIdQuery, FormByIdQueryVariables>;
 export const FormVideoUrlDocument = gql`
     query FormVideoUrl($formId: String!, $residueType: ResidueType!) {
   formVideoUrlByResidue(formId: $formId, residueType: $residueType)
@@ -462,6 +561,8 @@ export const FormsDocument = gql`
   forms {
     glassKgs
     glassVideoFileName
+    id
+    isFormAuthorizedByAdmin
     metalKgs
     metalVideoFileName
     organicKgs
@@ -520,6 +621,7 @@ export const MeDocument = gql`
       glassKgs
       glassVideoFileName
       id
+      isFormAuthorizedByAdmin
       metalKgs
       metalVideoFileName
       organicKgs

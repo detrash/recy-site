@@ -1,6 +1,7 @@
 import { Article, Coin, Users } from 'phosphor-react';
 import { useMemo } from 'react';
 import StackedStats from 'src/components/StackedStats';
+import AuthorizedFormsTable from 'src/components/withTable/AuthorizedFormsTable';
 import SubmitFormCard from '../components/SubmitFormCard';
 import ActiveUsersTable from '../components/withTable/ActiveUsersTable';
 import AggregateUsersTypeTable from '../components/withTable/AggregateUsersTypeTable';
@@ -15,8 +16,16 @@ type PrivatePanelProps = {
 };
 
 const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
-  const { data: usersData, loading: isUsersLoading, error } = useUsersQuery();
-  const { data: formsData } = useFormsQuery();
+  const {
+    data: usersData,
+    loading: isUsersLoading,
+    error: hasUsersError,
+  } = useUsersQuery();
+  const {
+    data: formsData,
+    loading: isFormsLoading,
+    error: hasFormsError,
+  } = useFormsQuery();
 
   const users = useMemo(() => {
     const totalUsers = usersData?.users;
@@ -46,9 +55,13 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
       <div className="grid grid-cols-6 gap-3">
         <div className="py-4 px-6 bg-white shadow rounded-md flex-1 col-span-6 sm:col-span-4">
           <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-            Total residues reported by user profile
+            Issued forms by Recyclers
           </h2>
-          <AggregateUsersTypeTable />
+          <AuthorizedFormsTable
+            forms={formsData?.forms}
+            isLoading={isFormsLoading}
+            hasError={!!hasFormsError}
+          />
         </div>
 
         <SubmitFormCard userProfileType={userProfileType} />
@@ -58,10 +71,16 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
           Active users
         </h2>
         <ActiveUsersTable
-          hasError={!!error}
+          hasError={!!hasUsersError}
           isLoading={isUsersLoading}
           users={usersData?.users}
         />
+      </div>
+      <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
+        <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
+          Total residues reported by user profile
+        </h2>
+        <AggregateUsersTypeTable />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-query Forms {
-  forms {
+query FormById($FORM_ID: String!) {
+  form(formId: $FORM_ID) {
     glassKgs
     glassVideoFileName
     id
