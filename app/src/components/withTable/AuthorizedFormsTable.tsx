@@ -124,12 +124,13 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
   );
 
   useEffect(() => {
+    setPage(1);
     switch (selectedFilter) {
       case AuthorizationFilterTypes.CONCLUED: {
         setFormsByFilter(
           forms?.filter(
             (form) =>
-              form.isFormAuthorizedByAdmin !== null ||
+              form.isFormAuthorizedByAdmin !== null &&
               form.isFormAuthorizedByAdmin !== undefined
           )
         );
