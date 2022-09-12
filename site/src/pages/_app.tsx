@@ -7,6 +7,7 @@ import AppLayout from 'src/layout';
 import { apolloClient } from 'src/lib/apollo';
 
 import '../styles/globals.scss';
+import 'yet-another-react-lightbox/styles.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
