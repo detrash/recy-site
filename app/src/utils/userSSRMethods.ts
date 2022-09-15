@@ -34,30 +34,6 @@ const checkUserAccess = withPageAuthRequired({
   },
 });
 
-const checkFormSubmitAccess = withPageAuthRequired({
-  async getServerSideProps({ req, res }) {
-    const { accessToken } = await getAccessToken(req, res);
-    const user = await getMeServerQuery(accessToken!);
-    if (!user) {
-      return REDIRECS_TO.onboarding;
-    }
-
-    const HODLER_TYPE = USER_ROLE_TYPES.find(
-      (userRoleType) => userRoleType.key === ProfileType.Hodler
-    );
-
-    const userProfile = user?.data?.data?.me?.profileType;
-
-    if (userProfile === HODLER_TYPE?.key) {
-      return REDIRECS_TO.app;
-    }
-
-    return {
-      props: user.data,
-    };
-  },
-});
-
 const checkOnboardingAccess = withPageAuthRequired({
   async getServerSideProps({ req, res }) {
     const { accessToken } = await getAccessToken(req, res);
@@ -93,7 +69,6 @@ const checkAdminAccess = withPageAuthRequired({
 
 export const userSSRMethods = {
   checkAdminAccess,
-  checkFormSubmitAccess,
   checkOnboardingAccess,
   checkUserAccess,
 };

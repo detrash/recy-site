@@ -2,8 +2,17 @@ import { useFormContext } from 'src/context/formContext';
 import { FORM_STEPS, USER_WASTE_TYPES } from 'src/utils/constants';
 import GroupCheckbox from '../GroupCheckbox';
 
-const WasteDefinitions: React.FC = () => {
+type WasteDefinitionsProps = {
+  isConnected: boolean;
+  walletAddress: string | undefined;
+};
+
+const WasteDefinitions: React.FC<WasteDefinitionsProps> = ({
+  isConnected,
+  walletAddress,
+}) => {
   const { wasteTypes, setWasteTypes, setFormStep } = useFormContext();
+
   return (
     <div className="flex flex-col flex-1 gap-4 sm:gap-12">
       <section className="mb-3 sm:m-0">
@@ -16,6 +25,12 @@ const WasteDefinitions: React.FC = () => {
         </p>
         <p className="text-sm text-gray-600">
           Remember to fill the form with care. We are a reputation based system.
+        </p>
+        <p className="mt-2">
+          Wallet:{' '}
+          <span className="font-bold">
+            {isConnected ? walletAddress : 'Not connected'}
+          </span>
         </p>
       </section>
 

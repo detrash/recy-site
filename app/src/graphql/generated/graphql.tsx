@@ -37,6 +37,7 @@ export type CreateFormInput = {
   ORGANIC?: InputMaybe<ResidueInput>;
   PAPER?: InputMaybe<ResidueInput>;
   PLASTIC?: InputMaybe<ResidueInput>;
+  walletAddress?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateFormResponse = {
@@ -69,6 +70,7 @@ export type Form = {
   plasticKgs: Scalars['Float'];
   plasticVideoFileName?: Maybe<Scalars['String']>;
   user: User;
+  walletAddress?: Maybe<Scalars['String']>;
 };
 
 export type Me = {
@@ -210,6 +212,7 @@ export type CreateFormMutationVariables = Exact<{
   ORGANIC?: InputMaybe<ResidueInput>;
   PAPER?: InputMaybe<ResidueInput>;
   PLASTIC?: InputMaybe<ResidueInput>;
+  WALLET_ADDRESS?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -307,9 +310,9 @@ export type AuthorizeFormMutationHookResult = ReturnType<typeof useAuthorizeForm
 export type AuthorizeFormMutationResult = Apollo.MutationResult<AuthorizeFormMutation>;
 export type AuthorizeFormMutationOptions = Apollo.BaseMutationOptions<AuthorizeFormMutation, AuthorizeFormMutationVariables>;
 export const CreateFormDocument = gql`
-    mutation CreateForm($GLASS: ResidueInput, $METAL: ResidueInput, $ORGANIC: ResidueInput, $PAPER: ResidueInput, $PLASTIC: ResidueInput) {
+    mutation CreateForm($GLASS: ResidueInput, $METAL: ResidueInput, $ORGANIC: ResidueInput, $PAPER: ResidueInput, $PLASTIC: ResidueInput, $WALLET_ADDRESS: String) {
   createForm(
-    data: {GLASS: $GLASS, METAL: $METAL, ORGANIC: $ORGANIC, PAPER: $PAPER, PLASTIC: $PLASTIC}
+    data: {GLASS: $GLASS, METAL: $METAL, ORGANIC: $ORGANIC, PAPER: $PAPER, PLASTIC: $PLASTIC, walletAddress: $WALLET_ADDRESS}
   ) {
     s3 {
       createUrl
@@ -339,6 +342,7 @@ export type CreateFormMutationFn = Apollo.MutationFunction<CreateFormMutation, C
  *      ORGANIC: // value for 'ORGANIC'
  *      PAPER: // value for 'PAPER'
  *      PLASTIC: // value for 'PLASTIC'
+ *      WALLET_ADDRESS: // value for 'WALLET_ADDRESS'
  *   },
  * });
  */

@@ -1,16 +1,16 @@
 /* eslint-disable react/display-name */
 import * as Types from './graphql';
 
-import * as Apollo from '@apollo/client';
-import { QueryHookOptions, useQuery } from '@apollo/client';
+import * as Operations from './graphql';
 import { NextPage } from 'next';
 import { NextRouter, useRouter } from 'next/router';
+import { QueryHookOptions, useQuery } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 import type React from 'react';
 import {
-  ApolloClientContext,
   getApolloClient,
+  ApolloClientContext,
 } from 'src/lib/withPrivateApollo';
-import * as Operations from './graphql';
 
 export async function getServerPageAggregateFormTypes(
   options: Omit<

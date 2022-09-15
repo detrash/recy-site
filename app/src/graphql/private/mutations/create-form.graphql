@@ -4,6 +4,7 @@ mutation CreateForm(
   $ORGANIC: ResidueInput
   $PAPER: ResidueInput
   $PLASTIC: ResidueInput
+  $WALLET_ADDRESS: String
 ) {
   createForm(
     data: {
@@ -12,6 +13,7 @@ mutation CreateForm(
       ORGANIC: $ORGANIC
       PAPER: $PAPER
       PLASTIC: $PLASTIC
+      walletAddress: $WALLET_ADDRESS
     }
   ) {
     s3 {
