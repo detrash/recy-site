@@ -53,7 +53,12 @@ const SubmitRecyForm: React.FC = () => {
           residueType,
           {
             amount: residueValues.amount,
-            videoFileName: residueValues.videoFile?.name,
+            videoFileName: residueValues.videoFile
+              ? residueValues.videoFile[0].name
+              : null,
+            invoiceFileName: residueValues.invoiceFiles
+              ? residueValues.invoiceFiles[0].name
+              : null,
           },
         ];
       }
@@ -68,17 +73,35 @@ const SubmitRecyForm: React.FC = () => {
     if (data?.createForm.s3?.length) {
       setIsUploadingVideos(true);
       const s3Data = await Promise.all(
-        data.createForm.s3.map((residueS3) => {
-          const residueVideoFile = formData[residueS3.residue].videoFile;
+        data.createForm.s3.reduce((requests, residueS3) => {
+          if (residueS3.invoiceFileName) {
+            const [invoiceFile] = formData[residueS3.residue].invoiceFiles!;
+            const invoiceUpload = fetch(residueS3.invoiceCreateUrl!, {
+              method: 'PUT',
+              body: invoiceFile,
+              headers: {
+                'Content-Length': String(invoiceFile?.size),
+              },
+            });
 
-          return fetch(residueS3.createUrl, {
-            method: 'PUT',
-            body: residueVideoFile,
-            headers: {
-              'Content-Length': String(residueVideoFile?.size),
-            },
-          });
-        })
+            requests.push(invoiceUpload);
+          }
+
+          if (residueS3.videoFileName) {
+            const [videoFile] = formData[residueS3.residue].videoFile!;
+            const videoUpload = fetch(residueS3.videoCreateUrl!, {
+              method: 'PUT',
+              body: videoFile,
+              headers: {
+                'Content-Length': String(videoFile?.size),
+              },
+            });
+
+            requests.push(videoUpload);
+          }
+
+          return requests;
+        }, [] as any)
       );
 
       if (s3Data.length) {

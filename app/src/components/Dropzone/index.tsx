@@ -1,13 +1,34 @@
 import { useDropzone } from 'react-dropzone';
-import { CloudArrowUp, Warning, FileVideo } from 'phosphor-react';
+import {
+  CloudArrowUp,
+  Warning,
+  FileVideo,
+  FilePdf,
+  FileImage,
+} from 'phosphor-react';
 import classNames from 'classnames';
 
 type DropzoneProps = {
   setFileValue: (acceptedFiles: File[]) => void;
-  fileValue: File | undefined;
+  fileValue: File[] | undefined;
+  acceptableFiles: {
+    [mime: string]: string[];
+  };
+  maxFiles?: number;
 };
 
-const Dropzone: React.FC<DropzoneProps> = ({ setFileValue, fileValue }) => {
+const ICON_BY_EXTENSION_FILE = {
+  PDF: <FilePdf className="text-primary h-8 w-8" />,
+  IMAGE: <FileImage className="text-primary h-8 w-8" />,
+  VIDEO: <FileVideo className="text-primary h-8 w-8" />,
+};
+
+const Dropzone: React.FC<DropzoneProps> = ({
+  setFileValue,
+  fileValue,
+  acceptableFiles,
+  maxFiles,
+}) => {
   const {
     getRootProps,
     getInputProps,
@@ -16,16 +37,41 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFileValue, fileValue }) => {
     isDragReject,
     isDragAccept,
   } = useDropzone({
-    maxFiles: 1,
-    accept: {
-      'video/*': ['.mp4', '.mpeg', '.mpg'],
-    },
+    maxFiles: maxFiles,
+    accept: acceptableFiles,
     noClick: true,
     noKeyboard: true,
     onDropAccepted(file) {
       setFileValue(file as any);
     },
   });
+
+  const supportedFiles = Object.values(acceptableFiles).reduce(
+    (files, file) => {
+      const extensions = file.join(', ').replaceAll('.', '').toUpperCase();
+
+      if (files) {
+        return files.concat(`, ${extensions}`);
+      }
+      return files.concat(extensions);
+    },
+    ''
+  );
+
+  const getFileIcon = (fileName: string) => {
+    const [fileExtension] = fileName.split('.').slice(-1);
+    const extensionFormat = fileExtension.toUpperCase();
+
+    if (extensionFormat === 'PDF') {
+      return ICON_BY_EXTENSION_FILE.PDF;
+    }
+
+    if (extensionFormat === 'PNG') {
+      return ICON_BY_EXTENSION_FILE.IMAGE;
+    }
+
+    return ICON_BY_EXTENSION_FILE.VIDEO;
+  };
 
   return (
     <section className="flex flex-col flex-1 gap-2">
@@ -39,13 +85,17 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFileValue, fileValue }) => {
       >
         <input id="test" {...getInputProps()} />
         <div className="flex flex-col items-center gap-2">
-          <CloudArrowUp className="w-32 h-32 text-gray-200" />
-          <div className="flex items-center">
+          {!fileValue && <CloudArrowUp className="w-32 h-32 text-gray-200" />}
+          <div className=" w-full text-center">
             {fileValue ? (
-              <>
-                <FileVideo className="text-primary h-8 w-8" />
-                <p className="text-lg">{fileValue.name}</p>
-              </>
+              <ul className="divide-y w-full">
+                {fileValue.map((file) => (
+                  <li key={file.name} className="flex w-full items-center p-2">
+                    {getFileIcon(file.name)}
+                    <p className="text-sm">{file.name}</p>
+                  </li>
+                ))}
+              </ul>
             ) : (
               <p className="text-lg">
                 {isDragActive
@@ -54,7 +104,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFileValue, fileValue }) => {
               </p>
             )}
           </div>
-          <p className="text-sm">or</p>
+          {!fileValue && <p className="text-sm">or</p>}
           <button
             type="button"
             className="btn btn-outline btn-primary border border-primary no-animation shadow-none"
@@ -67,7 +117,10 @@ const Dropzone: React.FC<DropzoneProps> = ({ setFileValue, fileValue }) => {
 
       <div className="flex items-center gap-2">
         <Warning className="text-warning w-6 h-6" weight="fill" />
-        <p className="font-bold">Only MP4 and MPEG files are supported</p>
+        <p className="font-bold">
+          Only {supportedFiles} files are supported.
+          {maxFiles && <span> Maximum of {maxFiles}</span>}
+        </p>
       </div>
     </section>
   );

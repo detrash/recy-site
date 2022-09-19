@@ -17,9 +17,11 @@ mutation CreateForm(
     }
   ) {
     s3 {
-      createUrl
-      fileName
       residue
+      videoCreateUrl
+      videoFileName
+      invoiceCreateUrl
+      invoiceFileName
     }
   }
 }

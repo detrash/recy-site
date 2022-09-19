@@ -25,14 +25,18 @@ const WasteDetails: React.FC<WasteDetails> = ({
   setFieldValue,
   submitForm,
 }) => {
+  const hasFilledDocuments =
+    values[wasteType]?.videoFile || values[wasteType]?.invoiceFiles;
   const isButtonDisabled =
     !values[wasteType]?.amount ||
     !!errors[wasteType]?.amount ||
-    (isRecyclerPerson ? !values[wasteType]?.videoFile : false);
+    (isRecyclerPerson ? !hasFilledDocuments : false);
 
-  const helperText =
+  const helperVideoText =
     'Now record a video of the volume collected in a manner we can see the weight display of the scale. Make sure the video catches the whole uncovered volume and not only part of it. Please say the correct amount while filming so our validator can listen it.';
 
+  const helperInvoiceText =
+    'Upload below the official invoice that specifies the type and amount of waste you are recycling. PDF or PNG only';
   return (
     <div className="flex flex-col flex-1 gap-5">
       <section>
@@ -59,27 +63,63 @@ const WasteDetails: React.FC<WasteDetails> = ({
       </section>
 
       {isRecyclerPerson && (
-        <div>
-          <div className="mb-2">
-            <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px] flex items-center gap-1">
-              Upload a video representing the amount of waste
-              <div
-                className="tooltip hidden sm:inline normal-case	"
-                data-tip={helperText}
-              >
-                <Question className="h-6 w-6" />
-              </div>
-            </h2>
+        <>
+          <div>
+            <div className="mb-2">
+              <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px] flex items-center gap-1">
+                Upload your Invoice
+                <div
+                  className="tooltip hidden sm:inline normal-case	"
+                  data-tip={helperInvoiceText}
+                >
+                  <Question className="h-6 w-6" />
+                </div>
+              </h2>
 
-            <p className="text-sm sm:hidden">{helperText}</p>
+              <p className="text-sm sm:hidden">{helperInvoiceText}</p>
+            </div>
+            <Dropzone
+              setFileValue={(file) => {
+                setFieldValue(`${wasteType}.invoiceFiles`, file);
+              }}
+              fileValue={values[wasteType].invoiceFiles}
+              acceptableFiles={{
+                'application/pdf': ['.pdf'],
+                'image/png': ['.png'],
+              }}
+              maxFiles={1} // TO DO: Allow multiple files
+            />
           </div>
-          <Dropzone
-            setFileValue={(file) => {
-              setFieldValue(`${wasteType}.videoFile`, file[0]);
-            }}
-            fileValue={values[wasteType].videoFile}
-          />
-        </div>
+
+          <fieldset className="border-t border-solid border-gray-300 p-3 text-center text-gray-400">
+            <legend className="text-sm">OR</legend>
+          </fieldset>
+          <div>
+            <div className="mb-2">
+              <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px] flex items-center gap-1">
+                Upload a video representing the amount of waste
+                <div
+                  className="tooltip hidden sm:inline normal-case	"
+                  data-tip={helperVideoText}
+                >
+                  <Question className="h-6 w-6" />
+                </div>
+              </h2>
+
+              <p className="text-sm sm:hidden">{helperVideoText}</p>
+            </div>
+            <Dropzone
+              setFileValue={(file) => {
+                setFieldValue(`${wasteType}.videoFile`, file);
+              }}
+              fileValue={values[wasteType].videoFile}
+              acceptableFiles={{
+                'video/*': ['.mp4', '.mpeg', '.mpg'],
+              }}
+              maxFiles={1}
+            />
+          </div>
+        </>
       )}
 
       <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-between mt-auto">

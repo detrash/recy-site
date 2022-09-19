@@ -57,16 +57,21 @@ export type CreateUserInput = {
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
+  glassInvoiceFileName?: Maybe<Scalars['String']>;
   glassKgs: Scalars['Float'];
   glassVideoFileName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isFormAuthorizedByAdmin?: Maybe<Scalars['Boolean']>;
+  metalInvoiceFileName?: Maybe<Scalars['String']>;
   metalKgs: Scalars['Float'];
   metalVideoFileName?: Maybe<Scalars['String']>;
+  organicInvoiceFileName?: Maybe<Scalars['String']>;
   organicKgs: Scalars['Float'];
   organicVideoFileName?: Maybe<Scalars['String']>;
+  paperInvoiceFileName?: Maybe<Scalars['String']>;
   paperKgs: Scalars['Float'];
   paperVideoFileName?: Maybe<Scalars['String']>;
+  plasticInvoiceFileName?: Maybe<Scalars['String']>;
   plasticKgs: Scalars['Float'];
   plasticVideoFileName?: Maybe<Scalars['String']>;
   user: User;
@@ -158,6 +163,7 @@ export type QueryUserArgs = {
 
 export type ResidueInput = {
   amount?: InputMaybe<Scalars['Float']>;
+  invoiceFileName?: InputMaybe<Scalars['String']>;
   videoFileName?: InputMaybe<Scalars['String']>;
 };
 
@@ -172,9 +178,11 @@ export enum ResidueType {
 
 export type S3 = {
   __typename?: 'S3';
-  createUrl: Scalars['String'];
-  fileName: Scalars['String'];
+  invoiceCreateUrl?: Maybe<Scalars['String']>;
+  invoiceFileName?: Maybe<Scalars['String']>;
   residue: ResidueType;
+  videoCreateUrl?: Maybe<Scalars['String']>;
+  videoFileName?: Maybe<Scalars['String']>;
 };
 
 export type UpdateUserInput = {
@@ -216,7 +224,7 @@ export type CreateFormMutationVariables = Exact<{
 }>;
 
 
-export type CreateFormMutation = { __typename?: 'Mutation', createForm: { __typename?: 'CreateFormResponse', s3?: Array<{ __typename?: 'S3', createUrl: string, fileName: string, residue: ResidueType }> | null } };
+export type CreateFormMutation = { __typename?: 'Mutation', createForm: { __typename?: 'CreateFormResponse', s3?: Array<{ __typename?: 'S3', residue: ResidueType, videoCreateUrl?: string | null, videoFileName?: string | null, invoiceCreateUrl?: string | null, invoiceFileName?: string | null }> | null } };
 
 export type CreateUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -315,9 +323,11 @@ export const CreateFormDocument = gql`
     data: {GLASS: $GLASS, METAL: $METAL, ORGANIC: $ORGANIC, PAPER: $PAPER, PLASTIC: $PLASTIC, walletAddress: $WALLET_ADDRESS}
   ) {
     s3 {
-      createUrl
-      fileName
       residue
+      videoCreateUrl
+      videoFileName
+      invoiceCreateUrl
+      invoiceFileName
     }
   }
 }
