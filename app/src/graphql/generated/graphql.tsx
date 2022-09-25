@@ -54,6 +54,12 @@ export type CreateUserInput = {
   profileType: ProfileType;
 };
 
+/** Represents the document type */
+export enum DocumentType {
+  Invoice = 'INVOICE',
+  Video = 'VIDEO'
+}
+
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
@@ -138,7 +144,7 @@ export type Query = {
   __typename?: 'Query';
   aggregateFormByUserProfile: Array<AggregateFormByUserProfileResponse>;
   form: Form;
-  formVideoUrlByResidue: Scalars['String'];
+  formDocumentsUrlByResidue: Scalars['String'];
   forms: Array<Form>;
   me: Me;
   user: User;
@@ -151,7 +157,8 @@ export type QueryFormArgs = {
 };
 
 
-export type QueryFormVideoUrlByResidueArgs = {
+export type QueryFormDocumentsUrlByResidueArgs = {
+  documentType: DocumentType;
   formId: Scalars['String'];
   residueType: ResidueType;
 };
@@ -256,15 +263,16 @@ export type FormByIdQueryVariables = Exact<{
 }>;
 
 
-export type FormByIdQuery = { __typename?: 'Query', form: { __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } } };
+export type FormByIdQuery = { __typename?: 'Query', form: { __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, glassInvoiceFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, metalInvoiceFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, organicInvoiceFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, paperInvoiceFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, plasticInvoiceFileName?: string | null, walletAddress?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } } };
 
-export type FormVideoUrlQueryVariables = Exact<{
+export type FormDocumentsUrlByResidueQueryVariables = Exact<{
   formId: Scalars['String'];
   residueType: ResidueType;
+  documentType: DocumentType;
 }>;
 
 
-export type FormVideoUrlQuery = { __typename?: 'Query', formVideoUrlByResidue: string };
+export type FormDocumentsUrlByResidueQuery = { __typename?: 'Query', formDocumentsUrlByResidue: string };
 
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -491,16 +499,22 @@ export const FormByIdDocument = gql`
   form(formId: $FORM_ID) {
     glassKgs
     glassVideoFileName
+    glassInvoiceFileName
     id
     isFormAuthorizedByAdmin
     metalKgs
     metalVideoFileName
+    metalInvoiceFileName
     organicKgs
     organicVideoFileName
+    organicInvoiceFileName
     paperKgs
     paperVideoFileName
+    paperInvoiceFileName
     plasticKgs
     plasticVideoFileName
+    plasticInvoiceFileName
+    walletAddress
     user {
       phoneNumber
       email
@@ -536,40 +550,45 @@ export function useFormByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<F
 export type FormByIdQueryHookResult = ReturnType<typeof useFormByIdQuery>;
 export type FormByIdLazyQueryHookResult = ReturnType<typeof useFormByIdLazyQuery>;
 export type FormByIdQueryResult = Apollo.QueryResult<FormByIdQuery, FormByIdQueryVariables>;
-export const FormVideoUrlDocument = gql`
-    query FormVideoUrl($formId: String!, $residueType: ResidueType!) {
-  formVideoUrlByResidue(formId: $formId, residueType: $residueType)
+export const FormDocumentsUrlByResidueDocument = gql`
+    query FormDocumentsUrlByResidue($formId: String!, $residueType: ResidueType!, $documentType: DocumentType!) {
+  formDocumentsUrlByResidue(
+    formId: $formId
+    residueType: $residueType
+    documentType: $documentType
+  )
 }
     `;
 
 /**
- * __useFormVideoUrlQuery__
+ * __useFormDocumentsUrlByResidueQuery__
  *
- * To run a query within a React component, call `useFormVideoUrlQuery` and pass it any options that fit your needs.
- * When your component renders, `useFormVideoUrlQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFormDocumentsUrlByResidueQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFormDocumentsUrlByResidueQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFormVideoUrlQuery({
+ * const { data, loading, error } = useFormDocumentsUrlByResidueQuery({
  *   variables: {
  *      formId: // value for 'formId'
  *      residueType: // value for 'residueType'
+ *      documentType: // value for 'documentType'
  *   },
  * });
  */
-export function useFormVideoUrlQuery(baseOptions: Apollo.QueryHookOptions<FormVideoUrlQuery, FormVideoUrlQueryVariables>) {
+export function useFormDocumentsUrlByResidueQuery(baseOptions: Apollo.QueryHookOptions<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FormVideoUrlQuery, FormVideoUrlQueryVariables>(FormVideoUrlDocument, options);
+        return Apollo.useQuery<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>(FormDocumentsUrlByResidueDocument, options);
       }
-export function useFormVideoUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FormVideoUrlQuery, FormVideoUrlQueryVariables>) {
+export function useFormDocumentsUrlByResidueLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FormVideoUrlQuery, FormVideoUrlQueryVariables>(FormVideoUrlDocument, options);
+          return Apollo.useLazyQuery<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>(FormDocumentsUrlByResidueDocument, options);
         }
-export type FormVideoUrlQueryHookResult = ReturnType<typeof useFormVideoUrlQuery>;
-export type FormVideoUrlLazyQueryHookResult = ReturnType<typeof useFormVideoUrlLazyQuery>;
-export type FormVideoUrlQueryResult = Apollo.QueryResult<FormVideoUrlQuery, FormVideoUrlQueryVariables>;
+export type FormDocumentsUrlByResidueQueryHookResult = ReturnType<typeof useFormDocumentsUrlByResidueQuery>;
+export type FormDocumentsUrlByResidueLazyQueryHookResult = ReturnType<typeof useFormDocumentsUrlByResidueLazyQuery>;
+export type FormDocumentsUrlByResidueQueryResult = Apollo.QueryResult<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>;
 export const FormsDocument = gql`
     query Forms {
   forms {

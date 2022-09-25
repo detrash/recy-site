@@ -7,6 +7,7 @@ type ModalProps = {
   isOpen: boolean;
   onCloseModal: (isOpen: boolean) => void;
   title: string;
+  footer: JSX.Element;
 };
 
 const Modal: React.FC<ModalProps> = ({
@@ -14,6 +15,7 @@ const Modal: React.FC<ModalProps> = ({
   isOpen,
   onCloseModal,
   title,
+  footer,
 }) => {
   function closeModal() {
     onCloseModal(false);
@@ -35,7 +37,7 @@ const Modal: React.FC<ModalProps> = ({
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center sm:p-4 text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -45,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-screen h-screen sm:h-auto sm:w-full sm:max-w-5xl flex flex-col transform overflow-hidden sm:rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-4 sm:mb-8 relative"
@@ -55,7 +57,10 @@ const Modal: React.FC<ModalProps> = ({
                     <X className="h-6 w-6 text-gray-600 absolute right-0 top-0" />
                   </button>
                 </Dialog.Title>
-                <div className="mt-2">{content}</div>
+                <section className="mt-2">{content}</section>
+                <section className="flex flex-1 items-end justify-end">
+                  {footer}
+                </section>
               </Dialog.Panel>
             </Transition.Child>
           </div>

@@ -141,7 +141,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
         <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
           Forms submitted
         </h2>
-        <UserFormDetails formDetails={user?.me.forms!} hasVideoAccess={false} />
+        <UserFormDetails formDetails={user?.me.forms!} />
       </div>
     </div>
   );

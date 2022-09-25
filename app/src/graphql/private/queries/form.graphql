@@ -2,16 +2,22 @@ query FormById($FORM_ID: String!) {
   form(formId: $FORM_ID) {
     glassKgs
     glassVideoFileName
+    glassInvoiceFileName
     id
     isFormAuthorizedByAdmin
     metalKgs
     metalVideoFileName
+    metalInvoiceFileName
     organicKgs
     organicVideoFileName
+    organicInvoiceFileName
     paperKgs
     paperVideoFileName
+    paperInvoiceFileName
     plasticKgs
     plasticVideoFileName
+    plasticInvoiceFileName
+    walletAddress
     user {
       phoneNumber
       email

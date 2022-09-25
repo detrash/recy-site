@@ -1,3 +1,0 @@
-query FormVideoUrl($formId: String!, $residueType: ResidueType!) {
-  formVideoUrlByResidue(formId: $formId, residueType: $residueType)
-}

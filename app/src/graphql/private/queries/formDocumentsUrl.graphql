@@ -1,0 +1,11 @@
+query FormDocumentsUrlByResidue(
+  $formId: String!
+  $residueType: ResidueType!
+  $documentType: DocumentType!
+) {
+  formDocumentsUrlByResidue(
+    formId: $formId
+    residueType: $residueType
+    documentType: $documentType
+  )
+}
