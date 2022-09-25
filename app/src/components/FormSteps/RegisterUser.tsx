@@ -53,7 +53,6 @@ const RegisterUser: React.FC<RegisterUserProps> = ({
         <div className="grid sm:grid-cols-3 gap-3">
           {USER_ROLE_TYPES.map((userType) => (
             <Radio
-              isDisabled={userType.isDisabled}
               key={userType.key}
               id={userType.key}
               setValue={(value) => setFieldValue('profileType', value)}
