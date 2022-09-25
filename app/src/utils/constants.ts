@@ -27,7 +27,6 @@ export const USER_ROLE_TYPES = [
   {
     key: ProfileType.WasteGenerator,
     value: 'Waste Generator',
-    isDisabled: true,
   },
 ];
 

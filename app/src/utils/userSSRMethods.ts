@@ -1,7 +1,5 @@
 import { getAccessToken, withPageAuthRequired } from '@auth0/nextjs-auth0';
-import { ProfileType } from '../graphql/generated/graphql';
 import { getMeServerQuery } from '../graphql/ssrQueries';
-import { USER_ROLE_TYPES } from './constants';
 import { getAdminAccess } from './getAdminAccess';
 import { APP_NAV_LINKS } from './navLinks';
 

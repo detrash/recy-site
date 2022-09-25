@@ -8,7 +8,7 @@ import Steps from '../Steps';
 
 interface WasteDetails extends FormikProps<RecyFormSchema> {
   isLoading: boolean;
-  isRecyclerPerson: boolean;
+  hasPermissionToUploadDocuments: boolean;
   onNextWaste: (submitForm: () => void) => void;
   onPreviousWaste: () => void;
   wasteType: string;
@@ -16,7 +16,7 @@ interface WasteDetails extends FormikProps<RecyFormSchema> {
 
 const WasteDetails: React.FC<WasteDetails> = ({
   isLoading,
-  isRecyclerPerson,
+  hasPermissionToUploadDocuments,
   onNextWaste,
   onPreviousWaste,
   wasteType,
@@ -30,7 +30,7 @@ const WasteDetails: React.FC<WasteDetails> = ({
   const isButtonDisabled =
     !values[wasteType]?.amount ||
     !!errors[wasteType]?.amount ||
-    (isRecyclerPerson ? !hasFilledDocuments : false);
+    (hasPermissionToUploadDocuments ? !hasFilledDocuments : false);
 
   const helperVideoText =
     'Now record a video of the volume collected in a manner we can see the weight display of the scale. Make sure the video catches the whole uncovered volume and not only part of it. Please say the correct amount while filming so our validator can listen it.';
@@ -62,7 +62,7 @@ const WasteDetails: React.FC<WasteDetails> = ({
         </div>
       </section>
 
-      {isRecyclerPerson && (
+      {hasPermissionToUploadDocuments && (
         <>
           <div>
             <div className="mb-2">

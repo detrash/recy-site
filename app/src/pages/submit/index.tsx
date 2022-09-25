@@ -17,8 +17,8 @@ import { FORM_STEPS, USER_ROLE_TYPES } from 'src/utils/constants';
 import { RecyFormSchema } from 'src/utils/YupSchema';
 import { useAccount } from 'wagmi';
 
-const RECYCLER_TYPE = USER_ROLE_TYPES.find(
-  (userRoleType) => userRoleType.key === ProfileType.Recycler
+const HODLER_TYPE = USER_ROLE_TYPES.find(
+  (userRoleType) => userRoleType.key === ProfileType.Hodler
 );
 
 const SubmitRecyForm: React.FC = () => {
@@ -129,7 +129,9 @@ const SubmitRecyForm: React.FC = () => {
             <WasteDetails
               {...formikProps}
               isLoading={isUploadingVideos || loading}
-              isRecyclerPerson={RECYCLER_TYPE?.key === data?.me.profileType}
+              hasPermissionToUploadDocuments={
+                HODLER_TYPE?.key !== data?.me.profileType
+              }
               onNextWaste={onNextWasteStep}
               onPreviousWaste={onPreviousWasteStep}
               wasteType={wasteTypesStep}

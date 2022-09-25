@@ -9,6 +9,7 @@ import {
 } from 'src/graphql/generated/graphql';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
 import { CompactResidueCard } from '../CompactResidueCard';
+import { FormDetailsModalSkeleton } from './Skeleton';
 
 type FormActionButtonProps = {
   formId: string;
@@ -105,8 +106,9 @@ export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
   }, [data]);
 
   if (!data || loading) {
-    return <h1>Loading</h1>;
+    return <FormDetailsModalSkeleton />;
   }
+
   return (
     <div>
       <section className="grid sm:grid-cols-2 gap-2 mb-5">
@@ -123,7 +125,7 @@ export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
         </p>
       </section>
 
-      <div className="grid grid-cols-1 sm:flex sm:items-center  gap-2 mb-2">
+      <div className="grid grid-cols-1 sm:flex sm:items-center gap-2 mb-2">
         <FormActionButton
           formId={formId}
           residueType={selectedResidueCard!}
@@ -159,7 +161,7 @@ export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
             />
           ))}
       </div>
-      <div className="flex items-center gap-2 mt-2">
+      <div className="flex items-center gap-2 my-2">
         <Warning className="text-warning w-6 h-6" weight="fill" />
         <h2 className="text-sm">
           Select the residue type above in order to download Video and Invoices
