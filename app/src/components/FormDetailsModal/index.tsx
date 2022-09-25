@@ -111,7 +111,7 @@ export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {
 
   return (
     <div>
-      <section className="grid sm:grid-cols-2 gap-2 mb-5">
+      <section className="grid sm:grid-cols-2 gap-2 mb-5 overflow-auto">
         <p>
           Wallet Address:{' '}
           <span className="font-bold">
