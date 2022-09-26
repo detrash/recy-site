@@ -1,22 +1,14 @@
-import classNames from 'classnames';
-import { DownloadSimple, Warning } from 'phosphor-react';
+import { Warning } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import {
   DocumentType,
   ResidueType,
   useFormByIdQuery,
-  useFormDocumentsUrlByResidueLazyQuery,
 } from 'src/graphql/generated/graphql';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
 import { CompactResidueCard } from '../CompactResidueCard';
+import { FormActionButton } from './FormActionButton';
 import { FormDetailsModalSkeleton } from './Skeleton';
-
-type FormActionButtonProps = {
-  formId: string;
-  isDisabled: boolean;
-  documentType: DocumentType;
-  residueType: ResidueType;
-};
 
 type Residues = {
   [residue: string]: {
@@ -24,43 +16,6 @@ type Residues = {
     videoFileName: string | null | undefined;
     invoiceFileName: string | null | undefined;
   };
-};
-
-const FormActionButton: React.FC<FormActionButtonProps> = ({
-  formId,
-  isDisabled,
-  documentType,
-  residueType,
-}) => {
-  const [useFormDocumentsUrlByResidueQuery, { loading: isDownloadingFile }] =
-    useFormDocumentsUrlByResidueLazyQuery();
-
-  const loadVideoAndOpen = async () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { data } = await useFormDocumentsUrlByResidueQuery({
-      variables: { formId, residueType, documentType },
-    });
-
-    if (data) {
-      window.open(data.formDocumentsUrlByResidue, '_blank');
-    }
-  };
-
-  return (
-    <button
-      className={classNames(
-        'btn btn-sm btn-primary text-white flex items-center gap-1',
-        {
-          'btn-disabled': isDisabled,
-          'loading btn-disabled': isDownloadingFile,
-        }
-      )}
-      onClick={loadVideoAndOpen}
-    >
-      <DownloadSimple className="w-6 h-6" />
-      <p>Download {documentType}</p>
-    </button>
-  );
 };
 
 export const FormDetailsModal: React.FC<{ formId: string }> = ({ formId }) => {

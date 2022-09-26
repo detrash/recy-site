@@ -55,7 +55,7 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
       <div className="grid grid-cols-6 gap-3">
         <div className="py-4 px-6 bg-white shadow rounded-md flex-1 col-span-6 sm:col-span-4">
           <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-            Issued forms by Recyclers
+            Issued forms
           </h2>
           <AuthorizedFormsTable
             forms={formsData?.forms}
