@@ -91,7 +91,7 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
         key: 'createdAt',
         title: 'Created At',
         cell: (form) => {
-          return <p>{format(new Date(form.createdAt), 'MM/dd/yyyy HH:mm')}</p>;
+          return <p>{format(new Date(form.createdAt), 'dd/MM/yyyy HH:mm')}</p>;
         },
       },
       {
