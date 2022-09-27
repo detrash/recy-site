@@ -63,6 +63,7 @@ export enum DocumentType {
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
+  formMetadataUrl?: Maybe<Scalars['String']>;
   glassInvoiceFileName?: Maybe<Scalars['String']>;
   glassKgs: Scalars['Float'];
   glassVideoFileName?: Maybe<Scalars['String']>;
@@ -103,7 +104,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   authorizeForm: Form;
   createForm: CreateFormResponse;
+  createNFT: SubmitNftResponse;
   createUser: User;
+  submitFormImage: Scalars['String'];
   updateUser: User;
 };
 
@@ -119,8 +122,18 @@ export type MutationCreateFormArgs = {
 };
 
 
+export type MutationCreateNftArgs = {
+  formId: Scalars['String'];
+};
+
+
 export type MutationCreateUserArgs = {
   data: CreateUserInput;
+};
+
+
+export type MutationSubmitFormImageArgs = {
+  formId: Scalars['String'];
 };
 
 
@@ -192,6 +205,12 @@ export type S3 = {
   videoFileName?: Maybe<Scalars['String']>;
 };
 
+export type SubmitNftResponse = {
+  __typename?: 'SubmitNFTResponse';
+  body: Scalars['String'];
+  createMetadataUrl: Scalars['String'];
+};
+
 export type UpdateUserInput = {
   email?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -233,6 +252,13 @@ export type CreateFormMutationVariables = Exact<{
 
 export type CreateFormMutation = { __typename?: 'Mutation', createForm: { __typename?: 'CreateFormResponse', s3?: Array<{ __typename?: 'S3', residue: ResidueType, videoCreateUrl?: string | null, videoFileName?: string | null, invoiceCreateUrl?: string | null, invoiceFileName?: string | null }> | null } };
 
+export type CreateNftMutationVariables = Exact<{
+  FORMID: Scalars['String'];
+}>;
+
+
+export type CreateNftMutation = { __typename?: 'Mutation', createNFT: { __typename?: 'SubmitNFTResponse', body: string, createMetadataUrl: string } };
+
 export type CreateUserMutationVariables = Exact<{
   email: Scalars['String'];
   name: Scalars['String'];
@@ -242,6 +268,13 @@ export type CreateUserMutationVariables = Exact<{
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', authUserId: string, email: string, profileType: ProfileType, phoneNumber: string } };
+
+export type SubmitFormImageMutationVariables = Exact<{
+  FORM_ID: Scalars['String'];
+}>;
+
+
+export type SubmitFormImageMutation = { __typename?: 'Mutation', submitFormImage: string };
 
 export type UpdateUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -277,7 +310,7 @@ export type FormDocumentsUrlByResidueQuery = { __typename?: 'Query', formDocumen
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
+export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, formMetadataUrl?: string | null, createdAt: any, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -371,6 +404,40 @@ export function useCreateFormMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateFormMutationHookResult = ReturnType<typeof useCreateFormMutation>;
 export type CreateFormMutationResult = Apollo.MutationResult<CreateFormMutation>;
 export type CreateFormMutationOptions = Apollo.BaseMutationOptions<CreateFormMutation, CreateFormMutationVariables>;
+export const CreateNftDocument = gql`
+    mutation CreateNFT($FORMID: String!) {
+  createNFT(formId: $FORMID) {
+    body
+    createMetadataUrl
+  }
+}
+    `;
+export type CreateNftMutationFn = Apollo.MutationFunction<CreateNftMutation, CreateNftMutationVariables>;
+
+/**
+ * __useCreateNftMutation__
+ *
+ * To run a mutation, you first call `useCreateNftMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNftMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNftMutation, { data, loading, error }] = useCreateNftMutation({
+ *   variables: {
+ *      FORMID: // value for 'FORMID'
+ *   },
+ * });
+ */
+export function useCreateNftMutation(baseOptions?: Apollo.MutationHookOptions<CreateNftMutation, CreateNftMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNftMutation, CreateNftMutationVariables>(CreateNftDocument, options);
+      }
+export type CreateNftMutationHookResult = ReturnType<typeof useCreateNftMutation>;
+export type CreateNftMutationResult = Apollo.MutationResult<CreateNftMutation>;
+export type CreateNftMutationOptions = Apollo.BaseMutationOptions<CreateNftMutation, CreateNftMutationVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($email: String!, $name: String!, $phoneNumber: String!, $profileType: ProfileType!) {
   createUser(
@@ -412,6 +479,37 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const SubmitFormImageDocument = gql`
+    mutation SubmitFormImage($FORM_ID: String!) {
+  submitFormImage(formId: $FORM_ID)
+}
+    `;
+export type SubmitFormImageMutationFn = Apollo.MutationFunction<SubmitFormImageMutation, SubmitFormImageMutationVariables>;
+
+/**
+ * __useSubmitFormImageMutation__
+ *
+ * To run a mutation, you first call `useSubmitFormImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubmitFormImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [submitFormImageMutation, { data, loading, error }] = useSubmitFormImageMutation({
+ *   variables: {
+ *      FORM_ID: // value for 'FORM_ID'
+ *   },
+ * });
+ */
+export function useSubmitFormImageMutation(baseOptions?: Apollo.MutationHookOptions<SubmitFormImageMutation, SubmitFormImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubmitFormImageMutation, SubmitFormImageMutationVariables>(SubmitFormImageDocument, options);
+      }
+export type SubmitFormImageMutationHookResult = ReturnType<typeof useSubmitFormImageMutation>;
+export type SubmitFormImageMutationResult = Apollo.MutationResult<SubmitFormImageMutation>;
+export type SubmitFormImageMutationOptions = Apollo.BaseMutationOptions<SubmitFormImageMutation, SubmitFormImageMutationVariables>;
 export const UpdateUserDocument = gql`
     mutation UpdateUser($email: String!, $name: String!, $phoneNumber: String!, $profileType: ProfileType!) {
   updateUser(
@@ -604,6 +702,8 @@ export const FormsDocument = gql`
     paperVideoFileName
     plasticKgs
     plasticVideoFileName
+    formMetadataUrl
+    createdAt
     user {
       phoneNumber
       email

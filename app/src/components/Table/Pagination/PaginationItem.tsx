@@ -20,7 +20,7 @@ const PaginationItem: React.FC<PaginationItemProps> = ({
   }
   return (
     <button
-      className="btn btn-sm text-xs w-4 bg-primary"
+      className="btn btn-sm btn-primary text-xs text-white w-4"
       onClick={() => onPageChange(number)}
     >
       {number}

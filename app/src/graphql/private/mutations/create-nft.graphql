@@ -1,0 +1,6 @@
+mutation CreateNFT($FORMID: String!) {
+  createNFT(formId: $FORMID) {
+    body
+    createMetadataUrl
+  }
+}

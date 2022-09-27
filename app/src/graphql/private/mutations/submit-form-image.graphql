@@ -1,0 +1,3 @@
+mutation SubmitFormImage($FORM_ID: String!) {
+  submitFormImage(formId: $FORM_ID)
+}

@@ -12,6 +12,8 @@ query Forms {
     paperVideoFileName
     plasticKgs
     plasticVideoFileName
+    formMetadataUrl
+    createdAt
     user {
       phoneNumber
       email

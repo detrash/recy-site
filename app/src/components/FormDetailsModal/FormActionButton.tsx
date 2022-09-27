@@ -1,12 +1,7 @@
 import classNames from 'classnames';
 import { DownloadSimple } from 'phosphor-react';
-import { useState } from 'react';
-import {
-  DocumentType,
-  ResidueType,
-  useFormDocumentsUrlByResidueLazyQuery,
-} from 'src/graphql/generated/graphql';
-import { generateDownload } from 'src/utils/generateDownload';
+import { DocumentType, ResidueType } from 'src/graphql/generated/graphql';
+import { useFileDownloader } from 'src/hooks/useFileDownloader';
 
 type FormActionButtonProps = {
   formId: string;
@@ -21,30 +16,7 @@ export const FormActionButton: React.FC<FormActionButtonProps> = ({
   documentType,
   residueType,
 }) => {
-  const [isDownloadingFile, setIsDownloadFile] = useState(false);
-  const [useFormDocumentsUrlByResidueQuery] =
-    useFormDocumentsUrlByResidueLazyQuery();
-
-  const loadVideoAndOpen = async () => {
-    setIsDownloadFile(true);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { data } = await useFormDocumentsUrlByResidueQuery({
-      variables: { formId, residueType, documentType },
-    });
-
-    if (data) {
-      const fetchData = await fetch(data.formDocumentsUrlByResidue);
-      const blob = await fetchData.blob();
-
-      const href = window.URL.createObjectURL(blob);
-
-      const { pathname } = new window.URL(data.formDocumentsUrlByResidue);
-      const [fileName] = pathname.split('/').slice(-1);
-
-      generateDownload(href, fileName);
-    }
-    setIsDownloadFile(false);
-  };
+  const { isDownloadingFile, loadFileAndDownload } = useFileDownloader();
 
   return (
     <a
@@ -55,7 +27,7 @@ export const FormActionButton: React.FC<FormActionButtonProps> = ({
           'loading btn-disabled': isDownloadingFile,
         }
       )}
-      onClick={loadVideoAndOpen}
+      onClick={() => loadFileAndDownload(formId, residueType, documentType)}
     >
       <DownloadSimple className="w-6 h-6" />
       <p>Download {documentType}</p>
