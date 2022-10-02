@@ -2,11 +2,8 @@ query AggregateFormTypes {
   aggregateFormByUserProfile {
     id
     data {
-      glassKgs
-      metalKgs
-      organicKgs
-      paperKgs
-      plasticKgs
+      amount
+      residueType
     }
   }
 }

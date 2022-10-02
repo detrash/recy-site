@@ -1,0 +1,3 @@
+query DocumentVideoUrlByResidue($formId: String!, $residueType: ResidueType!) {
+  documentVideoUrlByResidue(formId: $formId, residueType: $residueType)
+}

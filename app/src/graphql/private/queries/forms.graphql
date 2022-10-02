@@ -1,22 +1,23 @@
 query Forms {
   forms {
-    glassKgs
-    glassVideoFileName
     id
-    isFormAuthorizedByAdmin
-    metalKgs
-    metalVideoFileName
-    organicKgs
-    organicVideoFileName
-    paperKgs
-    paperVideoFileName
-    plasticKgs
-    plasticVideoFileName
-    formMetadataUrl
-    createdAt
+
+    documents {
+      id
+      residueType
+      amount
+      videoFileName
+      invoicesFileName
+    }
+
     user {
       phoneNumber
       email
     }
+
+    isFormAuthorizedByAdmin
+    formMetadataUrl
+    walletAddress
+    createdAt
   }
 }

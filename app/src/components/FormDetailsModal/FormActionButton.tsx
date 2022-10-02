@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import { DownloadSimple } from 'phosphor-react';
-import { DocumentType, ResidueType } from 'src/graphql/generated/graphql';
+import { ResidueType } from 'src/graphql/generated/graphql';
 import { useFileDownloader } from 'src/hooks/useFileDownloader';
 
 type FormActionButtonProps = {
   formId: string;
   isDisabled: boolean;
-  documentType: DocumentType;
+  documentType: 'INVOICES' | 'VIDEO';
   residueType: ResidueType;
 };
 

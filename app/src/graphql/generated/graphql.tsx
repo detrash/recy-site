@@ -18,17 +18,14 @@ export type Scalars = {
 
 export type AggregateFormByUserProfileResponse = {
   __typename?: 'AggregateFormByUserProfileResponse';
-  data: AggregateFormData;
+  data: Array<AggregateFormData>;
   id: ProfileType;
 };
 
 export type AggregateFormData = {
   __typename?: 'AggregateFormData';
-  glassKgs?: Maybe<Scalars['Float']>;
-  metalKgs?: Maybe<Scalars['Float']>;
-  organicKgs?: Maybe<Scalars['Float']>;
-  paperKgs?: Maybe<Scalars['Float']>;
-  plasticKgs?: Maybe<Scalars['Float']>;
+  amount: Scalars['Float'];
+  residueType: ResidueType;
 };
 
 export type CreateFormInput = {
@@ -54,33 +51,24 @@ export type CreateUserInput = {
   profileType: ProfileType;
 };
 
-/** Represents the document type */
-export enum DocumentType {
-  Invoice = 'INVOICE',
-  Video = 'VIDEO'
-}
+export type Document = {
+  __typename?: 'Document';
+  amount: Scalars['Float'];
+  createdAt: Scalars['DateTime'];
+  form: Form;
+  id: Scalars['ID'];
+  invoicesFileName: Array<Scalars['String']>;
+  residueType: ResidueType;
+  videoFileName?: Maybe<Scalars['String']>;
+};
 
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
+  documents: Array<Document>;
   formMetadataUrl?: Maybe<Scalars['String']>;
-  glassInvoiceFileName?: Maybe<Scalars['String']>;
-  glassKgs: Scalars['Float'];
-  glassVideoFileName?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isFormAuthorizedByAdmin?: Maybe<Scalars['Boolean']>;
-  metalInvoiceFileName?: Maybe<Scalars['String']>;
-  metalKgs: Scalars['Float'];
-  metalVideoFileName?: Maybe<Scalars['String']>;
-  organicInvoiceFileName?: Maybe<Scalars['String']>;
-  organicKgs: Scalars['Float'];
-  organicVideoFileName?: Maybe<Scalars['String']>;
-  paperInvoiceFileName?: Maybe<Scalars['String']>;
-  paperKgs: Scalars['Float'];
-  paperVideoFileName?: Maybe<Scalars['String']>;
-  plasticInvoiceFileName?: Maybe<Scalars['String']>;
-  plasticKgs: Scalars['Float'];
-  plasticVideoFileName?: Maybe<Scalars['String']>;
   user: User;
   walletAddress?: Maybe<Scalars['String']>;
 };
@@ -104,7 +92,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   authorizeForm: Form;
   createForm: CreateFormResponse;
-  createNFT: SubmitNftResponse;
+  createFormMetadata: SubmitNftResponse;
   createUser: User;
   submitFormImage: Scalars['String'];
   updateUser: User;
@@ -122,7 +110,7 @@ export type MutationCreateFormArgs = {
 };
 
 
-export type MutationCreateNftArgs = {
+export type MutationCreateFormMetadataArgs = {
   formId: Scalars['String'];
 };
 
@@ -156,8 +144,9 @@ export enum ProfileType {
 export type Query = {
   __typename?: 'Query';
   aggregateFormByUserProfile: Array<AggregateFormByUserProfileResponse>;
+  documentInvoicesUrlByResidue: Array<Scalars['String']>;
+  documentVideoUrlByResidue: Scalars['String'];
   form: Form;
-  formDocumentsUrlByResidue: Scalars['String'];
   forms: Array<Form>;
   me: Me;
   user: User;
@@ -165,15 +154,20 @@ export type Query = {
 };
 
 
-export type QueryFormArgs = {
+export type QueryDocumentInvoicesUrlByResidueArgs = {
   formId: Scalars['String'];
+  residueType: ResidueType;
 };
 
 
-export type QueryFormDocumentsUrlByResidueArgs = {
-  documentType: DocumentType;
+export type QueryDocumentVideoUrlByResidueArgs = {
   formId: Scalars['String'];
   residueType: ResidueType;
+};
+
+
+export type QueryFormArgs = {
+  formId: Scalars['String'];
 };
 
 
@@ -183,7 +177,7 @@ export type QueryUserArgs = {
 
 export type ResidueInput = {
   amount?: InputMaybe<Scalars['Float']>;
-  invoiceFileName?: InputMaybe<Scalars['String']>;
+  invoicesFileName: Array<Scalars['String']>;
   videoFileName?: InputMaybe<Scalars['String']>;
 };
 
@@ -198,8 +192,8 @@ export enum ResidueType {
 
 export type S3 = {
   __typename?: 'S3';
-  invoiceCreateUrl?: Maybe<Scalars['String']>;
-  invoiceFileName?: Maybe<Scalars['String']>;
+  invoicesCreateUrl: Array<Scalars['String']>;
+  invoicesFileName: Array<Scalars['String']>;
   residue: ResidueType;
   videoCreateUrl?: Maybe<Scalars['String']>;
   videoFileName?: Maybe<Scalars['String']>;
@@ -250,14 +244,14 @@ export type CreateFormMutationVariables = Exact<{
 }>;
 
 
-export type CreateFormMutation = { __typename?: 'Mutation', createForm: { __typename?: 'CreateFormResponse', s3?: Array<{ __typename?: 'S3', residue: ResidueType, videoCreateUrl?: string | null, videoFileName?: string | null, invoiceCreateUrl?: string | null, invoiceFileName?: string | null }> | null } };
+export type CreateFormMutation = { __typename?: 'Mutation', createForm: { __typename?: 'CreateFormResponse', s3?: Array<{ __typename?: 'S3', residue: ResidueType, videoCreateUrl?: string | null, videoFileName?: string | null, invoicesCreateUrl: Array<string>, invoicesFileName: Array<string> }> | null } };
 
 export type CreateNftMutationVariables = Exact<{
   FORMID: Scalars['String'];
 }>;
 
 
-export type CreateNftMutation = { __typename?: 'Mutation', createNFT: { __typename?: 'SubmitNFTResponse', body: string, createMetadataUrl: string } };
+export type CreateNftMutation = { __typename?: 'Mutation', createFormMetadata: { __typename?: 'SubmitNFTResponse', body: string, createMetadataUrl: string } };
 
 export type CreateUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -289,38 +283,45 @@ export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __type
 export type AggregateFormTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: { __typename?: 'AggregateFormData', glassKgs?: number | null, metalKgs?: number | null, organicKgs?: number | null, paperKgs?: number | null, plasticKgs?: number | null } }> };
+export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: Array<{ __typename?: 'AggregateFormData', amount: number, residueType: ResidueType }> }> };
+
+export type DocumentInvoicesUrlByResidueQueryVariables = Exact<{
+  formId: Scalars['String'];
+  residueType: ResidueType;
+}>;
+
+
+export type DocumentInvoicesUrlByResidueQuery = { __typename?: 'Query', documentInvoicesUrlByResidue: Array<string> };
+
+export type DocumentVideoUrlByResidueQueryVariables = Exact<{
+  formId: Scalars['String'];
+  residueType: ResidueType;
+}>;
+
+
+export type DocumentVideoUrlByResidueQuery = { __typename?: 'Query', documentVideoUrlByResidue: string };
 
 export type FormByIdQueryVariables = Exact<{
   FORM_ID: Scalars['String'];
 }>;
 
 
-export type FormByIdQuery = { __typename?: 'Query', form: { __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, glassInvoiceFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, metalInvoiceFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, organicInvoiceFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, paperInvoiceFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, plasticInvoiceFileName?: string | null, walletAddress?: string | null, user: { __typename?: 'User', phoneNumber: string, email: string } } };
-
-export type FormDocumentsUrlByResidueQueryVariables = Exact<{
-  formId: Scalars['String'];
-  residueType: ResidueType;
-  documentType: DocumentType;
-}>;
-
-
-export type FormDocumentsUrlByResidueQuery = { __typename?: 'Query', formDocumentsUrlByResidue: string };
+export type FormByIdQuery = { __typename?: 'Query', form: { __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }>, user: { __typename?: 'User', phoneNumber: string, email: string } } };
 
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null, formMetadataUrl?: string | null, createdAt: any, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
+export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }>, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, name: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }>, forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, isFormAuthorizedByAdmin?: boolean | null, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null }> } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, name: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }>, forms: Array<{ __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }> }> } };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', glassKgs: number, glassVideoFileName?: string | null, id: string, metalKgs: number, metalVideoFileName?: string | null, organicKgs: number, organicVideoFileName?: string | null, paperKgs: number, paperVideoFileName?: string | null, plasticKgs: number, plasticVideoFileName?: string | null }> }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }> }> }> };
 
 
 export const AuthorizeFormDocument = gql`
@@ -367,8 +368,8 @@ export const CreateFormDocument = gql`
       residue
       videoCreateUrl
       videoFileName
-      invoiceCreateUrl
-      invoiceFileName
+      invoicesCreateUrl
+      invoicesFileName
     }
   }
 }
@@ -406,7 +407,7 @@ export type CreateFormMutationResult = Apollo.MutationResult<CreateFormMutation>
 export type CreateFormMutationOptions = Apollo.BaseMutationOptions<CreateFormMutation, CreateFormMutationVariables>;
 export const CreateNftDocument = gql`
     mutation CreateNFT($FORMID: String!) {
-  createNFT(formId: $FORMID) {
+  createFormMetadata(formId: $FORMID) {
     body
     createMetadataUrl
   }
@@ -556,11 +557,8 @@ export const AggregateFormTypesDocument = gql`
   aggregateFormByUserProfile {
     id
     data {
-      glassKgs
-      metalKgs
-      organicKgs
-      paperKgs
-      plasticKgs
+      amount
+      residueType
     }
   }
 }
@@ -592,31 +590,93 @@ export function useAggregateFormTypesLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type AggregateFormTypesQueryHookResult = ReturnType<typeof useAggregateFormTypesQuery>;
 export type AggregateFormTypesLazyQueryHookResult = ReturnType<typeof useAggregateFormTypesLazyQuery>;
 export type AggregateFormTypesQueryResult = Apollo.QueryResult<AggregateFormTypesQuery, AggregateFormTypesQueryVariables>;
+export const DocumentInvoicesUrlByResidueDocument = gql`
+    query DocumentInvoicesUrlByResidue($formId: String!, $residueType: ResidueType!) {
+  documentInvoicesUrlByResidue(formId: $formId, residueType: $residueType)
+}
+    `;
+
+/**
+ * __useDocumentInvoicesUrlByResidueQuery__
+ *
+ * To run a query within a React component, call `useDocumentInvoicesUrlByResidueQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDocumentInvoicesUrlByResidueQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDocumentInvoicesUrlByResidueQuery({
+ *   variables: {
+ *      formId: // value for 'formId'
+ *      residueType: // value for 'residueType'
+ *   },
+ * });
+ */
+export function useDocumentInvoicesUrlByResidueQuery(baseOptions: Apollo.QueryHookOptions<DocumentInvoicesUrlByResidueQuery, DocumentInvoicesUrlByResidueQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DocumentInvoicesUrlByResidueQuery, DocumentInvoicesUrlByResidueQueryVariables>(DocumentInvoicesUrlByResidueDocument, options);
+      }
+export function useDocumentInvoicesUrlByResidueLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DocumentInvoicesUrlByResidueQuery, DocumentInvoicesUrlByResidueQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DocumentInvoicesUrlByResidueQuery, DocumentInvoicesUrlByResidueQueryVariables>(DocumentInvoicesUrlByResidueDocument, options);
+        }
+export type DocumentInvoicesUrlByResidueQueryHookResult = ReturnType<typeof useDocumentInvoicesUrlByResidueQuery>;
+export type DocumentInvoicesUrlByResidueLazyQueryHookResult = ReturnType<typeof useDocumentInvoicesUrlByResidueLazyQuery>;
+export type DocumentInvoicesUrlByResidueQueryResult = Apollo.QueryResult<DocumentInvoicesUrlByResidueQuery, DocumentInvoicesUrlByResidueQueryVariables>;
+export const DocumentVideoUrlByResidueDocument = gql`
+    query DocumentVideoUrlByResidue($formId: String!, $residueType: ResidueType!) {
+  documentVideoUrlByResidue(formId: $formId, residueType: $residueType)
+}
+    `;
+
+/**
+ * __useDocumentVideoUrlByResidueQuery__
+ *
+ * To run a query within a React component, call `useDocumentVideoUrlByResidueQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDocumentVideoUrlByResidueQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDocumentVideoUrlByResidueQuery({
+ *   variables: {
+ *      formId: // value for 'formId'
+ *      residueType: // value for 'residueType'
+ *   },
+ * });
+ */
+export function useDocumentVideoUrlByResidueQuery(baseOptions: Apollo.QueryHookOptions<DocumentVideoUrlByResidueQuery, DocumentVideoUrlByResidueQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DocumentVideoUrlByResidueQuery, DocumentVideoUrlByResidueQueryVariables>(DocumentVideoUrlByResidueDocument, options);
+      }
+export function useDocumentVideoUrlByResidueLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DocumentVideoUrlByResidueQuery, DocumentVideoUrlByResidueQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DocumentVideoUrlByResidueQuery, DocumentVideoUrlByResidueQueryVariables>(DocumentVideoUrlByResidueDocument, options);
+        }
+export type DocumentVideoUrlByResidueQueryHookResult = ReturnType<typeof useDocumentVideoUrlByResidueQuery>;
+export type DocumentVideoUrlByResidueLazyQueryHookResult = ReturnType<typeof useDocumentVideoUrlByResidueLazyQuery>;
+export type DocumentVideoUrlByResidueQueryResult = Apollo.QueryResult<DocumentVideoUrlByResidueQuery, DocumentVideoUrlByResidueQueryVariables>;
 export const FormByIdDocument = gql`
     query FormById($FORM_ID: String!) {
   form(formId: $FORM_ID) {
-    glassKgs
-    glassVideoFileName
-    glassInvoiceFileName
     id
-    isFormAuthorizedByAdmin
-    metalKgs
-    metalVideoFileName
-    metalInvoiceFileName
-    organicKgs
-    organicVideoFileName
-    organicInvoiceFileName
-    paperKgs
-    paperVideoFileName
-    paperInvoiceFileName
-    plasticKgs
-    plasticVideoFileName
-    plasticInvoiceFileName
-    walletAddress
+    documents {
+      id
+      residueType
+      amount
+      videoFileName
+      invoicesFileName
+    }
     user {
       phoneNumber
       email
     }
+    isFormAuthorizedByAdmin
+    formMetadataUrl
+    walletAddress
+    createdAt
   }
 }
     `;
@@ -648,66 +708,25 @@ export function useFormByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<F
 export type FormByIdQueryHookResult = ReturnType<typeof useFormByIdQuery>;
 export type FormByIdLazyQueryHookResult = ReturnType<typeof useFormByIdLazyQuery>;
 export type FormByIdQueryResult = Apollo.QueryResult<FormByIdQuery, FormByIdQueryVariables>;
-export const FormDocumentsUrlByResidueDocument = gql`
-    query FormDocumentsUrlByResidue($formId: String!, $residueType: ResidueType!, $documentType: DocumentType!) {
-  formDocumentsUrlByResidue(
-    formId: $formId
-    residueType: $residueType
-    documentType: $documentType
-  )
-}
-    `;
-
-/**
- * __useFormDocumentsUrlByResidueQuery__
- *
- * To run a query within a React component, call `useFormDocumentsUrlByResidueQuery` and pass it any options that fit your needs.
- * When your component renders, `useFormDocumentsUrlByResidueQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFormDocumentsUrlByResidueQuery({
- *   variables: {
- *      formId: // value for 'formId'
- *      residueType: // value for 'residueType'
- *      documentType: // value for 'documentType'
- *   },
- * });
- */
-export function useFormDocumentsUrlByResidueQuery(baseOptions: Apollo.QueryHookOptions<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>(FormDocumentsUrlByResidueDocument, options);
-      }
-export function useFormDocumentsUrlByResidueLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>(FormDocumentsUrlByResidueDocument, options);
-        }
-export type FormDocumentsUrlByResidueQueryHookResult = ReturnType<typeof useFormDocumentsUrlByResidueQuery>;
-export type FormDocumentsUrlByResidueLazyQueryHookResult = ReturnType<typeof useFormDocumentsUrlByResidueLazyQuery>;
-export type FormDocumentsUrlByResidueQueryResult = Apollo.QueryResult<FormDocumentsUrlByResidueQuery, FormDocumentsUrlByResidueQueryVariables>;
 export const FormsDocument = gql`
     query Forms {
   forms {
-    glassKgs
-    glassVideoFileName
     id
-    isFormAuthorizedByAdmin
-    metalKgs
-    metalVideoFileName
-    organicKgs
-    organicVideoFileName
-    paperKgs
-    paperVideoFileName
-    plasticKgs
-    plasticVideoFileName
-    formMetadataUrl
-    createdAt
+    documents {
+      id
+      residueType
+      amount
+      videoFileName
+      invoicesFileName
+    }
     user {
       phoneNumber
       email
     }
+    isFormAuthorizedByAdmin
+    formMetadataUrl
+    walletAddress
+    createdAt
   }
 }
     `;
@@ -751,18 +770,18 @@ export const MeDocument = gql`
       type
     }
     forms {
-      glassKgs
-      glassVideoFileName
       id
+      documents {
+        id
+        residueType
+        amount
+        videoFileName
+        invoicesFileName
+      }
       isFormAuthorizedByAdmin
-      metalKgs
-      metalVideoFileName
-      organicKgs
-      organicVideoFileName
-      paperKgs
-      paperVideoFileName
-      plasticKgs
-      plasticVideoFileName
+      formMetadataUrl
+      walletAddress
+      createdAt
     }
   }
 }
@@ -803,17 +822,18 @@ export const UsersDocument = gql`
     lastLoginDate
     phoneNumber
     forms {
-      glassKgs
-      glassVideoFileName
       id
-      metalKgs
-      metalVideoFileName
-      organicKgs
-      organicVideoFileName
-      paperKgs
-      paperVideoFileName
-      plasticKgs
-      plasticVideoFileName
+      documents {
+        id
+        residueType
+        amount
+        videoFileName
+        invoicesFileName
+      }
+      isFormAuthorizedByAdmin
+      formMetadataUrl
+      walletAddress
+      createdAt
     }
   }
 }

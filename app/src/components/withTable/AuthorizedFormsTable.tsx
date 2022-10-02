@@ -96,7 +96,7 @@ const AuthorizedFormsTable: React.FC<AuthorizedFormsTableProps> = ({
       },
       {
         // Random property
-        key: 'glassKgs',
+        key: 'documents',
         title: 'Form details',
         cell(form) {
           return (

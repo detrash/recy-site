@@ -1,22 +1,19 @@
+import dynamic from 'next/dynamic';
 import { Warning } from 'phosphor-react';
-import { useMemo, useState } from 'react';
-import {
-  DocumentType,
-  FormByIdQuery,
-  ResidueType,
-} from 'src/graphql/generated/graphql';
+import { useState } from 'react';
+import { FormByIdQuery } from 'src/graphql/generated/graphql';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
 import { CompactResidueCard } from '../CompactResidueCard';
-import { FormActionButton } from './FormActionButton';
 import { FormDetailsModalSkeleton } from './Skeleton';
 
-type Residues = {
-  [residue: string]: {
-    amount: number;
-    videoFileName: string | null | undefined;
-    invoiceFileName: string | null | undefined;
-  };
-};
+const FormActionButton = dynamic(
+  () => import('./FormActionButton').then((mod) => mod.FormActionButton),
+  {
+    ssr: false,
+  }
+);
+
+export type ResidueDocument = Partial<FormByIdQuery['form']['documents'][0]>;
 
 type FormDetailsModalBodyProps = {
   formData: FormByIdQuery | undefined;
@@ -27,44 +24,29 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
   formData,
   isLoading,
 }) => {
-  const [selectedResidueCard, setSelectedResidueCard] = useState<ResidueType>();
-
-  const formattedResidues: Residues = useMemo(() => {
-    if (formData) {
-      return {
-        [ResidueType.Glass]: {
-          amount: formData.form.glassKgs,
-          videoFileName: formData.form.glassVideoFileName,
-          invoiceFileName: formData.form.glassInvoiceFileName,
-        },
-        [ResidueType.Metal]: {
-          amount: formData.form.metalKgs,
-          videoFileName: formData.form.metalVideoFileName,
-          invoiceFileName: formData.form.metalInvoiceFileName,
-        },
-        [ResidueType.Organic]: {
-          amount: formData.form.organicKgs,
-          videoFileName: formData.form.organicVideoFileName,
-          invoiceFileName: formData.form.organicInvoiceFileName,
-        },
-        [ResidueType.Paper]: {
-          amount: formData.form.paperKgs,
-          videoFileName: formData.form.paperVideoFileName,
-          invoiceFileName: formData.form.paperInvoiceFileName,
-        },
-        [ResidueType.Plastic]: {
-          amount: formData.form.plasticKgs,
-          videoFileName: formData.form.plasticVideoFileName,
-          invoiceFileName: formData.form.plasticInvoiceFileName,
-        },
-      };
-    }
-    return {} as Residues;
-  }, [formData]);
+  const [selectedResidueCard, setSelectedResidueCard] =
+    useState<ResidueDocument>();
 
   if (!formData || isLoading) {
     return <FormDetailsModalSkeleton />;
   }
+
+  const formattedResidues: ResidueDocument[] = USER_WASTE_TYPES.map(
+    (wasteType) => {
+      const currentWaste = formData.form.documents.find(
+        (document) => document.residueType === wasteType.key
+      );
+
+      if (currentWaste) return currentWaste;
+
+      return {
+        amount: 0,
+        residueType: wasteType.key,
+        invoicesFileName: [],
+        videoFileName: null,
+      };
+    }
+  );
 
   return (
     <div>
@@ -85,36 +67,34 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
       <div className="grid grid-cols-1 sm:flex sm:items-center gap-2 mb-2">
         <FormActionButton
           formId={formData.form.id}
-          residueType={selectedResidueCard!}
-          documentType={DocumentType.Video}
+          residueType={selectedResidueCard?.residueType!}
+          documentType="VIDEO"
           isDisabled={
-            !(
-              selectedResidueCard &&
-              formattedResidues[selectedResidueCard]?.videoFileName
-            )
+            !(selectedResidueCard && selectedResidueCard?.videoFileName)
           }
         />
         <FormActionButton
           formId={formData.form.id}
-          residueType={selectedResidueCard!}
-          documentType={DocumentType.Invoice}
+          residueType={selectedResidueCard?.residueType!}
+          documentType="INVOICES"
           isDisabled={
             !(
               selectedResidueCard &&
-              formattedResidues[selectedResidueCard]?.invoiceFileName
+              selectedResidueCard?.invoicesFileName?.length
             )
           }
         />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
         {formattedResidues &&
-          USER_WASTE_TYPES.map((wasteType) => (
+          formattedResidues.map((residue) => (
             <CompactResidueCard
-              key={wasteType.key}
-              isActive={selectedResidueCard === wasteType.key}
+              key={residue.residueType}
+              isActive={
+                selectedResidueCard?.residueType === residue.residueType
+              }
               setValue={setSelectedResidueCard}
-              residueType={formattedResidues[wasteType.key]}
-              wasteInfo={wasteType}
+              residueData={residue}
             />
           ))}
       </div>

@@ -5,27 +5,8 @@ import { gql } from '@apollo/client';
 const getUserQuery = gql`
   query getUserQuery {
     me {
-      authUserId
-      email
-      name
-      profileType
-      lastLoginDate
-      phoneNumber
       permissions {
         type
-      }
-      forms {
-        glassKgs
-        glassVideoFileName
-        id
-        metalKgs
-        metalVideoFileName
-        organicKgs
-        organicVideoFileName
-        paperKgs
-        paperVideoFileName
-        plasticKgs
-        plasticVideoFileName
       }
     }
   }

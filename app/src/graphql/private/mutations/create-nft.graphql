@@ -1,5 +1,5 @@
 mutation CreateNFT($FORMID: String!) {
-  createNFT(formId: $FORMID) {
+  createFormMetadata(formId: $FORMID) {
     body
     createMetadataUrl
   }

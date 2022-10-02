@@ -48,6 +48,76 @@ export const ssrAggregateFormTypes = {
       withPage: withPageAggregateFormTypes,
       usePage: useAggregateFormTypes,
     }
+export async function getServerPageDocumentInvoicesUrlByResidue
+    (options: Omit<Apollo.QueryOptions<Types.DocumentInvoicesUrlByResidueQueryVariables>, 'query'>, ctx: ApolloClientContext ){
+        const apolloClient = getApolloClient(ctx);
+        
+        const data = await apolloClient.query<Types.DocumentInvoicesUrlByResidueQuery>({ ...options, query: Operations.DocumentInvoicesUrlByResidueDocument });
+        
+        const apolloState = apolloClient.cache.extract();
+
+        return {
+            props: {
+                apolloState: apolloState,
+                data: data?.data,
+                error: data?.error ?? data?.errors ?? null,
+            },
+        };
+      }
+export const useDocumentInvoicesUrlByResidue = (
+  optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.DocumentInvoicesUrlByResidueQuery, Types.DocumentInvoicesUrlByResidueQueryVariables>) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.DocumentInvoicesUrlByResidueDocument, options);
+};
+export type PageDocumentInvoicesUrlByResidueComp = React.FC<{data?: Types.DocumentInvoicesUrlByResidueQuery, error?: Apollo.ApolloError}>;
+export const withPageDocumentInvoicesUrlByResidue = (optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.DocumentInvoicesUrlByResidueQuery, Types.DocumentInvoicesUrlByResidueQueryVariables>) => (WrappedComponent:PageDocumentInvoicesUrlByResidueComp) : NextPage  => (props) => {
+                const router = useRouter()
+                const options = optionsFunc ? optionsFunc(router) : {};
+                const {data, error } = useQuery(Operations.DocumentInvoicesUrlByResidueDocument, options)    
+                return <WrappedComponent {...props} data={data} error={error} /> ;
+                   
+            }; 
+export const ssrDocumentInvoicesUrlByResidue = {
+      getServerPage: getServerPageDocumentInvoicesUrlByResidue,
+      withPage: withPageDocumentInvoicesUrlByResidue,
+      usePage: useDocumentInvoicesUrlByResidue,
+    }
+export async function getServerPageDocumentVideoUrlByResidue
+    (options: Omit<Apollo.QueryOptions<Types.DocumentVideoUrlByResidueQueryVariables>, 'query'>, ctx: ApolloClientContext ){
+        const apolloClient = getApolloClient(ctx);
+        
+        const data = await apolloClient.query<Types.DocumentVideoUrlByResidueQuery>({ ...options, query: Operations.DocumentVideoUrlByResidueDocument });
+        
+        const apolloState = apolloClient.cache.extract();
+
+        return {
+            props: {
+                apolloState: apolloState,
+                data: data?.data,
+                error: data?.error ?? data?.errors ?? null,
+            },
+        };
+      }
+export const useDocumentVideoUrlByResidue = (
+  optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.DocumentVideoUrlByResidueQuery, Types.DocumentVideoUrlByResidueQueryVariables>) => {
+  const router = useRouter();
+  const options = optionsFunc ? optionsFunc(router) : {};
+  return useQuery(Operations.DocumentVideoUrlByResidueDocument, options);
+};
+export type PageDocumentVideoUrlByResidueComp = React.FC<{data?: Types.DocumentVideoUrlByResidueQuery, error?: Apollo.ApolloError}>;
+export const withPageDocumentVideoUrlByResidue = (optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.DocumentVideoUrlByResidueQuery, Types.DocumentVideoUrlByResidueQueryVariables>) => (WrappedComponent:PageDocumentVideoUrlByResidueComp) : NextPage  => (props) => {
+                const router = useRouter()
+                const options = optionsFunc ? optionsFunc(router) : {};
+                const {data, error } = useQuery(Operations.DocumentVideoUrlByResidueDocument, options)    
+                return <WrappedComponent {...props} data={data} error={error} /> ;
+                   
+            }; 
+export const ssrDocumentVideoUrlByResidue = {
+      getServerPage: getServerPageDocumentVideoUrlByResidue,
+      withPage: withPageDocumentVideoUrlByResidue,
+      usePage: useDocumentVideoUrlByResidue,
+    }
 export async function getServerPageFormById
     (options: Omit<Apollo.QueryOptions<Types.FormByIdQueryVariables>, 'query'>, ctx: ApolloClientContext ){
         const apolloClient = getApolloClient(ctx);
@@ -82,41 +152,6 @@ export const ssrFormById = {
       getServerPage: getServerPageFormById,
       withPage: withPageFormById,
       usePage: useFormById,
-    }
-export async function getServerPageFormDocumentsUrlByResidue
-    (options: Omit<Apollo.QueryOptions<Types.FormDocumentsUrlByResidueQueryVariables>, 'query'>, ctx: ApolloClientContext ){
-        const apolloClient = getApolloClient(ctx);
-        
-        const data = await apolloClient.query<Types.FormDocumentsUrlByResidueQuery>({ ...options, query: Operations.FormDocumentsUrlByResidueDocument });
-        
-        const apolloState = apolloClient.cache.extract();
-
-        return {
-            props: {
-                apolloState: apolloState,
-                data: data?.data,
-                error: data?.error ?? data?.errors ?? null,
-            },
-        };
-      }
-export const useFormDocumentsUrlByResidue = (
-  optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.FormDocumentsUrlByResidueQuery, Types.FormDocumentsUrlByResidueQueryVariables>) => {
-  const router = useRouter();
-  const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.FormDocumentsUrlByResidueDocument, options);
-};
-export type PageFormDocumentsUrlByResidueComp = React.FC<{data?: Types.FormDocumentsUrlByResidueQuery, error?: Apollo.ApolloError}>;
-export const withPageFormDocumentsUrlByResidue = (optionsFunc?: (router: NextRouter)=> QueryHookOptions<Types.FormDocumentsUrlByResidueQuery, Types.FormDocumentsUrlByResidueQueryVariables>) => (WrappedComponent:PageFormDocumentsUrlByResidueComp) : NextPage  => (props) => {
-                const router = useRouter()
-                const options = optionsFunc ? optionsFunc(router) : {};
-                const {data, error } = useQuery(Operations.FormDocumentsUrlByResidueDocument, options)    
-                return <WrappedComponent {...props} data={data} error={error} /> ;
-                   
-            }; 
-export const ssrFormDocumentsUrlByResidue = {
-      getServerPage: getServerPageFormDocumentsUrlByResidue,
-      withPage: withPageFormDocumentsUrlByResidue,
-      usePage: useFormDocumentsUrlByResidue,
     }
 export async function getServerPageForms
     (options: Omit<Apollo.QueryOptions<Types.FormsQueryVariables>, 'query'>, ctx: ApolloClientContext ){

@@ -10,18 +10,20 @@ query Me {
       type
     }
     forms {
-      glassKgs
-      glassVideoFileName
       id
+
+      documents {
+        id
+        residueType
+        amount
+        videoFileName
+        invoicesFileName
+      }
+
       isFormAuthorizedByAdmin
-      metalKgs
-      metalVideoFileName
-      organicKgs
-      organicVideoFileName
-      paperKgs
-      paperVideoFileName
-      plasticKgs
-      plasticVideoFileName
+      formMetadataUrl
+      walletAddress
+      createdAt
     }
   }
 }

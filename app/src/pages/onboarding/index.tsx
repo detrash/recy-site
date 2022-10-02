@@ -24,7 +24,7 @@ const OnboardingAppPage: React.FC = () => {
   const router = useRouter();
   const { user } = useUser();
 
-  const [createUserMutation, { loading: isCreatingUser, error }] =
+  const [createUserMutation, { loading: isCreatingUser }] =
     useCreateUserMutation();
 
   const handleSubmitUserRegistration = async (

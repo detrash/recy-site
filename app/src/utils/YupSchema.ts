@@ -7,7 +7,7 @@ export type RecyFormSchema = {
   [wasteType: string]: {
     amount: number;
     videoFile?: File[];
-    invoiceFiles?: File[];
+    invoicesFiles: File[];
   };
 };
 

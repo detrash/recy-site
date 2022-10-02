@@ -16,6 +16,7 @@ import { withPrivateApollo } from 'src/lib/withPrivateApollo';
 import { FORM_STEPS, USER_ROLE_TYPES } from 'src/utils/constants';
 import { RecyFormSchema } from 'src/utils/YupSchema';
 import { useAccount } from 'wagmi';
+import { uploadToS3 } from '../../utils/uploadToS3';
 
 const HODLER_TYPE = USER_ROLE_TYPES.find(
   (userRoleType) => userRoleType.key === ProfileType.Hodler
@@ -56,9 +57,9 @@ const SubmitRecyForm: React.FC = () => {
             videoFileName: residueValues.videoFile
               ? residueValues.videoFile[0].name
               : null,
-            invoiceFileName: residueValues.invoiceFiles
-              ? residueValues.invoiceFiles[0].name
-              : null,
+            invoicesFileName: residueValues.invoicesFiles.map(
+              (invoiceFile) => invoiceFile.name
+            ),
           },
         ];
       }
@@ -74,30 +75,28 @@ const SubmitRecyForm: React.FC = () => {
       setIsUploadingVideos(true);
       const s3Data = await Promise.all(
         data.createForm.s3.reduce((requests, residueS3) => {
-          if (residueS3.invoiceFileName) {
-            const [invoiceFile] = formData[residueS3.residue].invoiceFiles!;
-            const invoiceUpload = fetch(residueS3.invoiceCreateUrl!, {
-              method: 'PUT',
-              body: invoiceFile,
-              headers: {
-                'Content-Length': String(invoiceFile?.size),
-              },
-            });
+          if (residueS3.invoicesFileName.length) {
+            const invoicesFiles = formData[residueS3.residue].invoicesFiles;
 
-            requests.push(invoiceUpload);
+            residueS3.invoicesCreateUrl.forEach((invoiceCreateUrl, index) => {
+              const fileName = residueS3.invoicesFileName[index];
+
+              const currentInvoiceFile = invoicesFiles.find((file) =>
+                fileName.includes(file.name)
+              );
+
+              if (currentInvoiceFile) {
+                requests.push(uploadToS3(invoiceCreateUrl, currentInvoiceFile));
+              }
+            });
           }
 
-          if (residueS3.videoFileName) {
-            const [videoFile] = formData[residueS3.residue].videoFile!;
-            const videoUpload = fetch(residueS3.videoCreateUrl!, {
-              method: 'PUT',
-              body: videoFile,
-              headers: {
-                'Content-Length': String(videoFile?.size),
-              },
-            });
+          if (residueS3.videoFileName && residueS3.videoCreateUrl) {
+            const videoFile = formData[residueS3.residue].videoFile;
 
-            requests.push(videoUpload);
+            if (videoFile) {
+              requests.push(uploadToS3(residueS3.videoCreateUrl, videoFile[0]));
+            }
           }
 
           return requests;

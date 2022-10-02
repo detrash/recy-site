@@ -23,7 +23,7 @@ export const useSubmitForm = () => {
         initialState[wasteType] = {
           amount: 0,
           videoFile: undefined,
-          invoiceFiles: undefined,
+          invoicesFiles: [],
         };
         initialValidation[wasteType] = Yup.object({
           amount: Yup.number()

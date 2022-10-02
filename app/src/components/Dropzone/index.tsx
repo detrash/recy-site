@@ -1,16 +1,17 @@
-import { useDropzone } from 'react-dropzone';
+import classNames from 'classnames';
 import {
   CloudArrowUp,
-  Warning,
-  FileVideo,
-  FilePdf,
   FileImage,
+  FilePdf,
+  FileVideo,
+  TrashSimple,
+  Warning,
 } from 'phosphor-react';
-import classNames from 'classnames';
+import { useDropzone } from 'react-dropzone';
 
 type DropzoneProps = {
-  setFileValue: (acceptedFiles: File[]) => void;
-  fileValue: File[] | undefined;
+  setFiles: (acceptedFiles: File[]) => void;
+  files: File[] | undefined;
   acceptableFiles: {
     [mime: string]: string[];
   };
@@ -23,9 +24,33 @@ const ICON_BY_EXTENSION_FILE = {
   VIDEO: <FileVideo className="text-primary h-8 w-8" />,
 };
 
+const NoFileUploadedContent: React.FC<{
+  isDragActive: boolean;
+  open: () => void;
+}> = ({ isDragActive, open }) => {
+  return (
+    <>
+      <CloudArrowUp className="w-32 h-32 text-gray-200" />
+      <div className=" w-full text-center">
+        <p className="text-lg">
+          {isDragActive ? 'Drop the file here' : `Drag & drop the file here`}
+        </p>
+      </div>
+      <p className="text-sm">or</p>
+      <button
+        type="button"
+        className="btn btn-outline btn-primary border border-primary no-animation shadow-none"
+        onClick={open}
+      >
+        Browse Files
+      </button>
+    </>
+  );
+};
+
 const Dropzone: React.FC<DropzoneProps> = ({
-  setFileValue,
-  fileValue,
+  setFiles,
+  files,
   acceptableFiles,
   maxFiles,
 }) => {
@@ -41,8 +66,16 @@ const Dropzone: React.FC<DropzoneProps> = ({
     accept: acceptableFiles,
     noClick: true,
     noKeyboard: true,
-    onDropAccepted(file) {
-      setFileValue(file as any);
+    onDropAccepted(uploadedFiles) {
+      if (!maxFiles) {
+        const oldFiles = files?.filter((currentFile) =>
+          uploadedFiles.some((file) => file.name !== currentFile.name)
+        );
+        const totalFiles = [...uploadedFiles, ...oldFiles!];
+        setFiles(totalFiles);
+        return;
+      }
+      setFiles(uploadedFiles);
     },
   });
 
@@ -73,6 +106,13 @@ const Dropzone: React.FC<DropzoneProps> = ({
     return ICON_BY_EXTENSION_FILE.VIDEO;
   };
 
+  const handleOnRemoveFile = (fileName: string) => {
+    if (files) {
+      const filteresFiles = files.filter((file) => file.name !== fileName);
+      setFiles(filteresFiles);
+    }
+  };
+
   return (
     <section className="flex flex-col flex-1 gap-2">
       <div
@@ -85,33 +125,40 @@ const Dropzone: React.FC<DropzoneProps> = ({
       >
         <input id="test" {...getInputProps()} />
         <div className="flex flex-col items-center gap-2">
-          {!fileValue && <CloudArrowUp className="w-32 h-32 text-gray-200" />}
-          <div className=" w-full text-center">
-            {fileValue ? (
-              <ul className="divide-y w-full">
-                {fileValue.map((file) => (
-                  <li key={file.name} className="flex w-full items-center p-2">
-                    {getFileIcon(file.name)}
-                    <p className="text-sm">{file.name}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-lg">
-                {isDragActive
-                  ? 'Drop the file here'
-                  : `Drag & drop the file here`}
-              </p>
-            )}
-          </div>
-          {!fileValue && <p className="text-sm">or</p>}
-          <button
-            type="button"
-            className="btn btn-outline btn-primary border border-primary no-animation shadow-none"
-            onClick={open}
-          >
-            Browse Files
-          </button>
+          {!files?.length ? (
+            <NoFileUploadedContent isDragActive={isDragActive} open={open} />
+          ) : (
+            <>
+              <div className=" w-full text-center">
+                <ul className="divide-y w-full">
+                  {files.map((file) => (
+                    <li
+                      key={file.name}
+                      className="flex w-full items-center justify-between p-2"
+                    >
+                      <div className="flex items-center gap-2">
+                        {getFileIcon(file.name)}
+                        <p className="text-sm">{file.name}</p>
+                      </div>
+                      <button
+                        className="btn btn-sm btn-ghost"
+                        onClick={() => handleOnRemoveFile(file.name)}
+                      >
+                        <TrashSimple className="text-error h-6 w-6" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                className="btn btn-outline btn-primary border border-primary no-animation shadow-none"
+                onClick={open}
+              >
+                Browse Files
+              </button>
+            </>
+          )}
         </div>
       </div>
 

@@ -20,8 +20,8 @@ mutation CreateForm(
       residue
       videoCreateUrl
       videoFileName
-      invoiceCreateUrl
-      invoiceFileName
+      invoicesCreateUrl
+      invoicesFileName
     }
   }
 }

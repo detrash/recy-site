@@ -66,6 +66,7 @@ const TableComponent = <ObjectType extends { id: string }>({
     }
   }, [columns, data]);
 
+  // TO-DO, refactor sort
   const handleSortBy = useCallback(
     (sortBy: 'asc' | 'desc', accessor: string) => {
       const newSortBy = sortBy === 'asc' ? 'desc' : 'asc';

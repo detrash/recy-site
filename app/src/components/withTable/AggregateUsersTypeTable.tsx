@@ -1,13 +1,19 @@
 import { useMemo, useState } from 'react';
 import {
-  AggregateFormTypesQuery,
+  ResidueType,
   useAggregateFormTypesQuery,
 } from 'src/graphql/generated/graphql';
+import { USER_WASTE_TYPES } from 'src/utils/constants';
 import TableComponent, { ColumnProps } from '../Table';
 
-type AggregateUsersFormType =
-  AggregateFormTypesQuery['aggregateFormByUserProfile'][0]['data'] &
-    AggregateFormTypesQuery['aggregateFormByUserProfile'][0];
+type AggregateUsersFormType = {
+  id: string;
+  [ResidueType.Glass]: number;
+  [ResidueType.Paper]: number;
+  [ResidueType.Plastic]: number;
+  [ResidueType.Metal]: number;
+  [ResidueType.Organic]: number;
+};
 
 const AggregateUsersTypeTable: React.FC = () => {
   const [page, setPage] = useState(1);
@@ -16,10 +22,23 @@ const AggregateUsersTypeTable: React.FC = () => {
   const { data, error, loading: isLoading } = useAggregateFormTypesQuery();
 
   const formattedData = useMemo(() => {
-    return data?.aggregateFormByUserProfile.map((formDetail) => ({
-      id: formDetail.id,
-      ...formDetail.data,
-    })) as AggregateUsersFormType[];
+    const formatData = data?.aggregateFormByUserProfile.map((formDetail) => {
+      const findResidue = (residueType: ResidueType) =>
+        formDetail.data.find((residue) => residue.residueType === residueType);
+
+      const residues = USER_WASTE_TYPES.reduce((allWaste, wasteType) => {
+        return {
+          ...allWaste,
+          [wasteType.key]: findResidue(wasteType.key)?.amount || 0,
+        };
+      }, {});
+
+      return {
+        id: formDetail.id,
+        ...residues,
+      };
+    });
+    return formatData as AggregateUsersFormType[];
   }, [data?.aggregateFormByUserProfile]);
 
   const dataByPage =
@@ -31,51 +50,15 @@ const AggregateUsersTypeTable: React.FC = () => {
         key: 'id',
         title: 'Type',
       },
-      {
-        key: 'glassKgs',
-        title: 'Glass Kgs',
-        cell: (value) => {
-          if (!value.glassKgs) return <p>0</p>;
-
-          return <p>{value.glassKgs}</p>;
-        },
-      },
-      {
-        key: 'metalKgs',
-        title: 'Metal Kgs',
-        cell: (value) => {
-          if (!value.metalKgs) return <p>0</p>;
-
-          return <p>{value.metalKgs}</p>;
-        },
-      },
-      {
-        key: 'organicKgs',
-        title: 'Organic Kgs',
-        cell: (value) => {
-          if (!value.organicKgs) return <p>0</p>;
-
-          return <p>{value.organicKgs}</p>;
-        },
-      },
-      {
-        key: 'paperKgs',
-        title: 'Paper Kgs',
-        cell: (value) => {
-          if (!value.paperKgs) return <p>0</p>;
-
-          return <p>{value.paperKgs}</p>;
-        },
-      },
-      {
-        key: 'plasticKgs',
-        title: 'Plastic Kgs',
-        cell: (value) => {
-          if (!value.plasticKgs) return <p>0</p>;
-
-          return <p>{value.plasticKgs}</p>;
-        },
-      },
+      ...USER_WASTE_TYPES.map((wasteType) => {
+        return {
+          key: wasteType.key,
+          title: `${wasteType.value} Kgs`,
+          cell: (form: AggregateUsersFormType) => {
+            return <p>{`${form[wasteType.key]} Kgs`}</p>;
+          },
+        };
+      }),
     ];
   }, []);
 

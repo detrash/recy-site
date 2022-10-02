@@ -1,20 +1,12 @@
 import classNames from 'classnames';
 import { Check, X } from 'phosphor-react';
-import { ForwardRefExoticComponent } from 'react';
+import { USER_WASTE_TYPES } from 'src/utils/constants';
+import { ResidueDocument } from '../FormDetailsModal/FormDetailsModalBody';
 
 type CompactResidueCardProps = {
   isActive: boolean;
   setValue: (value: any) => void;
-  wasteInfo: {
-    Icon: ForwardRefExoticComponent<any>;
-    key: string;
-    value: string;
-  };
-  residueType: {
-    amount: number;
-    videoFileName: string | null | undefined;
-    invoiceFileName: string | null | undefined;
-  };
+  residueData: ResidueDocument;
 };
 
 type FileStatusProps = {
@@ -49,9 +41,12 @@ const FileStatus: React.FC<FileStatusProps> = ({
 export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
   isActive,
   setValue,
-  wasteInfo,
-  residueType,
+  residueData,
 }) => {
+  const wasteInfo = USER_WASTE_TYPES.find(
+    (wasteType) => wasteType.key === residueData.residueType
+  )!;
+
   return (
     <button
       className={classNames(
@@ -60,7 +55,7 @@ export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
           'border-primary': isActive,
         }
       )}
-      onClick={() => setValue(wasteInfo.key)}
+      onClick={() => setValue(residueData)}
     >
       <section className="flex items-center justify-between">
         <wasteInfo.Icon
@@ -72,12 +67,12 @@ export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
         <div className="flex flex-col items-start">
           <FileStatus
             isActive={isActive}
-            hasFileAssociated={!!residueType.videoFileName}
+            hasFileAssociated={!!residueData.videoFileName}
             label="Video"
           />
           <FileStatus
             isActive={isActive}
-            hasFileAssociated={!!residueType.invoiceFileName}
+            hasFileAssociated={!!residueData?.invoicesFileName?.length}
             label="Invoice"
           />
         </div>
@@ -85,7 +80,7 @@ export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
       <section className="flex items-center justify-between">
         <div className="font-bold text-gray-900">
           <p className="text-sm sm:text-base text-left">{wasteInfo.value}</p>
-          <h1 className="text-lg sm:text-2xl text-left">{`${residueType.amount} Kgs`}</h1>
+          <h1 className="text-lg sm:text-2xl text-left">{`${residueData.amount} Kgs`}</h1>
         </div>
       </section>
     </button>

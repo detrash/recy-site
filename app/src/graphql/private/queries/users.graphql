@@ -6,17 +6,20 @@ query Users {
     lastLoginDate
     phoneNumber
     forms {
-      glassKgs
-      glassVideoFileName
       id
-      metalKgs
-      metalVideoFileName
-      organicKgs
-      organicVideoFileName
-      paperKgs
-      paperVideoFileName
-      plasticKgs
-      plasticVideoFileName
+
+      documents {
+        id
+        residueType
+        amount
+        videoFileName
+        invoicesFileName
+      }
+
+      isFormAuthorizedByAdmin
+      formMetadataUrl
+      walletAddress
+      createdAt
     }
   }
 }

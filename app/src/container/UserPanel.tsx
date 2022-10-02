@@ -19,12 +19,14 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     const totalForms = user?.me.forms;
     const totalAmountResiduesReported = user?.me?.forms?.reduce(
       (totalAmount, currentForm) => {
-        return (totalAmount +=
-          currentForm.glassKgs +
-          currentForm.metalKgs +
-          currentForm.organicKgs +
-          currentForm.paperKgs +
-          currentForm.plasticKgs);
+        const totalDocumentsAmount = currentForm.documents.reduce(
+          (amountTotal, currentDocument) => {
+            amountTotal += currentDocument.amount;
+            return amountTotal;
+          },
+          0
+        );
+        return (totalAmount += totalDocumentsAmount);
       },
       0
     );
@@ -50,17 +52,10 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
   const highlitedItems = useMemo(() => {
     return user?.me?.forms?.reduce(
       (totalAmountResidue, currentForm) => {
-        totalAmountResidue.GLASS += currentForm.glassKgs;
-        totalAmountResidue.METAL += currentForm.metalKgs;
-        totalAmountResidue.ORGANIC += currentForm.organicKgs;
-        totalAmountResidue.PAPER += currentForm.paperKgs;
-        totalAmountResidue.PLASTIC += currentForm.plasticKgs;
-        totalAmountResidue.Total +=
-          currentForm.glassKgs +
-          currentForm.metalKgs +
-          currentForm.organicKgs +
-          currentForm.paperKgs +
-          currentForm.plasticKgs;
+        currentForm.documents.forEach((document) => {
+          totalAmountResidue[document.residueType] += document.amount;
+          totalAmountResidue.Total += document.amount;
+        });
 
         return totalAmountResidue;
       },
@@ -79,7 +74,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     ? format(new Date(user?.me.lastLoginDate), 'MM/dd/yyyy HH:mm')
     : '';
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <UserPanelSkeleton />;
   }
 
@@ -135,13 +130,13 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
           </div>
         </div>
 
-        <SubmitFormCard userProfileType={user?.me.profileType!} />
+        <SubmitFormCard userProfileType={user?.me.profileType} />
       </div>
       <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
         <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
           Forms submitted
         </h2>
-        <UserFormDetails formDetails={user?.me.forms!} />
+        <UserFormDetails formDetails={user?.me.forms} />
       </div>
     </div>
   );

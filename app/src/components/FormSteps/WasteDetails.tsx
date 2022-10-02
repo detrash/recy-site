@@ -26,7 +26,7 @@ const WasteDetails: React.FC<WasteDetails> = ({
   submitForm,
 }) => {
   const hasFilledDocuments =
-    values[wasteType]?.videoFile || values[wasteType]?.invoiceFiles;
+    values[wasteType]?.videoFile || values[wasteType].invoicesFiles.length;
   const isButtonDisabled =
     !values[wasteType]?.amount ||
     !!errors[wasteType]?.amount ||
@@ -79,15 +79,14 @@ const WasteDetails: React.FC<WasteDetails> = ({
               <p className="text-sm sm:hidden">{helperInvoiceText}</p>
             </div>
             <Dropzone
-              setFileValue={(file) => {
-                setFieldValue(`${wasteType}.invoiceFiles`, file);
+              setFiles={(files) => {
+                setFieldValue(`${wasteType}.invoicesFiles`, files);
               }}
-              fileValue={values[wasteType].invoiceFiles}
+              files={values[wasteType].invoicesFiles}
               acceptableFiles={{
                 'application/pdf': ['.pdf'],
                 'image/png': ['.png'],
               }}
-              maxFiles={1} // TO DO: Allow multiple files
             />
           </div>
 
@@ -109,10 +108,10 @@ const WasteDetails: React.FC<WasteDetails> = ({
               <p className="text-sm sm:hidden">{helperVideoText}</p>
             </div>
             <Dropzone
-              setFileValue={(file) => {
+              setFiles={(file) => {
                 setFieldValue(`${wasteType}.videoFile`, file);
               }}
-              fileValue={values[wasteType].videoFile}
+              files={values[wasteType].videoFile}
               acceptableFiles={{
                 'video/*': ['.mp4', '.mpeg', '.mpg'],
               }}

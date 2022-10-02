@@ -1,39 +1,52 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react';
 import {
-  DocumentType,
   ResidueType,
-  useFormDocumentsUrlByResidueLazyQuery,
+  useDocumentInvoicesUrlByResidueLazyQuery,
+  useDocumentVideoUrlByResidueLazyQuery,
 } from 'src/graphql/generated/graphql';
-import { generateDownload } from 'src/utils/generateDownload';
+import {
+  downloadMultipleS3AndCompressFile,
+  downloadSingleS3File,
+} from 'src/utils/downloadS3Helpers';
 
 export const useFileDownloader = () => {
   const [isDownloadingFile, setIsDownloadFile] = useState(false);
 
-  const [useFormDocumentsUrlByResidueQuery] =
-    useFormDocumentsUrlByResidueLazyQuery();
+  const [useDocumentVideoUrlByResidueQuery] =
+    useDocumentVideoUrlByResidueLazyQuery();
+
+  const [useDocumentInvoicesUrlByResidueQuery] =
+    useDocumentInvoicesUrlByResidueLazyQuery();
 
   const loadFileAndDownload = async (
     formId: string,
     residueType: ResidueType,
-    documentType: DocumentType
+    documentType: 'INVOICES' | 'VIDEO'
   ) => {
     setIsDownloadFile(true);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { data } = await useFormDocumentsUrlByResidueQuery({
-      variables: { formId, residueType, documentType },
-    });
 
-    if (data) {
-      const fetchData = await fetch(data.formDocumentsUrlByResidue);
-      const blob = await fetchData.blob();
+    if (documentType === 'VIDEO') {
+      const { data } = await useDocumentVideoUrlByResidueQuery({
+        variables: { formId, residueType },
+      });
 
-      const href = window.URL.createObjectURL(blob);
+      if (data) {
+        await downloadSingleS3File(data.documentVideoUrlByResidue);
+      }
+    } else {
+      const { data } = await useDocumentInvoicesUrlByResidueQuery({
+        variables: { formId, residueType },
+      });
 
-      const { pathname } = new window.URL(data.formDocumentsUrlByResidue);
-      const [fileName] = pathname.split('/').slice(-1);
-
-      generateDownload(href, fileName);
+      if (data) {
+        await downloadMultipleS3AndCompressFile(
+          data.documentInvoicesUrlByResidue,
+          formId
+        );
+      }
     }
+
     setIsDownloadFile(false);
   };
 
