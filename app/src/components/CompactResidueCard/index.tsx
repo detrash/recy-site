@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Check, X } from 'phosphor-react';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
+import { formatNumber } from 'src/utils/formatNumber';
 import { ResidueDocument } from '../FormDetailsModal/FormDetailsModalBody';
 
 type CompactResidueCardProps = {
@@ -47,6 +48,8 @@ export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
     (wasteType) => wasteType.key === residueData.residueType
   )!;
 
+  const amount = formatNumber(residueData.amount || 0);
+
   return (
     <button
       className={classNames(
@@ -80,7 +83,7 @@ export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
       <section className="flex items-center justify-between">
         <div className="font-bold text-gray-900">
           <p className="text-sm sm:text-base text-left">{wasteInfo.value}</p>
-          <h1 className="text-lg sm:text-2xl text-left">{`${residueData.amount} Kgs`}</h1>
+          <h1 className="text-lg sm:text-2xl text-left">{`${amount} Kgs`}</h1>
         </div>
       </section>
     </button>

@@ -4,6 +4,7 @@ import {
   useAggregateFormTypesQuery,
 } from 'src/graphql/generated/graphql';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
+import { formatNumber } from 'src/utils/formatNumber';
 import TableComponent, { ColumnProps } from '../Table';
 
 type AggregateUsersFormType = {
@@ -55,7 +56,8 @@ const AggregateUsersTypeTable: React.FC = () => {
           key: wasteType.key,
           title: `${wasteType.value} Kgs`,
           cell: (form: AggregateUsersFormType) => {
-            return <p>{`${form[wasteType.key]} Kgs`}</p>;
+            const amount = formatNumber(form[wasteType.key] || 0);
+            return <p>{`${amount} Kgs`}</p>;
           },
         };
       }),

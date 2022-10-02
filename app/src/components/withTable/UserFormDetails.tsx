@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ResidueType } from 'src/graphql/generated/graphql';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
+import { formatNumber } from 'src/utils/formatNumber';
 import TableComponent, { ColumnProps } from '../Table';
 import { UsersType } from './ActiveUsersTable';
 
@@ -62,7 +63,8 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
           key: wasteType.key,
           title: `${wasteType.value} Kgs`,
           cell: (form: UsersFormType) => {
-            return <p>{`${form[wasteType.key]} Kgs`}</p>;
+            const amount = formatNumber(form[wasteType.key] || 0);
+            return <p>{`${amount} Kgs`}</p>;
           },
         };
       }),
