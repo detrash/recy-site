@@ -12,11 +12,13 @@ type UserFormDetailsProps = {
   hasError?: boolean;
 };
 
-type ResidueCellProps = {
-  amount: number;
-  fileName: string | null | undefined;
+type UsersFormType = {
   id: string;
-  residueType: ResidueType;
+  [ResidueType.Glass]: number;
+  [ResidueType.Paper]: number;
+  [ResidueType.Plastic]: number;
+  [ResidueType.Metal]: number;
+  [ResidueType.Organic]: number;
 };
 
 const UserFormDetails: React.FC<UserFormDetailsProps> = ({
@@ -27,7 +29,29 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
 
-  const columns = useMemo<ColumnProps<any>>(() => {
+  const formattedData = useMemo(() => {
+    const formatData = formDetails.map((formDetail) => {
+      const findResidue = (residueType: ResidueType) =>
+        formDetail.documents.find(
+          (documentType) => documentType.residueType === residueType
+        );
+
+      const residues = USER_WASTE_TYPES.reduce((allWaste, wasteType) => {
+        return {
+          ...allWaste,
+          [wasteType.key]: findResidue(wasteType.key)?.amount || 0,
+        };
+      }, {});
+
+      return {
+        id: formDetail.id,
+        ...residues,
+      };
+    });
+    return formatData as UsersFormType[];
+  }, [formDetails]);
+
+  const columns = useMemo<ColumnProps<UsersFormType>>(() => {
     return [
       {
         key: 'id',
@@ -37,11 +61,8 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
         return {
           key: wasteType.key,
           title: `${wasteType.value} Kgs`,
-          cell: (form: FormDetail) => {
-            const residueAmount = form.documents.find(
-              (document) => document.residueType === wasteType.key
-            );
-            return <p>{`${residueAmount?.amount || 0} Kgs`}</p>;
+          cell: (form: UsersFormType) => {
+            return <p>{`${form[wasteType.key]} Kgs`}</p>;
           },
         };
       }),
@@ -49,11 +70,11 @@ const UserFormDetails: React.FC<UserFormDetailsProps> = ({
   }, []);
 
   const dataByPage =
-    formDetails?.slice((page - 1) * rowsCount, rowsCount * page) || [];
+    formattedData?.slice((page - 1) * rowsCount, rowsCount * page) || [];
 
   return (
-    <TableComponent<FormDetail>
-      allData={formDetails || []}
+    <TableComponent<UsersFormType>
+      allData={formattedData || []}
       columns={columns as any}
       data={dataByPage}
       error={hasError}

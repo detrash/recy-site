@@ -6,12 +6,9 @@ import { USER_WASTE_TYPES } from 'src/utils/constants';
 import { CompactResidueCard } from '../CompactResidueCard';
 import { FormDetailsModalSkeleton } from './Skeleton';
 
-const FormActionButton = dynamic(
-  () => import('./FormActionButton').then((mod) => mod.FormActionButton),
-  {
-    ssr: false,
-  }
-);
+const FormActionButton = dynamic(() => import('./FormActionButton'), {
+  ssr: false,
+});
 
 export type ResidueDocument = Partial<FormByIdQuery['form']['documents'][0]>;
 

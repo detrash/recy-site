@@ -10,7 +10,7 @@ type FormActionButtonProps = {
   residueType: ResidueType;
 };
 
-export const FormActionButton: React.FC<FormActionButtonProps> = ({
+const FormActionButton: React.FC<FormActionButtonProps> = ({
   formId,
   isDisabled,
   documentType,
@@ -34,3 +34,4 @@ export const FormActionButton: React.FC<FormActionButtonProps> = ({
     </a>
   );
 };
+export default FormActionButton;

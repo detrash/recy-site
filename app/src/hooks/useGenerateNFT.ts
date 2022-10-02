@@ -45,7 +45,9 @@ export const useGenerateNFT = (formId: string) => {
         ]);
 
         if (nftData) {
-          const bytes = new TextEncoder().encode(nftData.createNFT.body);
+          const bytes = new TextEncoder().encode(
+            nftData.createFormMetadata.body
+          );
 
           const blob = new Blob([bytes], {
             type: 'application/json;charset=utf-8',
@@ -55,7 +57,10 @@ export const useGenerateNFT = (formId: string) => {
             type: 'application/json',
           });
 
-          await uploadToS3(nftData.createNFT.createMetadataUrl, metadataFile);
+          await uploadToS3(
+            nftData.createFormMetadata.createMetadataUrl,
+            metadataFile
+          );
 
           toast.dismiss();
           toast.success('NFT metadata generated with success', {
