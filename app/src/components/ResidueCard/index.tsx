@@ -38,7 +38,9 @@ const ResidueCard: React.FC<ResidueCardProps> = ({
       <section className="flex items-center justify-between">
         <div className="font-bold text-gray-900">
           <p className="text-sm sm:text-base">{title}</p>
-          <h1 className="text-lg sm:text-2xl">{`${value} Kgs`}</h1>
+          <h1 className="text-lg sm:text-2xl">
+            {`${new Intl.NumberFormat('en-US').format(value)} Kgs`}
+          </h1>
         </div>
 
         <div className="w-14 h-14 sm:w-20 sm:h-20 font-bold">

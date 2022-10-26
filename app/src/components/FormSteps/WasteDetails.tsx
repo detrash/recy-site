@@ -59,6 +59,7 @@ const WasteDetails: React.FC<WasteDetails> = ({
             placeholder="e.g. 100"
             required
           />
+          <span className="text-xs text-gray-400">minimum of 1g (0.001kg)</span>
         </div>
       </section>
 

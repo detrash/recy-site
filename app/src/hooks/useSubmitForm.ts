@@ -27,7 +27,7 @@ export const useSubmitForm = () => {
         };
         initialValidation[wasteType] = Yup.object({
           amount: Yup.number()
-            .min(1, 'Type a valid number')
+            .min(0.001, 'Type a valid number from 0.001 kg')
             .required('Required'),
         });
       });

@@ -1,10 +1,10 @@
 import classNames from 'classnames';
+import { useField } from 'formik';
 import {
   forwardRef,
   ForwardRefRenderFunction,
   InputHTMLAttributes,
 } from 'react';
-import { useField } from 'formik';
 
 interface InputTypes extends InputHTMLAttributes<HTMLInputElement> {
   inputType?: 'input' | 'textarea';
@@ -15,9 +15,12 @@ interface InputTypes extends InputHTMLAttributes<HTMLInputElement> {
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputTypes> = (
   { label, required, inputType = 'input', inputGroupLabel, ...props },
-  ref,
+  ref
 ) => {
   const [field, meta] = useField(props as any);
+
+  console.log('touched?', meta.touched);
+  console.log('meta.error?', meta.error);
 
   const INPUT_TYPES = {
     input: (
@@ -25,11 +28,12 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputTypes> = (
         type="text"
         id={props.name}
         className={classNames(
-          'p-3 disabled:bg-slate-50  focus:ring-primary focus:border-primary block w-full sm:text-sm border-gray-300 rounded-md',
+          'p-3 disabled:bg-slate-50 focus:ring-primary focus:border-primary block w-full sm:text-sm rounded-md',
           {
+            'border-gray-300': !meta.touched,
             'border-error': meta.touched && meta.error,
             'border-success': meta.touched && !meta.error,
-          },
+          }
         )}
         ref={ref}
         {...field}
@@ -44,7 +48,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputTypes> = (
           {
             'border-error': meta.touched && meta.error,
             'border-success': meta.touched && !meta.error,
-          },
+          }
         )}
         ref={ref}
         {...field}
