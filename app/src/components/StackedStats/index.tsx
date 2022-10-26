@@ -1,17 +1,26 @@
 import classNames from 'classnames';
+import { TrendDown, TrendUp } from 'phosphor-react';
 import { ForwardRefExoticComponent } from 'react';
 import SkeletonStackedStats from './Skeleton';
 
 type StackedStatsProps = {
-  isLoading: boolean;
+  isLoading?: boolean;
+  percentIncrease?: {
+    [key: string]: number;
+  };
   stats: {
+    id: string;
     label: string;
     value: string;
     icon: ForwardRefExoticComponent<any>;
   }[];
 };
 
-const StackedStats: React.FC<StackedStatsProps> = ({ stats, isLoading }) => {
+const StackedStats: React.FC<StackedStatsProps> = ({
+  stats,
+  percentIncrease,
+  isLoading = false,
+}) => {
   if (isLoading) {
     return <SkeletonStackedStats />;
   }
@@ -35,9 +44,29 @@ const StackedStats: React.FC<StackedStatsProps> = ({ stats, isLoading }) => {
               'text-secondary': index === 1,
             })}
           >
-            {stat.value}
+            {new Intl.NumberFormat('en-US').format(+stat.value)}
           </div>
-          <div className="stat-desc">0% more than last month</div>
+          {stat.id !== 'CRECY' && percentIncrease && (
+            <div className="stat-desc">
+              <span
+                className={classNames('', {
+                  'text-lime-700 font-bold': percentIncrease[stat.id] >= 0,
+                  'text-red-700 font-bold': percentIncrease[stat.id] < 0,
+                })}
+              >
+                {percentIncrease[stat.id] >= 0 ? (
+                  <TrendUp className="inline-block w-5 h-5 mr-2" />
+                ) : (
+                  <TrendDown className="inline-block w-5 h-5 mr-2" />
+                )}
+                {new Intl.NumberFormat('en-US').format(
+                  percentIncrease[stat.id]
+                )}
+                %
+              </span>
+              <span> past 30 days.</span>
+            </div>
+          )}
         </div>
       ))}
     </div>

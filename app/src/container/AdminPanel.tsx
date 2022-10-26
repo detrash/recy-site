@@ -33,16 +33,19 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
     const totalForms = formsData?.forms;
     return [
       {
+        id: 'USERS',
         icon: Users,
         label: 'Total Active Users',
         value: String(totalUsers?.length),
       },
       {
+        id: 'FORMS',
         icon: Article,
         label: 'Total Forms Submitted',
         value: String(totalForms?.length),
       },
       {
+        id: 'CRECY',
         icon: Coin,
         label: 'Total cRECY Distributed',
         value: '0',

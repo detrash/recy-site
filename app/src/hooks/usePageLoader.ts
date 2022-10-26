@@ -22,7 +22,7 @@ type PageLoaderData = {
 export const usePageLoader = ({
   pageType,
 }: PageLoaderProps): PageLoaderData => {
-  const [MeQuery, { data, error: userError }] = useMeLazyQuery();
+  const [MeQuery, { data, loading, error: userError }] = useMeLazyQuery();
   const { user, error: auth0Error, isLoading: isLoadingUser } = useUser();
   const router = useRouter();
 

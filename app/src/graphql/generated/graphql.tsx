@@ -62,6 +62,13 @@ export type Document = {
   videoFileName?: Maybe<Scalars['String']>;
 };
 
+export type FilterOptions = {
+  gt?: InputMaybe<Scalars['DateTime']>;
+  gte?: InputMaybe<Scalars['DateTime']>;
+  lt?: InputMaybe<Scalars['DateTime']>;
+  lte?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type Form = {
   __typename?: 'Form';
   createdAt: Scalars['DateTime'];
@@ -71,6 +78,10 @@ export type Form = {
   isFormAuthorizedByAdmin?: Maybe<Scalars['Boolean']>;
   user: User;
   walletAddress?: Maybe<Scalars['String']>;
+};
+
+export type ListFiltersInput = {
+  createdAt?: InputMaybe<FilterOptions>;
 };
 
 export type Me = {
@@ -86,6 +97,11 @@ export type Me = {
   permissions: Array<Permissions>;
   phoneNumber: Scalars['String'];
   profileType: ProfileType;
+};
+
+
+export type MeFormsArgs = {
+  filter?: InputMaybe<ListFiltersInput>;
 };
 
 export type Mutation = {
@@ -171,8 +187,18 @@ export type QueryFormArgs = {
 };
 
 
+export type QueryFormsArgs = {
+  filter?: InputMaybe<ListFiltersInput>;
+};
+
+
 export type QueryUserArgs = {
   userAuthId: Scalars['String'];
+};
+
+
+export type QueryUsersArgs = {
+  filter?: InputMaybe<ListFiltersInput>;
 };
 
 export type ResidueInput = {
@@ -224,6 +250,11 @@ export type User = {
   name: Scalars['String'];
   phoneNumber: Scalars['String'];
   profileType: ProfileType;
+};
+
+
+export type UserFormsArgs = {
+  filter?: InputMaybe<ListFiltersInput>;
 };
 
 export type AuthorizeFormMutationVariables = Exact<{
@@ -308,17 +339,23 @@ export type FormByIdQueryVariables = Exact<{
 
 export type FormByIdQuery = { __typename?: 'Query', form: { __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }>, user: { __typename?: 'User', phoneNumber: string, email: string } } };
 
-export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FormsQueryVariables = Exact<{
+  FILTERS?: InputMaybe<ListFiltersInput>;
+}>;
 
 
 export type FormsQuery = { __typename?: 'Query', forms: Array<{ __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }>, user: { __typename?: 'User', phoneNumber: string, email: string } }> };
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+export type MeQueryVariables = Exact<{
+  FILTERS?: InputMaybe<ListFiltersInput>;
+}>;
 
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'Me', authUserId: string, email: string, name: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, permissions: Array<{ __typename?: 'Permissions', type: string }>, forms: Array<{ __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }> }> } };
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type UsersQueryVariables = Exact<{
+  FILTERS?: InputMaybe<ListFiltersInput>;
+}>;
 
 
 export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, email: string, profileType: ProfileType, lastLoginDate?: any | null, phoneNumber: string, forms: Array<{ __typename?: 'Form', id: string, isFormAuthorizedByAdmin?: boolean | null, formMetadataUrl?: string | null, walletAddress?: string | null, createdAt: any, documents: Array<{ __typename?: 'Document', id: string, residueType: ResidueType, amount: number, videoFileName?: string | null, invoicesFileName: Array<string> }> }> }> };
@@ -709,8 +746,8 @@ export type FormByIdQueryHookResult = ReturnType<typeof useFormByIdQuery>;
 export type FormByIdLazyQueryHookResult = ReturnType<typeof useFormByIdLazyQuery>;
 export type FormByIdQueryResult = Apollo.QueryResult<FormByIdQuery, FormByIdQueryVariables>;
 export const FormsDocument = gql`
-    query Forms {
-  forms {
+    query Forms($FILTERS: ListFiltersInput) {
+  forms(filter: $FILTERS) {
     id
     documents {
       id
@@ -743,6 +780,7 @@ export const FormsDocument = gql`
  * @example
  * const { data, loading, error } = useFormsQuery({
  *   variables: {
+ *      FILTERS: // value for 'FILTERS'
  *   },
  * });
  */
@@ -758,7 +796,7 @@ export type FormsQueryHookResult = ReturnType<typeof useFormsQuery>;
 export type FormsLazyQueryHookResult = ReturnType<typeof useFormsLazyQuery>;
 export type FormsQueryResult = Apollo.QueryResult<FormsQuery, FormsQueryVariables>;
 export const MeDocument = gql`
-    query Me {
+    query Me($FILTERS: ListFiltersInput) {
   me {
     authUserId
     email
@@ -769,7 +807,7 @@ export const MeDocument = gql`
     permissions {
       type
     }
-    forms {
+    forms(filter: $FILTERS) {
       id
       documents {
         id
@@ -799,6 +837,7 @@ export const MeDocument = gql`
  * @example
  * const { data, loading, error } = useMeQuery({
  *   variables: {
+ *      FILTERS: // value for 'FILTERS'
  *   },
  * });
  */
@@ -814,14 +853,14 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UsersDocument = gql`
-    query Users {
+    query Users($FILTERS: ListFiltersInput) {
   users {
     id
     email
     profileType
     lastLoginDate
     phoneNumber
-    forms {
+    forms(filter: $FILTERS) {
       id
       documents {
         id
@@ -851,6 +890,7 @@ export const UsersDocument = gql`
  * @example
  * const { data, loading, error } = useUsersQuery({
  *   variables: {
+ *      FILTERS: // value for 'FILTERS'
  *   },
  * });
  */

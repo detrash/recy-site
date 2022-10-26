@@ -5,6 +5,8 @@ import { Wallet as WalletIcon } from 'phosphor-react';
 import { Fragment, useMemo } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
+const METAMASK_ID = 'METAMASK';
+
 const Wallet: React.FC = () => {
   const { isConnected, address } = useAccount();
   const { connect, connectors, isLoading, pendingConnector } = useConnect();
@@ -14,7 +16,7 @@ const Wallet: React.FC = () => {
     return (
       <>
         {connectors.map((connector) => (
-          <Menu.Item key={connector.name}>
+          <Menu.Item key={connector.name} disabled={!connector.ready}>
             <button
               disabled={!connector.ready}
               key={connector.id}
@@ -25,6 +27,8 @@ const Wallet: React.FC = () => {
                 'group flex w-full text-gray-900 items-center rounded-md px-4 py-2 text-sm hover:bg-gray-100',
                 {
                   loading: isLoading && connector.id === pendingConnector?.id,
+                  'hidden sm:flex': connector.id.toUpperCase() === METAMASK_ID,
+                  'opacity-30 cursor-not-allowed': !connector.ready,
                 }
               )}
             >
@@ -36,7 +40,6 @@ const Wallet: React.FC = () => {
                 />
               </div>
               {connector.name}
-              {!connector.ready && ' (unsupported)'}
             </button>
           </Menu.Item>
         ))}
@@ -52,7 +55,7 @@ const Wallet: React.FC = () => {
         <div>
           <Menu.Button
             className={classNames(
-              'inline-flex w-full justify-center rounded-md  px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 transition-colors duration-150',
+              'inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 transition-colors duration-150',
               {
                 'bg-black bg-opacity-20': !isConnected,
                 'bg-teal-600': isConnected,

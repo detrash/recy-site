@@ -1,5 +1,5 @@
-query Forms {
-  forms {
+query Forms($FILTERS: ListFiltersInput) {
+  forms(filter: $FILTERS) {
     id
 
     documents {

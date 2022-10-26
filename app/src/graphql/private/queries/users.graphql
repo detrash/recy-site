@@ -1,11 +1,11 @@
-query Users {
+query Users($FILTERS: ListFiltersInput) {
   users {
     id
     email
     profileType
     lastLoginDate
     phoneNumber
-    forms {
+    forms(filter: $FILTERS) {
       id
 
       documents {

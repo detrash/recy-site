@@ -1,4 +1,4 @@
-query Me {
+query Me($FILTERS: ListFiltersInput) {
   me {
     authUserId
     email
@@ -9,7 +9,7 @@ query Me {
     permissions {
       type
     }
-    forms {
+    forms(filter: $FILTERS) {
       id
 
       documents {

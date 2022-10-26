@@ -2,6 +2,8 @@ import { format } from 'date-fns';
 import { Article, Coin, Recycle, TrendUp } from 'phosphor-react';
 import { useMemo } from 'react';
 import StackedStats from 'src/components/StackedStats';
+import { useUserStatsComparison } from 'src/hooks/useUserStatsComparison';
+import { getResiduesSum } from 'src/utils/getResiduesSum';
 import ResidueCard from '../components/ResidueCard';
 import SubmitFormCard from '../components/SubmitFormCard';
 import UserFormDetails from '../components/withTable/UserFormDetails';
@@ -15,39 +17,37 @@ type PrivatePanelProps = {
 };
 
 const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
+  const { percentIncrease, isLoading: isLoadingStats } =
+    useUserStatsComparison();
+
   const highlitedPanel = useMemo(() => {
-    const totalForms = user?.me.forms;
-    const totalAmountResiduesReported = user?.me?.forms?.reduce(
-      (totalAmount, currentForm) => {
-        const totalDocumentsAmount = currentForm.documents.reduce(
-          (amountTotal, currentDocument) => {
-            amountTotal += currentDocument.amount;
-            return amountTotal;
-          },
-          0
-        );
-        return (totalAmount += totalDocumentsAmount);
-      },
-      0
-    );
-    return [
-      {
-        icon: Recycle,
-        label: 'Total Residues Kgs Reported',
-        value: String(totalAmountResiduesReported),
-      },
-      {
-        icon: Article,
-        label: 'Total Forms Submitted',
-        value: String(totalForms?.length),
-      },
-      {
-        icon: Coin,
-        label: 'Total cRECY Earned',
-        value: '0',
-      },
-    ];
-  }, [user?.me.forms]);
+    if (user) {
+      const totalForms = user?.me.forms;
+      const totalAmountResiduesReported = getResiduesSum(user.me.forms);
+      return [
+        {
+          id: 'RESIDUES',
+          icon: Recycle,
+          label: 'Total Residues Kgs Reported',
+          value: String(totalAmountResiduesReported),
+        },
+        {
+          id: 'FORMS',
+          icon: Article,
+          label: 'Total Forms Submitted',
+          value: String(totalForms?.length),
+        },
+        {
+          id: 'CRECY',
+          icon: Coin,
+          label: 'Total cRECY Earned',
+          value: '0',
+        },
+      ];
+    }
+
+    return [];
+  }, [user]);
 
   const highlitedItems = useMemo(() => {
     return user?.me?.forms?.reduce(
@@ -74,7 +74,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     ? format(new Date(user?.me.lastLoginDate), 'MM/dd/yyyy HH:mm')
     : '';
 
-  if (isLoading || !user) {
+  if (isLoading || !user || isLoadingStats) {
     return <UserPanelSkeleton />;
   }
 
@@ -84,7 +84,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
         <h2 className="text-xl sm:text-3xl text-gray-900 font-bold">{`Welcome, ${user?.me.name}`}</h2>
         <p className="text-gray-900 text-sm sm:text-base">{`Last login: ${lastLoginDate}`}</p>
       </section>
-      <StackedStats isLoading={false} stats={highlitedPanel} />
+      <StackedStats percentIncrease={percentIncrease} stats={highlitedPanel} />
       <div className="grid grid-cols-6 gap-3">
         <div className="flex-1 col-span-6 sm:col-span-4">
           <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
