@@ -30,6 +30,7 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
 
   const users = useMemo(() => {
     const totalUsers = usersData?.users;
+
     const totalForms = formsData?.forms;
     return [
       {
