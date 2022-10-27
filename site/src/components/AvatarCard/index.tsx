@@ -50,16 +50,17 @@ const AvatarCard: React.FC<AvatarCardProps> = ({
   ];
   return (
     <div className="flex flex-col items-center justify-start h-full gap-y-5 p-6 pt-12 bg-white rounded shadow-xl z-10">
-      <div className="relative w-44 h-44 rounded-full shadow-xl">
-        <div className="absolute -inset-1 bg-neutral rounded-full"></div>
+      <div className="relative w-44 h-44 ">
+        <div className="absolute -inset-1 border rounded-full"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-teal-400 rounded-full"></div>
         <Image
           src={avatar}
-          className="rounded-full mt-4"
+          className="rounded-full "
           layout="fill"
-          objectFit="cover"
-          alt="Phil"
+          alt={name}
         />
       </div>
+
       <div className="text-center">
         <p
           className="text-xl font-bold leading-snug tracking-tight"

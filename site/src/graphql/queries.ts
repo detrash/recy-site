@@ -76,20 +76,28 @@ export type RoadMapPageData = {
   };
 };
 
+type Avatar = {
+  memberName: string;
+  memberPhoto: {
+    url: string;
+  };
+  twitterUrl: string;
+  instagramUrl: string;
+  githubUrl: string;
+  jobDescription: string;
+  jobPosition: string;
+  linkedInUrl: string;
+};
+
 export type TeamPageData = {
   pageTitle: string;
-  teamMember: {
-    memberName: string;
-    memberPhoto: {
-      url: string;
-    };
-    twitterUrl: string;
-    instagramUrl: string;
-    githubUrl: string;
-    jobDescription: string;
-    jobPosition: string;
-    linkedInUrl: string;
-  }[];
+  advisorsTitle: string;
+  foundersTitle: string;
+  partnerInvestorsTitle: string;
+
+  founders: Avatar[];
+  partnerInvestors: Avatar[];
+  advisors: Avatar[];
 };
 
 export type PrivacyPolicyData = {
@@ -145,25 +153,43 @@ export const getRoadMapPageQuery = gql`
   }
 `;
 
+const avatarFragment = gql`
+  fragment AvatarFragment on TeamAvatar {
+    memberName
+    memberPhoto {
+      url(
+        transformation: {
+          image: { resize: { fit: crop, height: 176, width: 176 } }
+        }
+      )
+    }
+    twitterUrl
+    instagramUrl
+    githubUrl
+    jobDescription
+    jobPosition
+    linkedInUrl
+  }
+`;
+
 export const getTeamPageQuery = gql`
+  ${avatarFragment}
   query getTeamPageQuery($locale: [Locale!]!) {
     teamPages(locales: $locale) {
       pageTitle
-      teamMember {
-        memberName
-        memberPhoto {
-          url(
-            transformation: {
-              image: { resize: { fit: crop, height: 176, width: 176 } }
-            }
-          )
-        }
-        twitterUrl
-        instagramUrl
-        githubUrl
-        jobDescription
-        jobPosition
-        linkedInUrl
+      advisorsTitle
+      foundersTitle
+      partnerInvestorsTitle
+      founders {
+        ...AvatarFragment
+      }
+
+      partnerInvestors {
+        ...AvatarFragment
+      }
+
+      advisors {
+        ...AvatarFragment
       }
     }
   }
