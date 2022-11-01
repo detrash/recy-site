@@ -64,7 +64,7 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
         },
       },
     ];
-  }, [t]);
+  }, [locale, t]);
 
   return (
     <>

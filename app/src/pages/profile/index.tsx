@@ -3,15 +3,19 @@ import { toast } from 'react-toastify';
 import DashboardHeader from 'src/components/Header';
 import ProfilePanel from 'src/container/ProfilePanel';
 import {
+  MeQuery,
   ProfileType,
   useUpdateUserMutation,
 } from 'src/graphql/generated/graphql';
-import { PageMeComp } from 'src/graphql/generated/page';
 import { getAdminAccess } from 'src/utils/getAdminAccess';
 import { userSSRMethods } from 'src/utils/userSSRMethods';
 import { ProfileFormSchema, userRegistrationSchema } from 'src/utils/YupSchema';
 
-const Profile: PageMeComp = ({ data }) => {
+interface ProfileProps {
+  data: MeQuery;
+}
+
+const Profile: React.FC<ProfileProps> = ({ data }) => {
   const isAdmin = getAdminAccess(data!);
 
   const [updateUser, { loading }] = useUpdateUserMutation();
