@@ -8,6 +8,7 @@ type FormActionButtonProps = {
   isDisabled: boolean;
   documentType: 'INVOICES' | 'VIDEO';
   residueType: ResidueType;
+  label: string;
 };
 
 const FormActionButton: React.FC<FormActionButtonProps> = ({
@@ -15,6 +16,7 @@ const FormActionButton: React.FC<FormActionButtonProps> = ({
   isDisabled,
   documentType,
   residueType,
+  label,
 }) => {
   const { isDownloadingFile, loadFileAndDownload } = useFileDownloader();
 
@@ -30,7 +32,7 @@ const FormActionButton: React.FC<FormActionButtonProps> = ({
       onClick={() => loadFileAndDownload(formId, residueType, documentType)}
     >
       <DownloadSimple className="w-6 h-6" />
-      <p>Download {documentType}</p>
+      <p>Download {label}</p>
     </a>
   );
 };

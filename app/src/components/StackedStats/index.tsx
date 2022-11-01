@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { TrendDown, TrendUp } from 'phosphor-react';
 import { ForwardRefExoticComponent } from 'react';
 import SkeletonStackedStats from './Skeleton';
@@ -14,17 +15,21 @@ type StackedStatsProps = {
     value: string;
     icon: ForwardRefExoticComponent<any>;
   }[];
+  comment?: string;
 };
 
 const StackedStats: React.FC<StackedStatsProps> = ({
   stats,
   percentIncrease,
   isLoading = false,
+  comment,
 }) => {
+  const { locale } = useRouter();
   if (isLoading) {
     return <SkeletonStackedStats />;
   }
 
+  const currentFormat = locale === 'en' ? 'en-US' : 'pt-BR';
   return (
     <div className="stats block divide-y-[1px] sm:inline-grid sm:divide-y-0 shadow w-full">
       {stats?.map((stat, index) => (
@@ -44,7 +49,7 @@ const StackedStats: React.FC<StackedStatsProps> = ({
               'text-secondary': index === 1,
             })}
           >
-            {new Intl.NumberFormat('en-US').format(+stat.value)}
+            {new Intl.NumberFormat(currentFormat).format(+stat.value)}
           </div>
           {stat.id !== 'CRECY' && percentIncrease && (
             <div className="stat-desc">
@@ -59,12 +64,12 @@ const StackedStats: React.FC<StackedStatsProps> = ({
                 ) : (
                   <TrendDown className="inline-block w-5 h-5 mr-2" />
                 )}
-                {new Intl.NumberFormat('en-US').format(
+                {new Intl.NumberFormat(currentFormat).format(
                   percentIncrease[stat.id]
                 )}
                 %
               </span>
-              <span> past 30 days.</span>
+              <span> {comment}</span>
             </div>
           )}
         </div>

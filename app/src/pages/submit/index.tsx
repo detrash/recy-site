@@ -12,8 +12,8 @@ import {
 import { usePageLoader } from 'src/hooks/usePageLoader';
 import { useSubmitForm } from 'src/hooks/useSubmitForm';
 import FormLayout from 'src/layout/FormLayout';
-import { withPrivateApollo } from 'src/lib/withPrivateApollo';
 import { FORM_STEPS, USER_ROLE_TYPES } from 'src/utils/constants';
+import { getPageTranslations } from 'src/utils/userSSGMethods';
 import { RecyFormSchema } from 'src/utils/YupSchema';
 import { useAccount } from 'wagmi';
 import { uploadToS3 } from '../../utils/uploadToS3';
@@ -124,7 +124,7 @@ const SubmitRecyForm: React.FC = () => {
         onSubmit={handleSubmitRecyForm}
       >
         {(formikProps) => (
-          <Form>
+          <Form className="w-full">
             <WasteDetails
               {...formikProps}
               isLoading={isUploadingVideos || loading}
@@ -149,4 +149,6 @@ const SubmitRecyForm: React.FC = () => {
   );
 };
 
-export default withPrivateApollo(SubmitRecyForm);
+export const getStaticProps = getPageTranslations(['common', 'submit']);
+
+export default SubmitRecyForm;

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
+import { useTranslation } from 'next-i18next';
 import { ArrowLeft, Question } from 'phosphor-react';
 import { RecyFormSchema } from 'src/utils/YupSchema';
 import Dropzone from '../Dropzone';
@@ -25,6 +26,8 @@ const WasteDetails: React.FC<WasteDetails> = ({
   setFieldValue,
   submitForm,
 }) => {
+  const { t } = useTranslation();
+
   const hasFilledDocuments =
     values[wasteType]?.videoFile || values[wasteType].invoicesFiles.length;
   const isButtonDisabled =
@@ -32,19 +35,19 @@ const WasteDetails: React.FC<WasteDetails> = ({
     !!errors[wasteType]?.amount ||
     (hasPermissionToUploadDocuments ? !hasFilledDocuments : false);
 
-  const helperVideoText =
-    'Now record a video of the volume collected in a manner we can see the weight display of the scale. Make sure the video catches the whole uncovered volume and not only part of it. Please say the correct amount while filming so our validator can listen it.';
-
-  const helperInvoiceText =
-    'Upload below the official invoice that specifies the type and amount of waste you are recycling. PDF or PNG only';
   return (
     <div className="flex flex-col flex-1 gap-5">
       <section>
         <h2 className="text-2xl mb-1 text-gray-800 font-bold antialiased leading-relaxed">
-          How many kgs of <span className="text-secondary">{wasteType}</span>{' '}
-          have you collected so far?
+          {t('submit:details_title1')}{' '}
+          <span className="text-secondary">
+            {t(`common:${wasteType.toLowerCase()}`)}
+          </span>{' '}
+          {t('submit:details_title2')}
         </h2>
-        <p className="text-sm text-gray-600">Type the approximate amount</p>
+        <p className="text-sm text-gray-600">
+          {t('submit:type_approximate_amount')}
+        </p>
       </section>
 
       <Steps />
@@ -52,14 +55,16 @@ const WasteDetails: React.FC<WasteDetails> = ({
       <section className="grid grid-cols-6">
         <div className="col-span-6 sm:col-span-4">
           <Input
-            label="Enter amount"
+            label={t('submit:enter_amount')}
             inputGroupLabel="Kgs"
             type="number"
             name={`${wasteType}.amount`}
             placeholder="e.g. 100"
             required
           />
-          <span className="text-xs text-gray-400">minimum of 1g (0.001kg)</span>
+          <span className="text-xs text-gray-400">
+            {t('submit:minimum_of_1')}
+          </span>
         </div>
       </section>
 
@@ -68,16 +73,16 @@ const WasteDetails: React.FC<WasteDetails> = ({
           <div>
             <div className="mb-2">
               <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px] flex items-center gap-1">
-                Upload your Invoice
+                {t('submit:upload_invoice')}
                 <div
                   className="tooltip hidden sm:inline normal-case	"
-                  data-tip={helperInvoiceText}
+                  data-tip={t('submit:helper_invoice')}
                 >
                   <Question className="h-6 w-6" />
                 </div>
               </h2>
 
-              <p className="text-sm sm:hidden">{helperInvoiceText}</p>
+              <p className="text-sm sm:hidden">{t('submit:helper_invoice')}</p>
             </div>
             <Dropzone
               setFiles={(files) => {
@@ -92,21 +97,21 @@ const WasteDetails: React.FC<WasteDetails> = ({
           </div>
 
           <fieldset className="border-t border-solid border-gray-300 p-3 text-center text-gray-400">
-            <legend className="text-sm">OR</legend>
+            <legend className="text-sm">{t('submit:or')}</legend>
           </fieldset>
           <div>
             <div className="mb-2">
               <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px] flex items-center gap-1">
-                Upload a video representing the amount of waste
+                {t('submit:upload_video')}
                 <div
                   className="tooltip hidden sm:inline normal-case	"
-                  data-tip={helperVideoText}
+                  data-tip={t('submit:helper_video')}
                 >
                   <Question className="h-6 w-6" />
                 </div>
               </h2>
 
-              <p className="text-sm sm:hidden">{helperVideoText}</p>
+              <p className="text-sm sm:hidden">{t('submit:helper_video')}</p>
             </div>
             <Dropzone
               setFiles={(file) => {
@@ -129,7 +134,7 @@ const WasteDetails: React.FC<WasteDetails> = ({
           onClick={onPreviousWaste}
         >
           <ArrowLeft className="w-6 h-6" />
-          Go Back
+          {t('submit:go_back')}
         </button>
         <button
           disabled={isButtonDisabled}
@@ -144,7 +149,7 @@ const WasteDetails: React.FC<WasteDetails> = ({
             onNextWaste(submitForm);
           }}
         >
-          {isLoading ? 'Saving form' : 'Advance'}
+          {isLoading ? t('submit:saving_form') : t('submit:advance')}
         </button>
       </div>
     </div>

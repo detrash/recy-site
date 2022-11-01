@@ -1,4 +1,6 @@
 import { format } from 'date-fns';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import { Article } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import { UsersQuery } from 'src/graphql/generated/graphql';
@@ -19,6 +21,9 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
   isLoading,
   hasError,
 }) => {
+  const { t } = useTranslation();
+  const { locale } = useRouter();
+
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
   const [currentUser, setCurrentUser] = useState<UsersType>();
@@ -34,27 +39,32 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
       },
       {
         key: 'profileType',
-        title: 'User Type',
+        title: t('admin:user_type'),
+        cell: (user) => {
+          return <p>{t(`common:${user.profileType.toLowerCase()}`)}</p>;
+        },
       },
       {
         key: 'phoneNumber',
-        title: 'Phone Number',
+        title: t('admin:phone_number'),
       },
       {
         key: 'lastLoginDate',
-        title: 'Last Login',
+        title: t('admin:last_login'),
         cell: (user) => {
           if (!user?.lastLoginDate) {
             return <p>Never</p>;
           }
-
+          const currentLocale = locale === 'en' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
           return (
-            <p>{format(new Date(user.lastLoginDate), 'MM/dd/yyyy HH:mm')}</p>
+            <p>
+              {format(new Date(user.lastLoginDate), `${currentLocale} HH:mm`)}
+            </p>
           );
         },
       },
     ];
-  }, []);
+  }, [t]);
 
   return (
     <>
@@ -64,7 +74,7 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
             className="btn btn-sm text-white h-auto py-1 px-2 btn-neutral flex items-center gap-1 whitespace-nowrap"
             onClick={() => setCurrentUser(user)}
           >
-            <p>Forms</p>
+            <p>{t('admin:forms')}</p>
             <Article className="hidden sm:block h-6 w-6" />
           </button>
         )}
@@ -87,7 +97,7 @@ const ActiveUsersTable: React.FC<ActiveUsersTableProps> = ({
         <Modal
           isOpen={!!currentUser}
           onCloseModal={() => setCurrentUser(undefined)}
-          title="User Form Details"
+          title={t('admin:user_form_details')}
           content={
             <UserFormDetails
               formDetails={currentUser.forms}

@@ -1,6 +1,7 @@
 import { useUser } from '@auth0/nextjs-auth0';
 import classNames from 'classnames';
 import { Form, FormikProps } from 'formik';
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 import * as R from 'ramda';
 import { useEffect } from 'react';
@@ -23,6 +24,7 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
   setFieldTouched,
   values,
 }) => {
+  const { t } = useTranslation();
   const { user } = useUser();
 
   useEffect(() => {
@@ -53,17 +55,17 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
         <div className="grid grid-cols-6 gap-3">
           <div className="col-span-3">
             <Input
-              label="Preferred Name"
+              label={t('common:preffered_name')}
               name="name"
-              placeholder="Type your name"
+              placeholder={t('common:type_name')}
               required
             />
           </div>
           <div className="col-span-3">
             <Input
-              label="Phone Number"
+              label={t('common:phone_number')}
               name="phoneNumber"
-              placeholder="Type your phone number"
+              placeholder={t('common:type_number')}
               required
             />
           </div>
@@ -76,7 +78,9 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
             />
           </div>
           <div className="col-span-6">
-            <p className="mb-2 text-sm font-medium text-gray-700">Photo</p>
+            <p className="mb-2 text-sm font-medium text-gray-700">
+              {t('profile:photo')}
+            </p>
             <div className="avatar">
               <div className="w-12 h-12 rounded-full ring-[1px] ring-neutral relative">
                 {user?.picture && (
@@ -90,7 +94,7 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
 
       <section>
         <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px]">
-          PROFILE TYPE:
+          {t('common:profile_type')}:
         </h2>
         <div className="grid sm:grid-cols-3 gap-3">
           {USER_ROLE_TYPES.map((userType) => (
@@ -98,8 +102,9 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
               key={userType.key}
               id={userType.key}
               setValue={(value) => setFieldValue('profileType', value)}
-              value={userType.value}
+              value={t(`common:${userType.key.toLowerCase()}`)}
               isActive={userType.key === values.profileType}
+              imLabel={t('common:im')}
             />
           ))}
         </div>
@@ -116,7 +121,9 @@ const ProfilePanel: React.FC<ProfilePanelProps> = ({
             }
           )}
         >
-          {isUpdatingUser ? 'Updating user... ' : 'Save changes'}
+          {isUpdatingUser
+            ? `${t('profile:updating_user')}...`
+            : t('profile:save_changes')}
         </button>
       </div>
     </Form>

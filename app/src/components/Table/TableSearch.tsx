@@ -3,10 +3,12 @@ import React, { memo, useEffect, useState } from 'react';
 
 type TableSearchProps = {
   handleOnSearch: (value: string) => void;
+  placeholder: string;
 };
 
 const TableSearch: React.FC<TableSearchProps> = ({
   handleOnSearch,
+  placeholder,
 }: TableSearchProps) => {
   const [searchValue, setSearchValue] = useState('');
 
@@ -20,7 +22,7 @@ const TableSearch: React.FC<TableSearchProps> = ({
         <div className="input-group">
           <input
             type="text"
-            placeholder="Search…"
+            placeholder={placeholder}
             className="input focus:outline-0 focus:border-primary border-gray-300 w-full sm:w-auto"
             onChange={(e) => setSearchValue(e.target.value)}
           />

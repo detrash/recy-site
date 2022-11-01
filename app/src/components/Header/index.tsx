@@ -1,5 +1,6 @@
 import { Disclosure } from '@headlessui/react';
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -22,6 +23,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   userProfileType,
 }) => {
   const router = useRouter();
+  const { t } = useTranslation('common');
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -65,7 +67,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
                       return (
                         <Link
-                          key={headerItem.name}
+                          key={headerItem.key}
                           href={headerItem.href}
                           aria-current={
                             router.asPath === headerItem.href
@@ -84,7 +86,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                               }
                             )}
                           >
-                            {headerItem.name}
+                            {t(headerItem.key)}
                           </button>
                         </Link>
                       );
@@ -93,10 +95,13 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 </div>
               </div>
               <div className="flex-1 flex items-center justify-center sm:justify-end">
-                <Wallet />
+                <Wallet title={t('connect_wallet')} />
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center gap-3 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <Profile />
+                <Profile
+                  profileTitle={t('your_profile')}
+                  signOutTitle={t('sign_out')}
+                />
               </div>
             </div>
           </div>
@@ -126,7 +131,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                       router.asPath === headerItem.href ? 'page' : undefined
                     }
                   >
-                    {headerItem.name}
+                    {t(headerItem.key)}
                   </Disclosure.Button>
                 );
               })}

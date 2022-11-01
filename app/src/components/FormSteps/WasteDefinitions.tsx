@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useFormContext } from 'src/context/formContext';
 import { FORM_STEPS, USER_WASTE_TYPES } from 'src/utils/constants';
 import GroupCheckbox from '../GroupCheckbox';
@@ -11,32 +12,32 @@ const WasteDefinitions: React.FC<WasteDefinitionsProps> = ({
   isConnected,
   walletAddress,
 }) => {
+  const { t } = useTranslation();
   const { wasteTypes, setWasteTypes, setFormStep } = useFormContext();
 
   return (
     <div className="flex flex-col flex-1 gap-4 sm:gap-12">
       <section className="mb-3 sm:m-0">
         <h2 className="text-2xl sm:text-3xl mb-1 text-gray-800 font-bold antialiased leading-relaxed">
-          Recy Form Submission
+          {t('submit:submit_title')}
         </h2>
         <p className="text-sm text-gray-600">
-          Here is where you show how you are keeping our world clean and get
-          some cRECYS.
+          {t('submit:submit_description1')}
         </p>
         <p className="text-sm text-gray-600">
-          Remember to fill the form with care. We are a reputation based system.
+          {t('submit:submit_description2')}
         </p>
         <p className="mt-2">
-          Wallet:{' '}
+          {t('common:wallet')}:{' '}
           <span className="font-bold">
-            {isConnected ? walletAddress : 'Not connected'}
+            {isConnected ? walletAddress : t('submit:not_connected')}
           </span>
         </p>
       </section>
 
       <section>
         <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px]">
-          What kinds of waste are you reporting today?
+          {t('submit:type_of_residues')}
         </h2>
         <div className="grid grid-cols-6 gap-3">
           <GroupCheckbox
@@ -54,7 +55,7 @@ const WasteDefinitions: React.FC<WasteDefinitionsProps> = ({
           className="btn btn-primary text-white no-animation w-full sm:w-auto"
           onClick={() => setFormStep(FORM_STEPS.wasteDetails)}
         >
-          Confirm
+          {t('submit:confirm')}
         </button>
       </div>
     </div>

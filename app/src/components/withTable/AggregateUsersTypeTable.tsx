@@ -1,3 +1,5 @@
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import {
   ResidueType,
@@ -17,6 +19,9 @@ type AggregateUsersFormType = {
 };
 
 const AggregateUsersTypeTable: React.FC = () => {
+  const { t } = useTranslation();
+  const { locale } = useRouter();
+
   const [page, setPage] = useState(1);
   const [rowsCount, setRowsCount] = useState(5);
 
@@ -49,20 +54,23 @@ const AggregateUsersTypeTable: React.FC = () => {
     return [
       {
         key: 'id',
-        title: 'Type',
+        title: t('admin:user_type'),
+        cell: (form) => {
+          return <p>{t(`common:${form.id.toLowerCase()}`)}</p>;
+        },
       },
       ...USER_WASTE_TYPES.map((wasteType) => {
         return {
           key: wasteType.key,
-          title: `${wasteType.value} Kgs`,
+          title: `${t(`common:${wasteType.value.toLowerCase()}`)} Kgs`,
           cell: (form: AggregateUsersFormType) => {
-            const amount = formatNumber(form[wasteType.key] || 0);
+            const amount = formatNumber(form[wasteType.key] || 0, locale);
             return <p>{`${amount} Kgs`}</p>;
           },
         };
       }),
     ];
-  }, []);
+  }, [locale, t]);
 
   return (
     <>

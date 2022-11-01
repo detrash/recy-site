@@ -6,6 +6,7 @@ interface PaginationProps {
   registerPerPage: number;
   currentPage: number;
   onPageChange: (page: number) => void;
+  offsetLabel: string;
 }
 
 const siblingsCount = 1;
@@ -23,6 +24,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   onPageChange,
   registerPerPage,
+  offsetLabel,
 }: PaginationProps) => {
   const lastPage = Math.ceil(totalCountOfRegister / registerPerPage);
 
@@ -41,8 +43,8 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <section className="flex items center justify-between mt-8 gap-6">
       <div>
-        <strong>{registerPerPage * currentPage - registerPerPage}</strong> -{' '}
-        <strong>{registerPerPage * currentPage}</strong> of{' '}
+        <strong>{registerPerPage * currentPage - registerPerPage + 1}</strong> -{' '}
+        <strong>{registerPerPage * currentPage}</strong> {offsetLabel}{' '}
         <strong>
           {new Intl.NumberFormat('en-US').format(totalCountOfRegister)}
         </strong>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import { Warning } from 'phosphor-react';
 import { useState } from 'react';
@@ -21,6 +22,7 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
   formData,
   isLoading,
 }) => {
+  const { t } = useTranslation();
   const [selectedResidueCard, setSelectedResidueCard] =
     useState<ResidueDocument>();
 
@@ -49,14 +51,14 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
     <div>
       <section className="grid sm:grid-cols-2 gap-2 mb-5 overflow-auto">
         <p>
-          Wallet Address:{' '}
+          {`${t('admin:wallet_address')}: `}
           <span className="font-bold">
-            {formData.form.walletAddress || 'No wallet submitted'}
+            {formData.form.walletAddress || t('admin:no_wallet_submitted')}
           </span>
         </p>
 
         <p>
-          Email Address:{' '}
+          {`${t('admin:email_address')}: `}
           <span className="font-bold">{formData.form.user.email}</span>
         </p>
       </section>
@@ -69,6 +71,7 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
           isDisabled={
             !(selectedResidueCard && selectedResidueCard?.videoFileName)
           }
+          label={t('common:video')}
         />
         <FormActionButton
           formId={formData.form.id}
@@ -80,6 +83,7 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
               selectedResidueCard?.invoicesFileName?.length
             )
           }
+          label={t('common:invoice')}
         />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -97,10 +101,7 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
       </div>
       <div className="flex items-center gap-2 my-2">
         <Warning className="text-warning w-6 h-6" weight="fill" />
-        <h2 className="text-sm">
-          Select the residue type above in order to download Video and Invoices
-          if available
-        </h2>
+        <h2 className="text-sm">{t('admin:select_residue')}</h2>
       </div>
     </div>
   );

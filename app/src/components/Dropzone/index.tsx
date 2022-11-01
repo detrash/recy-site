@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import {
   CloudArrowUp,
   FileImage,
@@ -27,22 +28,33 @@ const ICON_BY_EXTENSION_FILE = {
 const NoFileUploadedContent: React.FC<{
   isDragActive: boolean;
   open: () => void;
-}> = ({ isDragActive, open }) => {
+  browseLabel: string;
+  orLabel: string;
+  dropFileHereLabel: string;
+  dragFileHere: string;
+}> = ({
+  isDragActive,
+  open,
+  browseLabel,
+  orLabel,
+  dragFileHere,
+  dropFileHereLabel,
+}) => {
   return (
     <>
       <CloudArrowUp className="w-32 h-32 text-gray-200" />
       <div className=" w-full text-center">
         <p className="text-lg">
-          {isDragActive ? 'Drop the file here' : `Drag & drop the file here`}
+          {isDragActive ? dropFileHereLabel : dragFileHere}
         </p>
       </div>
-      <p className="text-sm">or</p>
+      <p className="text-sm">{orLabel}</p>
       <button
         type="button"
         className="btn btn-outline btn-primary border border-primary no-animation shadow-none"
         onClick={open}
       >
-        Browse Files
+        {browseLabel}
       </button>
     </>
   );
@@ -54,6 +66,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
   acceptableFiles,
   maxFiles,
 }) => {
+  const { t } = useTranslation();
   const {
     getRootProps,
     getInputProps,
@@ -126,7 +139,14 @@ const Dropzone: React.FC<DropzoneProps> = ({
         <input id="test" {...getInputProps()} />
         <div className="flex flex-col items-center gap-2">
           {!files?.length ? (
-            <NoFileUploadedContent isDragActive={isDragActive} open={open} />
+            <NoFileUploadedContent
+              isDragActive={isDragActive}
+              open={open}
+              browseLabel={t('submit:browse_files')}
+              orLabel={t('submit:or')}
+              dragFileHere={t('submit:drag_drop')}
+              dropFileHereLabel={t('submit:drop_file')}
+            />
           ) : (
             <>
               <div className=" w-full text-center">
@@ -155,7 +175,7 @@ const Dropzone: React.FC<DropzoneProps> = ({
                 className="btn btn-outline btn-primary border border-primary no-animation shadow-none"
                 onClick={open}
               >
-                Browse Files
+                {t('submit:browse_files')}
               </button>
             </>
           )}
@@ -165,8 +185,13 @@ const Dropzone: React.FC<DropzoneProps> = ({
       <div className="flex items-center gap-2">
         <Warning className="text-warning w-6 h-6" weight="fill" />
         <p className="font-bold">
-          Only {supportedFiles} files are supported.
-          {maxFiles && <span> Maximum of {maxFiles}</span>}
+          {t('submit:only')} {supportedFiles} {t('submit:supported')}
+          {maxFiles && (
+            <span>
+              {' '}
+              {t('submit:maximum')} {maxFiles}
+            </span>
+          )}
         </p>
       </div>
     </section>

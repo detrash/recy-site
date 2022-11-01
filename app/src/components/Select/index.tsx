@@ -1,5 +1,10 @@
+type Item = {
+  key: string;
+  label: string;
+};
+
 type SelectProps = {
-  items: string[];
+  items: Item[];
   selected: string;
   setSelected: (item: any) => void;
 };
@@ -16,8 +21,8 @@ export const Select: React.FC<SelectProps> = ({
       onChange={(value) => setSelected(value.target.value)}
     >
       {items.map((item) => (
-        <option key={item} value={item}>
-          {item}
+        <option key={item.key} value={item.key}>
+          {item.label}
         </option>
       ))}
     </select>

@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useRouter } from 'next/router';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 
 type ResidueCardProps = {
@@ -16,6 +17,8 @@ const ResidueCard: React.FC<ResidueCardProps> = ({
   title,
   value,
 }) => {
+  const { locale } = useRouter();
+
   const getCurrentColor = () => {
     if (color === 'primary') return '#0B5FFF';
     if (color === 'secondary') return '#2b9500';
@@ -39,7 +42,9 @@ const ResidueCard: React.FC<ResidueCardProps> = ({
         <div className="font-bold text-gray-900">
           <p className="text-sm sm:text-base">{title}</p>
           <h1 className="text-lg sm:text-2xl">
-            {`${new Intl.NumberFormat('en-US').format(value)} Kgs`}
+            {`${new Intl.NumberFormat(
+              locale === 'en' ? 'en-US' : 'pt-BR'
+            ).format(value)} Kgs`}
           </h1>
         </div>
 

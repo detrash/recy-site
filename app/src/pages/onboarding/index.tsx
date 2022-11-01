@@ -10,7 +10,6 @@ import {
   useCreateUserMutation,
 } from 'src/graphql/generated/graphql';
 import FormLayout from 'src/layout/FormLayout';
-import { withPrivateApollo } from 'src/lib/withPrivateApollo';
 import { FORM_STEPS } from 'src/utils/constants';
 import { APP_NAV_LINKS } from 'src/utils/navLinks';
 import { userSSRMethods } from 'src/utils/userSSRMethods';
@@ -76,4 +75,4 @@ const OnboardingAppPage: React.FC = () => {
 
 export const getServerSideProps = userSSRMethods.checkOnboardingAccess;
 
-export default withPrivateApollo(OnboardingAppPage);
+export default OnboardingAppPage;

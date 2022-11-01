@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import { Dispatch, ForwardRefExoticComponent, SetStateAction } from 'react';
 
 type GroupCheckboxProps = {
@@ -18,6 +19,8 @@ const GroupCheckbox: React.FC<GroupCheckboxProps> = ({
   setValues,
   values,
 }) => {
+  const { t } = useTranslation();
+
   const handleOnCheck = (
     hasPreviouslyChecked: boolean,
     checkboxItem: string
@@ -52,7 +55,7 @@ const GroupCheckbox: React.FC<GroupCheckboxProps> = ({
                   'text-base text-left font-bold tracking-wider'
                 )}
               >
-                {checkboxItem.value}
+                {t(`common:${checkboxItem.value.toLowerCase()}`)}
               </h2>
               <checkboxItem.Icon
                 className={classNames('w-6 h-6', {

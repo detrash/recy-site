@@ -7,6 +7,7 @@ type RadioProps = {
   isDisabled?: boolean;
   setValue: (value: string) => void;
   value: string;
+  imLabel: string;
 };
 
 const Radio: React.FC<RadioProps> = ({
@@ -15,6 +16,7 @@ const Radio: React.FC<RadioProps> = ({
   isDisabled,
   setValue,
   value,
+  imLabel,
 }) => {
   return (
     <button
@@ -32,7 +34,7 @@ const Radio: React.FC<RadioProps> = ({
       onClick={() => setValue(id)}
     >
       <div className="flex justify-between items-center">
-        <p className="text-sm text-gray-600 uppercase">I&apos;m</p>
+        <p className="text-sm text-gray-600 uppercase">{imLabel}</p>
         {isActive && (
           <CheckCircle weight="fill" className="w-5 h-5 text-primary" />
         )}

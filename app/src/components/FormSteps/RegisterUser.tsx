@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { Form, FormikProps } from 'formik';
+import { useTranslation } from 'next-i18next';
 import * as R from 'ramda';
 import { USER_ROLE_TYPES } from 'src/utils/constants';
 import { UserRegistrationSchema } from 'src/utils/YupSchema';
@@ -16,31 +17,30 @@ const RegisterUser: React.FC<RegisterUserProps> = ({
   values,
   setFieldValue,
 }) => {
+  const { t } = useTranslation();
   return (
     <Form className="flex flex-col flex-1 gap-4 sm:gap-12">
       <section className="mb-3 sm:m-0">
         <h2 className="text-2xl sm:text-3xl mb-1 text-gray-800 font-bold antialiased leading-relaxed">
-          Complete your profile information
+          {t('onboarding:complete_information')}
         </h2>
-        <p className="text-sm text-gray-600">
-          In order to use DeTrash App, please fill the data below.
-        </p>
+        <p className="text-sm text-gray-600">{t('onboarding:detrash_rules')}</p>
       </section>
 
       <section className="grid grid-cols-6 gap-3">
         <div className="col-span-6 sm:col-span-3">
           <Input
-            label="Preferred Name"
+            label={t('common:preffered_name')}
             name="name"
-            placeholder="Type your name"
+            placeholder={t('common:type_name')}
             required
           />
         </div>
         <div className="col-span-6 sm:col-span-3">
           <Input
-            label="Phone Number"
+            label={t('common:phone_number')}
             name="phoneNumber"
-            placeholder="Type your phone number"
+            placeholder={t('common:type_number')}
             required
           />
         </div>
@@ -48,7 +48,7 @@ const RegisterUser: React.FC<RegisterUserProps> = ({
 
       <section>
         <h2 className="text-sm pb-1 uppercase font-bold mb-4 border-b-[1px]">
-          Select your profile type:
+          {t('onboarding:select_profile')}:
         </h2>
         <div className="grid sm:grid-cols-3 gap-3">
           {USER_ROLE_TYPES.map((userType) => (
@@ -56,8 +56,9 @@ const RegisterUser: React.FC<RegisterUserProps> = ({
               key={userType.key}
               id={userType.key}
               setValue={(value) => setFieldValue('profileType', value)}
-              value={userType.value}
+              value={t(`common:${userType.key.toLowerCase()}`)}
               isActive={userType.key === values.profileType}
+              imLabel={t('common:im')}
             />
           ))}
         </div>
@@ -74,7 +75,9 @@ const RegisterUser: React.FC<RegisterUserProps> = ({
             }
           )}
         >
-          {isCreatingUser ? 'Creating user... ' : 'Confirm'}
+          {isCreatingUser
+            ? t('onboarding:creating_user')
+            : t('onboarding:confirm')}
         </button>
       </div>
     </Form>

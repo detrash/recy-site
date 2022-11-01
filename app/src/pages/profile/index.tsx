@@ -7,7 +7,6 @@ import {
   useUpdateUserMutation,
 } from 'src/graphql/generated/graphql';
 import { PageMeComp } from 'src/graphql/generated/page';
-import { withPrivateApollo } from 'src/lib/withPrivateApollo';
 import { getAdminAccess } from 'src/utils/getAdminAccess';
 import { userSSRMethods } from 'src/utils/userSSRMethods';
 import { ProfileFormSchema, userRegistrationSchema } from 'src/utils/YupSchema';
@@ -67,4 +66,4 @@ const Profile: PageMeComp = ({ data }) => {
 
 export const getServerSideProps = userSSRMethods.checkUserAccess;
 
-export default withPrivateApollo(Profile);
+export default Profile;

@@ -1,4 +1,6 @@
 import { format } from 'date-fns';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import { Article, Coin, Recycle, TrendUp } from 'phosphor-react';
 import { useMemo } from 'react';
 import StackedStats from 'src/components/StackedStats';
@@ -20,6 +22,9 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
   const { percentIncrease, isLoading: isLoadingStats } =
     useUserStatsComparison();
 
+  const { t } = useTranslation();
+  const { locale } = useRouter();
+
   const highlitedPanel = useMemo(() => {
     if (user) {
       const totalForms = user?.me.forms;
@@ -28,26 +33,26 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
         {
           id: 'RESIDUES',
           icon: Recycle,
-          label: 'Total Residues Kgs Reported',
+          label: t('dashboard:total_residues_reported'),
           value: String(totalAmountResiduesReported),
         },
         {
           id: 'FORMS',
           icon: Article,
-          label: 'Total Forms Submitted',
+          label: t('dashboard:total_forms_submitted'),
           value: String(totalForms?.length),
         },
         {
           id: 'CRECY',
           icon: Coin,
-          label: 'Total cRECY Earned',
+          label: t('dashboard:total_crecy_earned'),
           value: '0',
         },
       ];
     }
 
     return [];
-  }, [user]);
+  }, [user, t]);
 
   const highlitedItems = useMemo(() => {
     return user?.me?.forms?.reduce(
@@ -70,8 +75,10 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     );
   }, [user?.me.forms]);
 
+  const currentDateFormat = locale === 'en' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+
   const lastLoginDate = user?.me.lastLoginDate
-    ? format(new Date(user?.me.lastLoginDate), 'MM/dd/yyyy HH:mm')
+    ? format(new Date(user?.me.lastLoginDate), `${currentDateFormat} HH:mm`)
     : '';
 
   if (isLoading || !user || isLoadingStats) {
@@ -81,14 +88,22 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
   return (
     <div className="flex flex-col gap-3">
       <section className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-xl sm:text-3xl text-gray-900 font-bold">{`Welcome, ${user?.me.name}`}</h2>
-        <p className="text-gray-900 text-sm sm:text-base">{`Last login: ${lastLoginDate}`}</p>
+        <h2 className="text-xl sm:text-3xl text-gray-900 font-bold">
+          {`${t('dashboard:welcome_to_app')}${user?.me.name}`}
+        </h2>
+        <p className="text-gray-900 text-sm sm:text-base">{`${t(
+          'dashboard:last_login'
+        )}${lastLoginDate}`}</p>
       </section>
-      <StackedStats percentIncrease={percentIncrease} stats={highlitedPanel} />
+      <StackedStats
+        percentIncrease={percentIncrease}
+        stats={highlitedPanel}
+        comment={t('dashboard:past_30_days')}
+      />
       <div className="grid grid-cols-6 gap-3">
         <div className="flex-1 col-span-6 sm:col-span-4">
-          <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-            Total Residues reported so far
+          <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-4">
+            {t('dashboard:residues_reported')}
           </h2>
           <div className="grid grid-cols-6 gap-3">
             {highlitedItems &&
@@ -112,7 +127,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
                           Icon={currentItem.Icon}
                           color={index % 2 === 0 ? 'primary' : 'secondary'}
                           percent={Number(percent)}
-                          title={currentItem.value}
+                          title={t(`common:${currentItem.value.toLowerCase()}`)}
                         />
                       ) : (
                         <ResidueCard
@@ -130,11 +145,17 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
           </div>
         </div>
 
-        <SubmitFormCard userProfileType={user?.me.profileType} />
+        <SubmitFormCard
+          userProfileType={user?.me.profileType}
+          buttonLabel={t('common:submit_report_button')}
+          description={t('common:submit_report_description')}
+          notAllowedLabel={t('common:not_allowed_submit_form')}
+          title={t('common:submit_report_title')}
+        />
       </div>
       <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
         <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-          Forms submitted
+          {t('dashboard:forms_submitted')}
         </h2>
         <UserFormDetails formDetails={user?.me.forms} />
       </div>

@@ -7,7 +7,11 @@ import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
 const METAMASK_ID = 'METAMASK';
 
-const Wallet: React.FC = () => {
+type WalletProps = {
+  title: string;
+};
+
+const Wallet: React.FC<WalletProps> = ({ title }) => {
   const { isConnected, address } = useAccount();
   const { connect, connectors, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
@@ -62,7 +66,7 @@ const Wallet: React.FC = () => {
               }
             )}
           >
-            {isConnected ? <p>{formattedAddress}</p> : <p>Connect Wallet</p>}
+            {isConnected ? <p>{formattedAddress}</p> : <p>{title}</p>}
             <WalletIcon
               className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
               aria-hidden="true"

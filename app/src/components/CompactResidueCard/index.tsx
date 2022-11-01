@@ -1,4 +1,6 @@
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import { Check, X } from 'phosphor-react';
 import { USER_WASTE_TYPES } from 'src/utils/constants';
 import { formatNumber } from 'src/utils/formatNumber';
@@ -44,11 +46,14 @@ export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
   setValue,
   residueData,
 }) => {
+  const { t } = useTranslation();
+  const { locale } = useRouter();
+
   const wasteInfo = USER_WASTE_TYPES.find(
     (wasteType) => wasteType.key === residueData.residueType
   )!;
 
-  const amount = formatNumber(residueData.amount || 0);
+  const amount = formatNumber(residueData.amount || 0, locale);
 
   return (
     <button
@@ -71,18 +76,20 @@ export const CompactResidueCard: React.FC<CompactResidueCardProps> = ({
           <FileStatus
             isActive={isActive}
             hasFileAssociated={!!residueData.videoFileName}
-            label="Video"
+            label={t('common:video')}
           />
           <FileStatus
             isActive={isActive}
             hasFileAssociated={!!residueData?.invoicesFileName?.length}
-            label="Invoice"
+            label={t('common:invoice')}
           />
         </div>
       </section>
       <section className="flex items-center justify-between">
         <div className="font-bold text-gray-900">
-          <p className="text-sm sm:text-base text-left">{wasteInfo.value}</p>
+          <p className="text-sm sm:text-base text-left">
+            {t(`common:${wasteInfo.value.toLowerCase()}`)}
+          </p>
           <h1 className="text-lg sm:text-2xl text-left">{`${amount} Kgs`}</h1>
         </div>
       </section>

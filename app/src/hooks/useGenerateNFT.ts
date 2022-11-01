@@ -12,8 +12,11 @@ export const useGenerateNFT = (formId: string) => {
 
   const [useCreateNft] = useCreateNftMutation();
 
-  const handleFormAudit = async () => {
-    toast.info('Generating NFT metadata, please wait', {
+  const handleFormAudit = async (
+    generatingMessage: string,
+    successMessage: string
+  ) => {
+    toast.info(generatingMessage, {
       position: 'bottom-right',
       autoClose: false,
       closeOnClick: false,
@@ -63,7 +66,7 @@ export const useGenerateNFT = (formId: string) => {
           );
 
           toast.dismiss();
-          toast.success('NFT metadata generated with success', {
+          toast.success(successMessage, {
             position: 'bottom-right',
             autoClose: 5000,
             hideProgressBar: false,

@@ -1,0 +1,38 @@
+{
+  "dashboard": "Dashboard",
+  "submit_form": "Submeter Formulário",
+  "admin_panel": "Painel de administrador",
+  "connect_wallet": "Conectar carteira",
+  "wallet": "Carteira",
+  "your_profile": "Seu perfil",
+  "sign_out": "Deslogar",
+
+  "glass": "Vidro",
+  "metal": "Metal",
+  "organic": "Orgânico",
+  "paper": "Papel",
+  "plastic": "Plástico",
+
+  "recycler": "Reciclador",
+  "hodler": "Hodler",
+  "waste_generator": "Gerador de Resíduos",
+
+  "submit_report_title": "Envie seu formulário",
+  "submit_report_description": "Envie um formulário e ganhe cRECYS!",
+  "submit_report_button": "Enviar formulário",
+  "not_allowed_submit_form": "Você não pode enviar formulário sendo Hodler",
+
+  "table_show": "Mostrar",
+  "table_search": "Pesquisar...",
+  "table_offset": "de",
+
+  "form": "Formulário",
+  "invoice": "Nota Fiscal",
+  "video": "Vídeo",
+
+  "preffered_name": "Nome de preferência",
+  "type_name": "Digite seu nome",
+  "phone_number": "Número de telefone",
+  "type_number": "Digite seu número de telefone",
+  "im": "SOU"
+}

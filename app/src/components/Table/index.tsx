@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useTranslation } from 'next-i18next';
 import * as R from 'ramda';
 import Pagination from './Pagination';
 import TableHeader from './TableHeader';
@@ -51,6 +52,7 @@ const TableComponent = <ObjectType extends { id: string }>({
   setRowsCount,
   totalCount,
 }: TableComponentProps<ObjectType>): JSX.Element => {
+  const { t } = useTranslation('common');
   const [sortedData, setSortedData] = useState<ObjectType[]>([]);
 
   const filters = useRef<FiltersProps>([]);
@@ -139,7 +141,12 @@ const TableComponent = <ObjectType extends { id: string }>({
   return (
     <>
       <div className="flex items-center justify-between">
-        {hasSearch && <TableSearch handleOnSearch={handleOnSearch} />}
+        {hasSearch && (
+          <TableSearch
+            handleOnSearch={handleOnSearch}
+            placeholder={t('table_search')}
+          />
+        )}
         {filtersElement}
       </div>
       <div className="overflow-x-auto">
@@ -190,6 +197,7 @@ const TableComponent = <ObjectType extends { id: string }>({
             currentPage={page}
             onPageChange={onPageChange}
             registerPerPage={rowsCount}
+            offsetLabel={t('table_offset')}
           />
           <div>
             <select
@@ -197,10 +205,10 @@ const TableComponent = <ObjectType extends { id: string }>({
               defaultValue={rowsCount}
               onChange={(e) => setRowsCount(Number(e.target.value))}
             >
-              <option value={5}>Show 5</option>
-              <option value={10}>Show 10</option>
-              <option value={20}>Show 20</option>
-              <option value={50}>Show 50</option>
+              <option value={5}>{t('table_show')} 5</option>
+              <option value={10}>{t('table_show')} 10</option>
+              <option value={20}>{t('table_show')} 20</option>
+              <option value={50}>{t('table_show')} 50</option>
             </select>
           </div>
         </>

@@ -10,7 +10,7 @@ import { USER_ROLE_TYPES } from 'src/utils/constants';
 import { APP_NAV_LINKS } from 'src/utils/navLinks';
 
 type PageLoaderProps = {
-  pageType: 'Dashboard' | 'SubmitForm';
+  pageType?: 'Dashboard' | 'SubmitForm';
 };
 
 type PageLoaderData = {

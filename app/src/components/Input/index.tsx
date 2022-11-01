@@ -19,9 +19,6 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputTypes> = (
 ) => {
   const [field, meta] = useField(props as any);
 
-  console.log('touched?', meta.touched);
-  console.log('meta.error?', meta.error);
-
   const INPUT_TYPES = {
     input: (
       <input

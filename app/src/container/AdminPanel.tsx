@@ -1,4 +1,5 @@
-import { Article, Coin, Users } from 'phosphor-react';
+import { useTranslation } from 'next-i18next';
+import { Article, Users } from 'phosphor-react';
 
 import { useMemo } from 'react';
 import StackedStats from 'src/components/StackedStats';
@@ -17,6 +18,8 @@ type PrivatePanelProps = {
 };
 
 const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
+  const { t } = useTranslation();
+
   const {
     data: usersData,
     loading: isUsersLoading,
@@ -36,23 +39,17 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
       {
         id: 'USERS',
         icon: Users,
-        label: 'Total Active Users',
+        label: t('admin:total_active_users'),
         value: String(totalUsers?.length),
       },
       {
         id: 'FORMS',
         icon: Article,
-        label: 'Total Forms Submitted',
+        label: t('admin:total_forms_submitted'),
         value: String(totalForms?.length),
       },
-      {
-        id: 'CRECY',
-        icon: Coin,
-        label: 'Total cRECY Distributed',
-        value: '0',
-      },
     ];
-  }, [formsData?.forms, usersData?.users]);
+  }, [formsData?.forms, t, usersData?.users]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -60,7 +57,7 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
       <div className="grid grid-cols-6 gap-3">
         <div className="py-4 px-6 bg-white shadow rounded-md flex-1 col-span-6 sm:col-span-4">
           <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-            Issued forms
+            {t('admin:issued_by')}
           </h2>
           <AuthorizedFormsTable
             forms={formsData?.forms}
@@ -69,11 +66,17 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
           />
         </div>
 
-        <SubmitFormCard userProfileType={userProfileType} />
+        <SubmitFormCard
+          userProfileType={userProfileType}
+          buttonLabel={t('common:submit_report_button')}
+          description={t('common:submit_report_description')}
+          notAllowedLabel={t('common:not_allowed_submit_form')}
+          title={t('common:submit_report_title')}
+        />
       </div>
       <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
         <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-          Active users
+          {t('admin:active_users')}
         </h2>
         <ActiveUsersTable
           hasError={!!hasUsersError}
@@ -83,7 +86,7 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
       </div>
       <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
         <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-          Total residues reported by user profile
+          {t('admin:total_residues_reported_user')}
         </h2>
         <AggregateUsersTypeTable />
       </div>

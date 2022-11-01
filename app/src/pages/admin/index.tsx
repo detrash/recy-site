@@ -1,7 +1,6 @@
 import DashboardHeader from 'src/components/Header';
 import AdminPanel from 'src/container/AdminPanel';
 import { MeQuery } from 'src/graphql/generated/graphql';
-import { withPrivateApollo } from 'src/lib/withPrivateApollo';
 import { userSSRMethods } from 'src/utils/userSSRMethods';
 
 interface AdminHomeProps {
@@ -27,4 +26,4 @@ const AdminHome: React.FC<AdminHomeProps> = ({ data, isAdmin }) => {
 
 export const getServerSideProps = userSSRMethods.checkAdminAccess;
 
-export default withPrivateApollo(AdminHome as any);
+export default AdminHome;

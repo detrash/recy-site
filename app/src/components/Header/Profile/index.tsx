@@ -6,7 +6,12 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import { APP_NAV_LINKS } from 'src/utils/navLinks';
 
-const Profile: React.FC = () => {
+type ProfileProps = {
+  profileTitle: string;
+  signOutTitle: string;
+};
+
+const Profile: React.FC<ProfileProps> = ({ profileTitle, signOutTitle }) => {
   const { user } = useUser();
   return (
     <Menu as="div" className="ml-3 relative">
@@ -36,7 +41,7 @@ const Profile: React.FC = () => {
           <Menu.Item>
             <Link href={APP_NAV_LINKS.PROFILE}>
               <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                Your Profile
+                {profileTitle}
               </a>
             </Link>
           </Menu.Item>
@@ -46,7 +51,7 @@ const Profile: React.FC = () => {
               href="/api/auth/logout"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
-              Sign out
+              {signOutTitle}
             </a>
           </Menu.Item>
         </Menu.Items>

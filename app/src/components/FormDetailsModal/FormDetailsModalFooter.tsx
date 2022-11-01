@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { useAuthorizeFormMutation } from 'src/graphql/generated/graphql';
 
@@ -15,6 +16,7 @@ export const FormDetailsModalFooter: React.FC<FormDetailsModalFooter> = ({
   onFormAudit,
   isLoading,
 }) => {
+  const { t } = useTranslation();
   const [authorizeFormMutation] = useAuthorizeFormMutation();
 
   const [authorizationStatus, setAuthorizationStatus] = useState<
@@ -42,11 +44,15 @@ export const FormDetailsModalFooter: React.FC<FormDetailsModalFooter> = ({
   const getFormStatusText = () => {
     if (hasValidatedForm) {
       if (isFormAuthorizedByAdmin) {
-        return <span className="font-bold text-success">Approved</span>;
+        return (
+          <span className="font-bold text-success">{t('admin:approved')}</span>
+        );
       }
-      return <span className="font-bold text-error">Denied</span>;
+      return <span className="font-bold text-error">{t('admin:denied')}</span>;
     }
-    return <span className="font-bold text-gray-400">Pending</span>;
+    return (
+      <span className="font-bold text-gray-400">{t('admin:pending')}</span>
+    );
   };
 
   if (isLoading) {
@@ -59,7 +65,9 @@ export const FormDetailsModalFooter: React.FC<FormDetailsModalFooter> = ({
   }
   return (
     <section className="flex flex-1 justify-between items-center">
-      <h2 className="text-sm sm:text-base">Status: {getFormStatusText()}</h2>
+      <h2 className="text-sm sm:text-base">
+        {t('admin:status')}: {getFormStatusText()}
+      </h2>
 
       {!hasValidatedForm && (
         <div className="flex items-center justify-center gap-2">
@@ -70,7 +78,7 @@ export const FormDetailsModalFooter: React.FC<FormDetailsModalFooter> = ({
               loading: authorizationStatus === 'Not Verified',
             })}
           >
-            Decline
+            {t('admin:decline')}
           </button>
           <button
             onClick={() => handleOnFormAuthorization(true)}
@@ -79,7 +87,7 @@ export const FormDetailsModalFooter: React.FC<FormDetailsModalFooter> = ({
               loading: authorizationStatus === 'Verified',
             })}
           >
-            Approve
+            {t('admin:approve')}
           </button>
         </div>
       )}

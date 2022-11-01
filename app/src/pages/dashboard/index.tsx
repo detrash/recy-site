@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import DashboardHeader from 'src/components/Header';
 import UserPanel from 'src/container/UserPanel';
 import { usePageLoader } from 'src/hooks/usePageLoader';
-import { withPrivateApollo } from 'src/lib/withPrivateApollo';
 import { getAdminAccess } from 'src/utils/getAdminAccess';
+import { getPageTranslations } from 'src/utils/userSSGMethods';
 
 const AppHome: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -31,4 +31,6 @@ const AppHome: React.FC = () => {
   );
 };
 
-export default withPrivateApollo(AppHome);
+export const getStaticProps = getPageTranslations(['common', 'dashboard']);
+
+export default AppHome;
