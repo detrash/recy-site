@@ -49,7 +49,9 @@ const StackedStats: React.FC<StackedStatsProps> = ({
               'text-secondary': index === 1,
             })}
           >
-            {new Intl.NumberFormat(currentFormat).format(+stat.value)}
+            {stat.id === 'CRECY'
+              ? stat.value
+              : new Intl.NumberFormat(currentFormat).format(+stat.value)}
           </div>
           {stat.id !== 'CRECY' && percentIncrease && (
             <div className="stat-desc">

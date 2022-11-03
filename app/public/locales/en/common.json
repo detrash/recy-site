@@ -34,5 +34,9 @@
   "type_name": "Type your name",
   "phone_number": "Phone Number",
   "type_number": "Type your phone number",
-  "im": "I'M"
+  "im": "I'M",
+
+  "generating_nft": "Generating NFT metadata, please wait...",
+  "success_nft": "NFT metadata generated with success",
+  "error_fetching_recy": "Error while loading cRECY from your wallet, please make sure that you have an account with cRECY and try again."
 }

@@ -4,8 +4,10 @@ import { useRouter } from 'next/router';
 import { Article, Coin, Recycle, TrendUp } from 'phosphor-react';
 import { useMemo } from 'react';
 import StackedStats from 'src/components/StackedStats';
+import { useRECYBalance } from 'src/hooks/useRECYBalance';
 import { useUserStatsComparison } from 'src/hooks/useUserStatsComparison';
 import { getResiduesSum } from 'src/utils/getResiduesSum';
+import { useBalance } from 'wagmi';
 import ResidueCard from '../components/ResidueCard';
 import SubmitFormCard from '../components/SubmitFormCard';
 import UserFormDetails from '../components/withTable/UserFormDetails';
@@ -24,6 +26,8 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
 
   const { t } = useTranslation();
   const { locale } = useRouter();
+
+  const { data, isLoading: isLoadingRecyBalance } = useRECYBalance();
 
   const highlitedPanel = useMemo(() => {
     if (user) {
@@ -46,13 +50,13 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
           id: 'CRECY',
           icon: Coin,
           label: t('dashboard:total_crecy_earned'),
-          value: '0',
+          value: data ? Number(data.formatted).toFixed(2) : '-',
         },
       ];
     }
 
     return [];
-  }, [user, t]);
+  }, [user, t, data]);
 
   const highlitedItems = useMemo(() => {
     return user?.me?.forms?.reduce(
@@ -99,6 +103,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
         percentIncrease={percentIncrease}
         stats={highlitedPanel}
         comment={t('dashboard:past_30_days')}
+        isLoading={isLoadingRecyBalance}
       />
       <div className="grid grid-cols-6 gap-3">
         <div className="flex-1 col-span-6 sm:col-span-4">

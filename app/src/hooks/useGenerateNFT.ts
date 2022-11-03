@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { toBlob } from 'html-to-image';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import {
   useCreateNftMutation,
@@ -8,9 +9,22 @@ import {
 import { uploadToS3 } from 'src/utils/uploadToS3';
 
 export const useGenerateNFT = (formId: string) => {
-  const [useSubmitFormImage] = useSubmitFormImageMutation();
+  const [useSubmitFormImage, { error: submitImageError }] =
+    useSubmitFormImageMutation();
 
-  const [useCreateNft] = useCreateNftMutation();
+  const [useCreateNft, { error: nftError }] = useCreateNftMutation();
+
+  useEffect(() => {
+    if (submitImageError || nftError) {
+      toast.error('Error while creating NFT metadata, try again', {
+        position: 'bottom-right',
+        autoClose: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        progress: undefined,
+      });
+    }
+  }, [nftError, submitImageError]);
 
   const handleFormAudit = async (
     generatingMessage: string,

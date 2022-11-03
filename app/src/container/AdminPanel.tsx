@@ -29,7 +29,9 @@ const AdminPanel: React.FC<PrivatePanelProps> = ({ userProfileType }) => {
     data: formsData,
     loading: isFormsLoading,
     error: hasFormsError,
-  } = useFormsQuery();
+  } = useFormsQuery({
+    fetchPolicy: 'cache-and-network',
+  });
 
   const users = useMemo(() => {
     const totalUsers = usersData?.users;

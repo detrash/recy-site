@@ -34,5 +34,9 @@
   "type_name": "Escriba su nombre",
   "phone_number": "Número de teléfono",
   "type_number": "Escriba su número de teléfono",
-  "im": "SOY"
+  "im": "SOY",
+
+  "generating_nft": "Generando metadatos NFT, espere...",
+  "success_nft": "Metadatos NFT generados con éxito",
+  "error_fetching_recy": "Error al cargar cRECY desde su billetera, asegúrese de tener una cuenta con cRECY e intente nuevamente."
 }
