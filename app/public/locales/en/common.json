@@ -38,5 +38,6 @@
 
   "generating_nft": "Generating NFT metadata, please wait...",
   "success_nft": "NFT metadata generated with success",
-  "error_fetching_recy": "Error while loading cRECY from your wallet, please make sure that you have an account with cRECY and try again."
+  "error_fetching_recy": "Error while loading cRECY from your wallet, please make sure that you have an account with cRECY and try again.",
+  "total": "Total"
 }

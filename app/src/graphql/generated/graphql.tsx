@@ -19,7 +19,7 @@ export type Scalars = {
 export type AggregateFormByUserProfileResponse = {
   __typename?: 'AggregateFormByUserProfileResponse';
   data: Array<AggregateFormData>;
-  id: ProfileType;
+  id: Scalars['String'];
 };
 
 export type AggregateFormData = {
@@ -314,7 +314,7 @@ export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __type
 export type AggregateFormTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: ProfileType, data: Array<{ __typename?: 'AggregateFormData', amount: number, residueType: ResidueType }> }> };
+export type AggregateFormTypesQuery = { __typename?: 'Query', aggregateFormByUserProfile: Array<{ __typename?: 'AggregateFormByUserProfileResponse', id: string, data: Array<{ __typename?: 'AggregateFormData', amount: number, residueType: ResidueType }> }> };
 
 export type DocumentInvoicesUrlByResidueQueryVariables = Exact<{
   formId: Scalars['String'];

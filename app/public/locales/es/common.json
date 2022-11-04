@@ -38,5 +38,6 @@
 
   "generating_nft": "Generando metadatos NFT, espere...",
   "success_nft": "Metadatos NFT generados con éxito",
-  "error_fetching_recy": "Error al cargar cRECY desde su billetera, asegúrese de tener una cuenta con cRECY e intente nuevamente."
+  "error_fetching_recy": "Error al cargar cRECY desde su billetera, asegúrese de tener una cuenta con cRECY e intente nuevamente.",
+  "total": "Total"
 }
