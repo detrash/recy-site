@@ -1,22 +1,23 @@
-import { downloadZip } from 'client-zip';
+import { downloadZip } from "client-zip";
 
 const generateFileDownload = (href: string, fileName: string) => {
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = href;
-  link.setAttribute('download', fileName);
+  link.setAttribute("download", fileName);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 };
 
 const downloadSingleS3File = async (fileDownloadUrl: string) => {
+  console.log(fileDownloadUrl, "fileDownloadUrl");
   const fetchData = await fetch(fileDownloadUrl);
   const blob = await fetchData.blob();
 
   const href = window.URL.createObjectURL(blob);
 
   const { pathname } = new window.URL(fileDownloadUrl);
-  const [fileName] = pathname.split('/').slice(-1);
+  const [fileName] = pathname.split("/").slice(-1);
 
   generateFileDownload(href, fileName);
 };

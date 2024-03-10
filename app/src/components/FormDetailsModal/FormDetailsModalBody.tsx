@@ -50,6 +50,7 @@ export const FormDetailsModalBody: React.FC<FormDetailsModalBodyProps> = ({
   return (
     <div>
       <section className="grid sm:grid-cols-2 gap-2 mb-5 overflow-auto">
+        dsada
         <p>
           {`${t('admin:wallet_address')}: `}
           <span className="font-bold">

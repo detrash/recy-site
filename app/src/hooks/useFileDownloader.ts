@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from 'react';
+import { useState } from "react";
 import {
   ResidueType,
   useDocumentInvoicesUrlByResidueLazyQuery,
   useDocumentVideoUrlByResidueLazyQuery,
-} from 'src/graphql/generated/graphql';
+} from "src/graphql/generated/graphql";
 import {
   downloadMultipleS3AndCompressFile,
   downloadSingleS3File,
-} from 'src/utils/downloadS3Helpers';
+} from "src/utils/downloadS3Helpers";
 
 export const useFileDownloader = () => {
   const [isDownloadingFile, setIsDownloadFile] = useState(false);
@@ -22,14 +22,20 @@ export const useFileDownloader = () => {
   const loadFileAndDownload = async (
     formId: string,
     residueType: ResidueType,
-    documentType: 'INVOICES' | 'VIDEO'
+    documentType: "INVOICES" | "VIDEO"
   ) => {
     setIsDownloadFile(true);
 
-    if (documentType === 'VIDEO') {
+    https: if (documentType === "VIDEO") {
       const { data } = await useDocumentVideoUrlByResidueQuery({
         variables: { formId, residueType },
       });
+
+      console.log(data, "data");
+      console.log(
+        data?.documentVideoUrlByResidue,
+        "data.documentVideoUrlByResidue"
+      );
 
       if (data) {
         await downloadSingleS3File(data.documentVideoUrlByResidue);

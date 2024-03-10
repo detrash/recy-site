@@ -20,6 +20,8 @@ const FormActionButton: React.FC<FormActionButtonProps> = ({
 }) => {
   const { isDownloadingFile, loadFileAndDownload } = useFileDownloader();
 
+  console.log(formId, residueType, documentType)
+
   return (
     <a
       className={classNames(
