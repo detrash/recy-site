@@ -1,10 +1,27 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
-import { useTranslation } from 'next-i18next';
-import Image from 'next/image';
-import { getPageTranslations } from 'src/utils/userSSGMethods';
+import { useTranslation } from "next-i18next";
+import Image from "next/image";
+import router, { useRouter } from "next/router";
+import Link from "next/link";
+import { getPageTranslations } from "src/utils/userSSGMethods";
+import { APP_NAV_LINKS } from "src/utils/navLinks";
+
+const localesWithlabels: {
+  [key: string]: string;
+} = {
+  en: "English",
+  es: "Español",
+  pt: "Português",
+};
 
 const AppHome: React.FC = () => {
   const { t } = useTranslation();
+
+  const { locale, locales } = useRouter();
+
+  const handleToggleLanguage = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  };
 
   return (
     <div className="bg-white h-screen w-screen">
@@ -25,6 +42,17 @@ const AppHome: React.FC = () => {
                     alt="Recy Logo"
                   />
                 </div>
+                <select
+                  className="select select-bordered  ml-auto"
+                  onChange={(e) => handleToggleLanguage(e.currentTarget.value)}
+                  defaultValue={locale}
+                >
+                  {locales?.map((locale) => (
+                    <option key={locale} value={locale}>
+                      {localesWithlabels[locale]}
+                    </option>
+                  ))}
+                </select>
               </nav>
             </div>
 
@@ -32,22 +60,25 @@ const AppHome: React.FC = () => {
               <div className="sm:text-center lg:text-left">
                 <h1 className="text-4xl tracking-tight font-bold text-gray-900 sm:text-5xl md:text-6xl">
                   <span className="block xl:inline">
-                    {t('home:welcome_message_1')}
-                  </span>{' '}
+                    {t("home:welcome_message_1")}
+                  </span>{" "}
                   <span className="block text-primary xl:inline">
-                    {t('home:welcome_message_2')}
+                    {t("home:welcome_message_2")}
                   </span>
                 </h1>
                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  {t('home:description')}
+                  {t("home:description")}
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <a
-                    href="/api/auth/login?returnTo=/dashboard"
-                    className="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-darker md:py-4 md:text-lg md:px-10"
+                  <Link
+                    href={{
+                      pathname: `${locale}/${APP_NAV_LINKS.ADMIN_PANEL}`,
+                    }}
                   >
-                    {t('home:login')}
-                  </a>
+                    <a className="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-darker md:py-4 md:text-lg md:px-10">
+                      {t("home:login")}
+                    </a>
+                  </Link>
                 </div>
               </div>
             </main>
@@ -66,6 +97,6 @@ const AppHome: React.FC = () => {
   );
 };
 
-export const getStaticProps = getPageTranslations(['common', 'home']);
+export const getStaticProps = getPageTranslations(["common", "home"]);
 
 export default AppHome;
