@@ -1,7 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import { useRouter } from 'next/router';
 import RecyLogo from "public/recy-logo.png";
 import { useFormContext } from "src/context/formContext";
 import { FORM_STEPS } from "src/utils/constants";
@@ -11,10 +10,6 @@ const WelcomeForm: React.FC = () => {
   const { user } = useUser();
   const { t } = useTranslation();
 
-  const { locale, locales } = useRouter();
-
-  console.log(locale);
-  console.log(locales);
 
   return (
     <div className="flex flex-col flex-1 justify-between">
