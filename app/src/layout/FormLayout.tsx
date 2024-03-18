@@ -1,13 +1,30 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { ReactNode } from 'react';
-import { APP_NAV_LINKS } from '../utils/navLinks';
+import Image from "next/image";
+import Link from "next/link";
+import { ReactNode } from "react";
+import { APP_NAV_LINKS } from "../utils/navLinks";
+import locale from "yup/lib/locale";
+import router, { useRouter } from "next/router";
+
+const localesWithlabels: {
+  [key: string]: string;
+} = {
+  en: "English",
+  es: "Español",
+  pt: "Português",
+};
 
 type FormLayoutProps = {
   children: ReactNode;
 };
 
 const FormLayout: React.FC<FormLayoutProps> = ({ children }) => {
+  const { locale, locales } = useRouter();
+
+  const handleToggleLanguage = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  };
+
   return (
     <main className="flex flex-col min-h-screen sm:pb-20 sm:bg-gray-100">
       <header className="hidden sm:navbar">
@@ -21,6 +38,18 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children }) => {
             />
           </a>
         </Link>
+
+        <select
+          className="select select-bordered  ml-auto"
+          onChange={(e) => handleToggleLanguage(e.currentTarget.value)}
+          defaultValue={locale}
+        >
+          {locales?.map((locale) => (
+            <option key={locale} value={locale}>
+              {localesWithlabels[locale]}
+            </option>
+          ))}
+        </select>
       </header>
 
       <main className="flex flex-1 justify-center">
