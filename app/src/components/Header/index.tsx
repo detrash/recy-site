@@ -1,17 +1,25 @@
-import { Disclosure } from '@headlessui/react';
-import classNames from 'classnames';
-import { useTranslation } from 'next-i18next';
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { List, X } from 'phosphor-react';
-import { ProfileType } from 'src/graphql/generated/graphql';
-import { APP_HEADER_LINKS, APP_NAV_LINKS } from 'src/utils/navLinks';
-import Profile from './Profile';
-const Wallet = dynamic(() => import('./Wallet'), {
+import { Disclosure } from "@headlessui/react";
+import classNames from "classnames";
+import { useTranslation } from "next-i18next";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { List, X } from "phosphor-react";
+import { ProfileType } from "src/graphql/generated/graphql";
+import { APP_HEADER_LINKS, APP_NAV_LINKS } from "src/utils/navLinks";
+import Profile from "./Profile";
+const Wallet = dynamic(() => import("./Wallet"), {
   ssr: false,
 });
+
+const localesWithlabels: {
+  [key: string]: string;
+} = {
+  en: "English",
+  es: "Español",
+  pt: "Português",
+};
 
 type DashboardHeaderProps = {
   isAdmin: boolean;
@@ -23,7 +31,14 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   userProfileType,
 }) => {
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
+
+  const { locale, locales } = useRouter();
+
+  const handleToggleLanguage = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, router.asPath, { locale: newLocale });
+  };
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -71,17 +86,17 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                           href={headerItem.href}
                           aria-current={
                             router.asPath === headerItem.href
-                              ? 'page'
+                              ? "page"
                               : undefined
                           }
                         >
                           <button
                             className={classNames(
-                              'transition-all duration-150 px-3 py-2 rounded-md text-sm font-medium',
+                              "transition-all duration-150 px-3 py-2 rounded-md text-sm font-medium",
                               {
-                                'bg-gray-900 hover:bg-black text-white':
+                                "bg-gray-900 hover:bg-black text-white":
                                   router.asPath === headerItem.href,
-                                'text-gray-300 hover:bg-gray-700 hover:text-white':
+                                "text-gray-300 hover:bg-gray-700 hover:text-white":
                                   router.asPath !== headerItem.href,
                               }
                             )}
@@ -93,14 +108,25 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                     })}
                   </div>
                 </div>
+                <select
+                  className="select select-bordered ml-2 bg-gray-900  text-white"
+                  onChange={(e) => handleToggleLanguage(e.currentTarget.value)}
+                  defaultValue={locale}
+                >
+                  {locales?.map((locale) => (
+                    <option key={locale} value={locale}>
+                      {localesWithlabels[locale]}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="flex-1 flex items-center justify-center sm:justify-end">
-                <Wallet title={t('connect_wallet')} />
+                <Wallet title={t("connect_wallet")} />
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center gap-3 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Profile
-                  profileTitle={t('your_profile')}
-                  signOutTitle={t('sign_out')}
+                  profileTitle={t("your_profile")}
+                  signOutTitle={t("sign_out")}
                 />
               </div>
             </div>
@@ -123,12 +149,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                     href={headerItem.href}
                     className={classNames(
                       router.asPath === headerItem.href
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'block px-3 py-2 rounded-md text-base font-medium'
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "block px-3 py-2 rounded-md text-base font-medium"
                     )}
                     aria-current={
-                      router.asPath === headerItem.href ? 'page' : undefined
+                      router.asPath === headerItem.href ? "page" : undefined
                     }
                   >
                     {t(headerItem.key)}
