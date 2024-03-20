@@ -108,17 +108,21 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                     })}
                   </div>
                 </div>
-                <select
-                  className="select select-bordered ml-2 bg-gray-900  text-white"
-                  onChange={(e) => handleToggleLanguage(e.currentTarget.value)}
-                  defaultValue={locale}
-                >
-                  {locales?.map((locale) => (
-                    <option key={locale} value={locale}>
-                      {localesWithlabels[locale]}
-                    </option>
-                  ))}
-                </select>
+                <div className="hidden sm:block sm:ml-6">
+                  <select
+                    className="select select-bordered bg-gray-900  text-white"
+                    onChange={(e) =>
+                      handleToggleLanguage(e.currentTarget.value)
+                    }
+                    defaultValue={locale}
+                  >
+                    {locales?.map((locale) => (
+                      <option key={locale} value={locale}>
+                        {localesWithlabels[locale]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className="flex-1 flex items-center justify-center sm:justify-end">
                 <Wallet title={t("connect_wallet")} />
