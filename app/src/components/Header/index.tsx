@@ -9,17 +9,11 @@ import { List, X } from "phosphor-react";
 import { ProfileType } from "src/graphql/generated/graphql";
 import { APP_HEADER_LINKS, APP_NAV_LINKS } from "src/utils/navLinks";
 import Profile from "./Profile";
+import { ToggleLanguage } from "../ToggleLanguage";
+
 const Wallet = dynamic(() => import("./Wallet"), {
   ssr: false,
 });
-
-const localesWithlabels: {
-  [key: string]: string;
-} = {
-  en: "English",
-  es: "Español",
-  pt: "Português",
-};
 
 type DashboardHeaderProps = {
   isAdmin: boolean;
@@ -32,13 +26,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const router = useRouter();
   const { t } = useTranslation("common");
-
-  const { locale, locales } = useRouter();
-
-  const handleToggleLanguage = (newLocale: string) => {
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, router.asPath, { locale: newLocale });
-  };
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -109,19 +96,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   </div>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
-                  <select
-                    className="select select-bordered bg-gray-900  text-white"
-                    onChange={(e) =>
-                      handleToggleLanguage(e.currentTarget.value)
-                    }
-                    defaultValue={locale}
-                  >
-                    {locales?.map((locale) => (
-                      <option key={locale} value={locale}>
-                        {localesWithlabels[locale]}
-                      </option>
-                    ))}
-                  </select>
+                  <ToggleLanguage />
                 </div>
               </div>
               <div className="flex-1 flex items-center justify-center sm:justify-end">

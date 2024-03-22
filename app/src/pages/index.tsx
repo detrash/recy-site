@@ -4,24 +4,11 @@ import router, { useRouter } from "next/router";
 import Link from "next/link";
 import { getPageTranslations } from "src/utils/userSSGMethods";
 import { APP_NAV_LINKS } from "src/utils/navLinks";
-
-const localesWithlabels: {
-  [key: string]: string;
-} = {
-  en: "English",
-  es: "Español",
-  pt: "Português",
-};
+import { ToggleLanguage } from "src/components/ToggleLanguage";
+import locale from "yup/lib/locale";
 
 const AppHome: React.FC = () => {
   const { t } = useTranslation();
-
-  const { locale, locales } = useRouter();
-
-  const handleToggleLanguage = (newLocale: string) => {
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, router.asPath, { locale: newLocale });
-  };
 
   return (
     <div className="bg-white h-screen w-screen">
@@ -42,17 +29,7 @@ const AppHome: React.FC = () => {
                     alt="Recy Logo"
                   />
                 </div>
-                <select
-                  className="select select-bordered  ml-auto"
-                  onChange={(e) => handleToggleLanguage(e.currentTarget.value)}
-                  defaultValue={locale}
-                >
-                  {locales?.map((locale) => (
-                    <option key={locale} value={locale}>
-                      {localesWithlabels[locale]}
-                    </option>
-                  ))}
-                </select>
+                <ToggleLanguage />
               </nav>
             </div>
 
