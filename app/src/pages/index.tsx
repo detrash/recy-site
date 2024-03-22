@@ -2,7 +2,6 @@
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { getPageTranslations } from "src/utils/userSSGMethods";
-import { APP_NAV_LINKS } from "src/utils/navLinks";
 import { ToggleLanguage } from "src/components/ToggleLanguage";
 
 const AppHome: React.FC = () => {
