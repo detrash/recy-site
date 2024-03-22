@@ -1,11 +1,9 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import router, { useRouter } from "next/router";
-import Link from "next/link";
 import { getPageTranslations } from "src/utils/userSSGMethods";
 import { APP_NAV_LINKS } from "src/utils/navLinks";
 import { ToggleLanguage } from "src/components/ToggleLanguage";
-import locale from "yup/lib/locale";
 
 const AppHome: React.FC = () => {
   const { t } = useTranslation();
@@ -47,15 +45,12 @@ const AppHome: React.FC = () => {
                   {t("home:description")}
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <Link
-                    href={{
-                      pathname: `${locale}/${APP_NAV_LINKS.ADMIN_PANEL}`,
-                    }}
+                  <a
+                    href="/api/auth/login?returnTo=/dashboard"
+                    className="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-darker md:py-4 md:text-lg md:px-10"
                   >
-                    <a className="px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-darker md:py-4 md:text-lg md:px-10">
-                      {t("home:login")}
-                    </a>
-                  </Link>
+                    {t("home:login")}
+                  </a>
                 </div>
               </div>
             </main>

@@ -1,5 +1,4 @@
 import router, { useRouter } from "next/router";
-import locale from "yup/lib/locale";
 
 const localesWithlabels: {
   [key: string]: string;
