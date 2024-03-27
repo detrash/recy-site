@@ -53,7 +53,9 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
           id: "CRECY",
           icon: Coin,
           label: t("dashboard:crecy_price"),
-          value: cRecyTokenPrice ? `$${formatNumber(cRecyTokenPrice, 'en-US')}` : "-",
+          value: cRecyTokenPrice
+            ? `$${formatNumber(cRecyTokenPrice, "en-US")}`
+            : "-",
         },
         {
           id: "CRECY",
@@ -66,28 +68,6 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
 
     return [];
   }, [user, t, cRecyTokenPrice, data]);
-
-  // TODO: move this to a query graphql
-  const fetchPrice = async () => {
-    try {
-      const response = await fetch(
-        "https://api.geckoterminal.com/api/v2/simple/networks/celo/token_price/0x34C11A932853Ae24E845Ad4B633E3cEf91afE583"
-      );
-
-      const { data } = await response.json();
-      const prices = data.attributes.token_prices;
-
-      const tokenPrice = Object.values(prices)[0];
-
-      setCrecyTokenPrice(Number(tokenPrice));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchPrice();
-  }, []);
 
   const highlitedItems = useMemo(() => {
     return user?.me?.forms?.reduce(
@@ -117,6 +97,29 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
   const lastLoginDate = user?.me.lastLoginDate
     ? format(new Date(user?.me.lastLoginDate), `${currentDateFormat} HH:mm`)
     : "";
+
+  // TODO: move this to a query graphql
+  const fetchPrice = async () => {
+    try {
+      // TODO: add env variable to this url
+      const response = await fetch(
+        "https://api.geckoterminal.com/api/v2/simple/networks/celo/token_price/0x34C11A932853Ae24E845Ad4B633E3cEf91afE583"
+      );
+
+      const { data } = await response.json();
+      const prices = data.attributes.token_prices;
+
+      const tokenPrice = Object.values(prices)[0];
+
+      setCrecyTokenPrice(Number(tokenPrice));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPrice();
+  }, []);
 
   if (isLoading || !user || isLoadingStats) {
     return <UserPanelSkeleton />;
