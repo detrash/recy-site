@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { Article, Coin, Coins, Recycle, TrendUp } from "phosphor-react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import StackedStats from "src/components/StackedStats";
 import { useRECYBalance } from "src/hooks/useRECYBalance";
 import { useUserStatsComparison } from "src/hooks/useUserStatsComparison";
@@ -14,6 +14,7 @@ import UserFormDetails from "../components/withTable/UserFormDetails";
 import { MeQuery, ResidueType } from "../graphql/generated/graphql";
 import { USER_WASTE_TYPES } from "../utils/constants";
 import { UserPanelSkeleton } from "./UserPanelSkeleton";
+import { formatNumber } from "src/utils/formatNumber";
 
 type PrivatePanelProps = {
   user: MeQuery | undefined;
@@ -27,9 +28,9 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
   const { t } = useTranslation();
   const { locale } = useRouter();
 
-  const { data, isLoading: isLoadingRecyBalance } = useRECYBalance();
+  const [cRecyTokenPrice, setCrecyTokenPrice] = useState(0);
 
-  const CRECY_PRICE = 0.1;
+  const { data, isLoading: isLoadingRecyBalance } = useRECYBalance();
 
   const highlitedPanel = useMemo(() => {
     if (user) {
@@ -48,12 +49,12 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
           label: t("dashboard:total_forms_submitted"),
           value: String(totalForms?.length),
         },
-        // {
-        //   id: "CRECY",
-        //   icon: Coin,
-        //   label: t("dashboard:crecy_price"),
-        //   value: CRECY_PRICE ? CRECY_PRICE : "-",
-        // },
+        {
+          id: "CRECY",
+          icon: Coin,
+          label: t("dashboard:crecy_price"),
+          value: cRecyTokenPrice ? `$${formatNumber(cRecyTokenPrice, 'en-US')}` : "-",
+        },
         {
           id: "CRECY",
           icon: Coins,
@@ -64,7 +65,29 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     }
 
     return [];
-  }, [user, t, data]);
+  }, [user, t, cRecyTokenPrice, data]);
+
+  // TODO: move this to a query graphql
+  const fetchPrice = async () => {
+    try {
+      const response = await fetch(
+        "https://api.geckoterminal.com/api/v2/simple/networks/celo/token_price/0x34C11A932853Ae24E845Ad4B633E3cEf91afE583"
+      );
+
+      const { data } = await response.json();
+      const prices = data.attributes.token_prices;
+
+      const tokenPrice = Object.values(prices)[0];
+
+      setCrecyTokenPrice(Number(tokenPrice));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPrice();
+  }, []);
 
   const highlitedItems = useMemo(() => {
     return user?.me?.forms?.reduce(
