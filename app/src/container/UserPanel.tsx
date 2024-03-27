@@ -54,7 +54,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
           icon: Coin,
           label: t("dashboard:crecy_price"),
           value: cRecyTokenPrice
-            ? `$${formatNumber(cRecyTokenPrice, "en-US")}`
+            ? `$${formatNumber(cRecyTokenPrice, "en-US")} (USD)`
             : "-",
         },
         {
