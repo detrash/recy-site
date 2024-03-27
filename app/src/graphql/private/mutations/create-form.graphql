@@ -4,6 +4,8 @@ mutation CreateForm(
   $ORGANIC: ResidueInput
   $PAPER: ResidueInput
   $PLASTIC: ResidueInput
+  $TEXTILE: ResidueInput
+  $LANDFILL_WASTE: ResidueInput
   $WALLET_ADDRESS: String
 ) {
   createForm(
@@ -13,6 +15,8 @@ mutation CreateForm(
       ORGANIC: $ORGANIC
       PAPER: $PAPER
       PLASTIC: $PLASTIC
+      TEXTILE: $TEXTILE
+      LANDFILL_WASTE: $LANDFILL_WASTE
       walletAddress: $WALLET_ADDRESS
     }
   ) {

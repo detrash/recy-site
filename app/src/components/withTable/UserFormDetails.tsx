@@ -22,6 +22,8 @@ type UsersFormType = {
   [ResidueType.Plastic]: number;
   [ResidueType.Metal]: number;
   [ResidueType.Organic]: number;
+  [ResidueType.Textile]: number;
+  [ResidueType.Landfill_Waste]: number;
 };
 
 const UserFormDetails: React.FC<UserFormDetailsProps> = ({

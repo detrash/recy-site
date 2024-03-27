@@ -12,6 +12,8 @@
   "organic": "Organic",
   "paper": "Paper",
   "plastic": "Plastic",
+  "textile": "Textile",
+  "landfill_waste": "Landfill Waste",
 
   "recycler": "Recycler",
   "hodler": "Hodler",
