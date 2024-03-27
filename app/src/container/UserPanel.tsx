@@ -1,19 +1,19 @@
-import { format } from 'date-fns';
-import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
-import { Article, Coin, Recycle, TrendUp } from 'phosphor-react';
-import { useMemo } from 'react';
-import StackedStats from 'src/components/StackedStats';
-import { useRECYBalance } from 'src/hooks/useRECYBalance';
-import { useUserStatsComparison } from 'src/hooks/useUserStatsComparison';
-import { getResiduesSum } from 'src/utils/getResiduesSum';
-import { useBalance } from 'wagmi';
-import ResidueCard from '../components/ResidueCard';
-import SubmitFormCard from '../components/SubmitFormCard';
-import UserFormDetails from '../components/withTable/UserFormDetails';
-import { MeQuery, ResidueType } from '../graphql/generated/graphql';
-import { USER_WASTE_TYPES } from '../utils/constants';
-import { UserPanelSkeleton } from './UserPanelSkeleton';
+import { format } from "date-fns";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { Article, Coin, Coins, Recycle, TrendUp } from "phosphor-react";
+import { useMemo } from "react";
+import StackedStats from "src/components/StackedStats";
+import { useRECYBalance } from "src/hooks/useRECYBalance";
+import { useUserStatsComparison } from "src/hooks/useUserStatsComparison";
+import { getResiduesSum } from "src/utils/getResiduesSum";
+import { useBalance } from "wagmi";
+import ResidueCard from "../components/ResidueCard";
+import SubmitFormCard from "../components/SubmitFormCard";
+import UserFormDetails from "../components/withTable/UserFormDetails";
+import { MeQuery, ResidueType } from "../graphql/generated/graphql";
+import { USER_WASTE_TYPES } from "../utils/constants";
+import { UserPanelSkeleton } from "./UserPanelSkeleton";
 
 type PrivatePanelProps = {
   user: MeQuery | undefined;
@@ -29,28 +29,36 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
 
   const { data, isLoading: isLoadingRecyBalance } = useRECYBalance();
 
+  const CRECY_PRICE = 0.1;
+
   const highlitedPanel = useMemo(() => {
     if (user) {
       const totalForms = user?.me.forms;
       const totalAmountResiduesReported = getResiduesSum(user.me.forms);
       return [
         {
-          id: 'RESIDUES',
+          id: "RESIDUES",
           icon: Recycle,
-          label: t('dashboard:total_residues_reported'),
+          label: t("dashboard:total_residues_reported"),
           value: String(totalAmountResiduesReported),
         },
         {
-          id: 'FORMS',
+          id: "FORMS",
           icon: Article,
-          label: t('dashboard:total_forms_submitted'),
+          label: t("dashboard:total_forms_submitted"),
           value: String(totalForms?.length),
         },
+        // {
+        //   id: "CRECY",
+        //   icon: Coin,
+        //   label: t("dashboard:crecy_price"),
+        //   value: CRECY_PRICE ? CRECY_PRICE : "-",
+        // },
         {
-          id: 'CRECY',
-          icon: Coin,
-          label: t('dashboard:total_crecy_earned'),
-          value: data ? Number(data.formatted).toFixed(2) : '-',
+          id: "CRECY",
+          icon: Coins,
+          label: t("dashboard:total_crecy_earned"),
+          value: data ? Number(data.formatted).toFixed(2) : "-",
         },
       ];
     }
@@ -74,16 +82,18 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
         [ResidueType.Organic]: 0,
         [ResidueType.Paper]: 0,
         [ResidueType.Plastic]: 0,
+        [ResidueType.Textile]: 0,
+        [ResidueType.Landfill_Waste]: 0,
         Total: 0,
       }
     );
   }, [user?.me.forms]);
 
-  const currentDateFormat = locale === 'en' ? 'MM/dd/yyyy' : 'dd/MM/yyyy';
+  const currentDateFormat = locale === "en" ? "MM/dd/yyyy" : "dd/MM/yyyy";
 
   const lastLoginDate = user?.me.lastLoginDate
     ? format(new Date(user?.me.lastLoginDate), `${currentDateFormat} HH:mm`)
-    : '';
+    : "";
 
   if (isLoading || !user || isLoadingStats) {
     return <UserPanelSkeleton />;
@@ -93,22 +103,22 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
     <div className="flex flex-col gap-3">
       <section className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl sm:text-3xl text-gray-900 font-bold">
-          {`${t('dashboard:welcome_to_app')}${user?.me.name}`}
+          {`${t("dashboard:welcome_to_app")}${user?.me.name}`}
         </h2>
         <p className="text-gray-900 text-sm sm:text-base">{`${t(
-          'dashboard:last_login'
+          "dashboard:last_login"
         )}${lastLoginDate}`}</p>
       </section>
       <StackedStats
         percentIncrease={percentIncrease}
         stats={highlitedPanel}
-        comment={t('dashboard:past_30_days')}
+        comment={t("dashboard:past_30_days")}
         isLoading={isLoadingRecyBalance}
       />
       <div className="grid grid-cols-6 gap-3">
         <div className="flex-1 col-span-6 sm:col-span-4">
           <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-4">
-            {t('dashboard:residues_reported')}
+            {t("dashboard:residues_reported")}
           </h2>
           <div className="grid grid-cols-6 gap-3">
             {highlitedItems &&
@@ -130,7 +140,7 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
                         <ResidueCard
                           value={residueValue}
                           Icon={currentItem.Icon}
-                          color={index % 2 === 0 ? 'primary' : 'secondary'}
+                          color={index % 2 === 0 ? "primary" : "secondary"}
                           percent={Number(percent)}
                           title={t(`common:${currentItem.value.toLowerCase()}`)}
                         />
@@ -152,15 +162,15 @@ const UserPanel: React.FC<PrivatePanelProps> = ({ user, isLoading }) => {
 
         <SubmitFormCard
           userProfileType={user?.me.profileType}
-          buttonLabel={t('common:submit_report_button')}
-          description={t('common:submit_report_description')}
-          notAllowedLabel={t('common:not_allowed_submit_form')}
-          title={t('common:submit_report_title')}
+          buttonLabel={t("common:submit_report_button")}
+          description={t("common:submit_report_description")}
+          notAllowedLabel={t("common:not_allowed_submit_form")}
+          title={t("common:submit_report_title")}
         />
       </div>
       <div className="py-4 px-6 bg-white shadow rounded-md flex-1">
         <h2 className="text-xl sm:text-2xl tracking-wide leading-relaxed font-bold mb-8">
-          {t('dashboard:forms_submitted')}
+          {t("dashboard:forms_submitted")}
         </h2>
         <UserFormDetails formDetails={user?.me.forms} />
       </div>

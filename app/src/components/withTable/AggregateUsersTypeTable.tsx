@@ -16,6 +16,8 @@ type AggregateUsersFormType = {
   [ResidueType.Plastic]: number;
   [ResidueType.Metal]: number;
   [ResidueType.Organic]: number;
+  [ResidueType.Textile]: number;
+  [ResidueType.Landfill_Waste]: number;
 };
 
 const AggregateUsersTypeTable: React.FC = () => {

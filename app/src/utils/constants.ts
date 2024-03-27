@@ -4,29 +4,31 @@ import {
   BeerBottle,
   CoinVertical,
   Hamburger,
-} from 'phosphor-react';
-import { ProfileType, ResidueType } from '../graphql/generated/graphql';
+  TShirt,
+  Trash,
+} from "phosphor-react";
+import { ProfileType, ResidueType } from "../graphql/generated/graphql";
 
 export enum Role {
-  Admin = 'admin',
+  Admin = "admin",
 }
 
 export const PERMISSION_SCOPES = {
-  [Role.Admin]: ['read:users'],
+  [Role.Admin]: ["read:users"],
 };
 
 export const USER_ROLE_TYPES = [
   {
     key: ProfileType.Hodler,
-    value: 'Hodler',
+    value: "Hodler",
   },
   {
     key: ProfileType.Recycler,
-    value: 'Recycler',
+    value: "Recycler",
   },
   {
     key: ProfileType.WasteGenerator,
-    value: 'Waste Generator',
+    value: "Waste Generator",
   },
 ];
 
@@ -34,27 +36,37 @@ export const USER_WASTE_TYPES = [
   {
     Icon: Bag,
     key: ResidueType.Plastic,
-    value: 'Plastic',
+    value: "Plastic",
   },
   {
     Icon: Article,
     key: ResidueType.Paper,
-    value: 'Paper',
+    value: "Paper",
   },
   {
     Icon: CoinVertical,
     key: ResidueType.Metal,
-    value: 'Metal',
+    value: "Metal",
   },
   {
     Icon: BeerBottle,
     key: ResidueType.Glass,
-    value: 'Glass',
+    value: "Glass",
   },
   {
     Icon: Hamburger,
     key: ResidueType.Organic,
-    value: 'Organic',
+    value: "Organic",
+  },
+  {
+    Icon: TShirt,
+    key: ResidueType.Textile,
+    value: "Textile",
+  },
+  {
+    Icon: Trash,
+    key: ResidueType.Landfill_Waste,
+    value: "Landfill_Waste",
   },
 ];
 
@@ -72,4 +84,6 @@ export const FORM_WASTE_TYPES = {
   Metal: 3,
   Glass: 4,
   Organic: 5,
+  Textile: 6,
+  Landfill_Waste: 7,
 };
