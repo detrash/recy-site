@@ -1,9 +1,9 @@
-import { GetStaticProps } from 'next';
-import Image from 'next/image';
-import DeTrashLogo from 'public/detrash-logo.svg';
-import CeloLogo from 'src/assets/CeloLogo';
-import { AddRecyPageData, getAddRecyPageQuery } from 'src/graphql/queries';
-import { apolloClient } from 'src/lib/apollo';
+import { GetStaticProps } from "next";
+import Image from "next/image";
+import RecyLogo from "public/recy-logo.png";
+import CeloLogo from "src/assets/CeloLogo";
+import { AddRecyPageData, getAddRecyPageQuery } from "src/graphql/queries";
+import { apolloClient } from "src/lib/apollo";
 
 type TeamPageProps = {
   messages: AddRecyPageData;
@@ -13,13 +13,13 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
   return (
     <main className="flex-grow">
       <section>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl px-4 mx-auto sm:px-6">
           <div className="pt-32 md:pt-40">
-            <div className="max-w-3xl mx-auto text-center pb-4">
-              <h2 className="h2 mb-4">{messages.pageTitle}</h2>
+            <div className="max-w-3xl pb-4 mx-auto text-center">
+              <h2 className="mb-4 h2">{messages.pageTitle}</h2>
               <div className="flex items-center justify-center">
                 <Image
-                  src={DeTrashLogo}
+                  src={RecyLogo}
                   alt="DeTrash Logo"
                   width={100}
                   height={100}
@@ -36,7 +36,7 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
           </div>
         </div>
       </section>
-      <div className="flex-1 flex items-center justify-center pb-16 md:pb-20">
+      <div className="flex items-center justify-center flex-1 pb-16 md:pb-20">
         <div className="h-full w-full max-w-4xl max-h-[60vh] aspect-video">
           <iframe
             className="w-full h-full"
@@ -49,13 +49,13 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
         </div>
       </div>
 
-      <section className="bg-gray-100 pb-8 md:pb-16 mb-3">
-        <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
+      <section className="pb-8 mb-3 bg-gray-100 md:pb-16">
+        <div className="absolute left-0 right-0 w-px h-20 p-px m-auto transform -translate-y-1/2 bg-gray-200"></div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl px-4 mx-auto sm:px-6">
           <div className="pt-12 md:pt-20">
-            <div className="max-w-3xl mx-auto text-center pb-12">
-              <h1 className="h2 mb-4 text-neutral">{messages.bannerTitle}</h1>
+            <div className="max-w-3xl pb-12 mx-auto text-center">
+              <h1 className="mb-4 h2 text-neutral">{messages.bannerTitle}</h1>
               <Image
                 src={messages.qrCode.url}
                 alt="TrustWallet QR Code"
@@ -79,7 +79,7 @@ const Team: React.FC<TeamPageProps> = ({ messages }) => {
 
 export const getStaticProps: GetStaticProps = async ({ locale, locales }) => {
   const otherLocale =
-    locales?.filter((location) => location !== locale)[0] || '';
+    locales?.filter((location) => location !== locale)[0] || "";
   const { data } = await apolloClient.query({
     query: getAddRecyPageQuery,
     variables: {
