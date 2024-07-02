@@ -1,11 +1,11 @@
-import { GetStaticProps } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
-import RecyLogo from 'public/recy-logo.png';
-import RecyNetworkLogo from 'public/recy-network-logo.png';
-import { getRecyPageQuery, RecyPageData } from 'src/graphql/queries';
-import { apolloClient } from 'src/lib/apollo';
-import { UTIL_LINKS } from 'src/utils/constants';
+import { GetStaticProps } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import RecyLogo from "public/recy-logo.png";
+import RecyNetworkLogo from "public/recy-network-logo.png";
+import { getRecyPageQuery, RecyPageData } from "src/graphql/queries";
+import { apolloClient } from "src/lib/apollo";
+import { UTIL_LINKS } from "src/utils/constants";
 
 type RecyPageProps = {
   messages: RecyPageData;
@@ -15,19 +15,19 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
   return (
     <main className="flex-grow">
       <section>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl px-4 mx-auto sm:px-6">
           <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-            <div className="max-w-3xl mx-auto text-center pb-4">
+            <div className="max-w-3xl pb-4 mx-auto text-center">
               <Image alt="Recy Network logo" src={RecyNetworkLogo} />
-              <h2 className="h2 mb-4 mt-8 sm:mt-12">{messages.pageTitle}</h2>
-              <p className="text-xl text-justify text-gray-600 mb-4">
+              <h2 className="mt-8 mb-4 h2 sm:mt-12">{messages.pageTitle}</h2>
+              <p className="mb-4 text-xl text-justify text-gray-600">
                 {messages.pageSubtitle}
               </p>
             </div>
 
             <div className="flex items-center justify-center">
               <a
-                className="btn btn-primary text-white w-full mb-4 md:w-auto md:mb-0"
+                className="w-full mb-4 text-white btn btn-primary md:w-auto md:mb-0"
                 data-aos="zoom-y-out"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -40,12 +40,12 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
         </div>
       </section>
 
-      <section className="bg-gray-100 pb-8 md:pb-16 mb-3">
-        <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div>
+      <section className="pb-8 mb-3 bg-gray-100 md:pb-16">
+        <div className="absolute left-0 right-0 w-px h-20 p-px m-auto transform -translate-y-1/2 bg-gray-200"></div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="max-w-6xl px-4 mx-auto sm:px-6">
           <div className="pt-12 md:pt-20">
-            <div className="max-w-3xl mx-auto text-center pb-12">
+            <div className="max-w-3xl pb-12 mx-auto text-center">
               <a
                 href={UTIL_LINKS.DETRASH_APP_URL}
                 target="_blank"
@@ -54,23 +54,23 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
                 <Image src={RecyLogo} alt="RECY token logo" />
               </a>
               <p
-                className="text-xl text-justify text-gray-600 mb-4"
+                className="mb-4 text-xl text-justify text-gray-600"
                 data-aos="zoom-y-out"
               >
                 {messages.bannerDescription}
               </p>
 
               <p
-                className="text-xl text-blue-400 font-bold"
+                className="text-xl font-bold text-blue-400"
                 data-aos="zoom-y-out"
               >
                 {messages.pageEffectTitle}
               </p>
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+            <div className="flex flex-col items-center justify-center gap-2 md:flex-row md:gap-3">
               <a
-                className="btn btn-neutral w-full md:w-auto text-white md:mb-0"
+                className="w-full text-white btn btn-neutral md:w-auto md:mb-0"
                 target="_blank"
                 rel="noopener noreferrer"
                 href={UTIL_LINKS.TOKEN_CONTRACT_URL}
@@ -79,7 +79,7 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
               </a>
               <a
                 href={UTIL_LINKS.BUY_RECY_URL}
-                className="btn btn-primary w-full md:w-auto text-white md:mb-0"
+                className="w-full text-white btn btn-primary md:w-auto md:mb-0"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -91,14 +91,14 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
               <Link href="recy/add">
                 <button
                   data-aos="zoom-y-out"
-                  className="btn btn-outline border border-neutral shadow-none w-full md:w-auto"
+                  className="w-full border shadow-none btn btn-outline border-neutral md:w-auto"
                 >
                   {messages.addRecyButtonLabel}
                 </button>
               </Link>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl text-center text-accent font-semibold pt-8 sm:pt-12">
+            <h2 className="pt-8 text-2xl font-semibold text-center sm:text-3xl text-accent sm:pt-12">
               {messages.finalTextEffect}
             </h2>
           </div>
