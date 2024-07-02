@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import RecyLogo from "public/recy-logo.png";
+import cRecyLogo from "public/crecy-logo.svg";
 import RecyNetworkLogo from "public/recy-network-logo.png";
 import { getRecyPageQuery, RecyPageData } from "src/graphql/queries";
 import { apolloClient } from "src/lib/apollo";
@@ -51,7 +51,7 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Image src={RecyLogo} alt="RECY token logo" />
+                <Image src={cRecyLogo} alt="RECY token logo" />
               </a>
               <p
                 className="mb-4 text-xl text-justify text-gray-600"
