@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
             <a className="text-primary" href="mailto:phil@detrashtoken.com">
               phil@detrashtoken.com
             </a>{" "}
-            | Bahia, Brazil | +5571982640517 |{" "}
+            | Bahia, Brazil | +5571993032757 |{" "}
             <Link href="/privacy-policy">
               <a className="text-sm text-primary">
                 {translate("privacyPolicy")}
