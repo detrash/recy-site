@@ -1,10 +1,11 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export type HomePageData = {
   ctaButton: string;
   ctaSubTitle: string;
   ctaTitle: string;
   ctaTitleEffect: string;
+  ctaTextEffect: string;
   emailPlaceholder: string;
   featuresBlockItem1Desc: string;
   featuresBlockItem1Title: string;
