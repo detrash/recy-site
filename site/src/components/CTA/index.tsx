@@ -24,12 +24,12 @@ const CTA: React.FC<CTAProps> = ({ messages }) => {
             >
               {messages.ctaTitleEffect}
             </p>
-            <p
+            {/* <p
               className="text-xl text-justify text-gray-600"
               data-aos="zoom-y-out"
             >
               {messages.ctaSubTitle}
-            </p>
+            </p> */}
           </div>
 
           <div
