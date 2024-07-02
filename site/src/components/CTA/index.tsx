@@ -19,7 +19,7 @@ const CTA: React.FC<CTAProps> = ({ messages }) => {
               {messages.ctaSubTitle}
             </p>
             <p
-              className="my-4 text-xl font-bold text-blue-400"
+              className="block my-4 text-xl font-bold text-blue-400"
               data-aos="zoom-y-out"
             >
               {messages.ctaTitleEffect}

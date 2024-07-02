@@ -54,7 +54,7 @@ const RecyPage: React.FC<RecyPageProps> = ({ messages }) => {
                 <Image src={cRecyLogo} alt="RECY token logo" />
               </a>
               <p
-                className="mb-4 text-xl text-justify text-gray-600"
+                className="my-4 text-xl text-justify text-gray-600"
                 data-aos="zoom-y-out"
               >
                 {messages.bannerDescription}
