@@ -1,5 +1,5 @@
 export const UTIL_LINKS = {
-  APP_URL: "https://detrash.io",
+  APP_URL: "https://app.recy.life",
   BUY_RECY_URL:
     "https://app.uniswap.org/swap?chain=celo&inputCurrency=0x765DE816845861e75A25fCA122bb6898B8B1282a&outputCurrency=0x34C11A932853Ae24E845Ad4B633E3cEf91afE583",
   DETRASH_APP_URL: "http://detrash.vercel.app/",
