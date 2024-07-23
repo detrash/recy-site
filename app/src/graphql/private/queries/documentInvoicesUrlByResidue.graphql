@@ -1,6 +1,0 @@
-query DocumentInvoicesUrlByResidue(
-  $formId: String!
-  $residueType: ResidueType!
-) {
-  documentInvoicesUrlByResidue(formId: $formId, residueType: $residueType)
-}
