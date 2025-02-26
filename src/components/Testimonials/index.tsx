@@ -14,7 +14,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ messages }) => {
         className="absolute bottom-0 hidden transform translate-x-1/2 pointer-events-none right-48 md:inline"
         aria-hidden="true"
       >
-        <Image src="/recy-wave-logo.png" alt="detrash" width="500" height="500" />
+        <Image src="/recy-wave-logo.png" alt="detrash" width="400" height="400" />
       </div>
       <div id="recytoken" className="max-w-6xl px-4 mx-auto sm:px-6">
         <div className="py-12 md:py-20">
