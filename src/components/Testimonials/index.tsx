@@ -8,13 +8,13 @@ type TestimonialsProps = {
 
 const Testimonials: React.FC<TestimonialsProps> = ({ messages }) => {
   return (
-    <section className="relative bg-accent testimonials">
+    <section className="relative bg-primary">
       <div className="absolute left-0 right-0 w-px h-20 p-px m-auto transform -translate-y-1/2 bg-gray-200"></div>
       <div
-        className="absolute bottom-0 hidden transform translate-x-1/2 pointer-events-none md:inline left-1/2"
+        className="absolute bottom-0 hidden transform translate-x-1/2 pointer-events-none right-48 md:inline"
         aria-hidden="true"
       >
-        <Image src="/detrash-icon.svg" alt="detrash" width="500" height="500" />
+        <Image src="/recy-wave-logo.png" alt="detrash" width="500" height="500" />
       </div>
       <div id="recytoken" className="max-w-6xl px-4 mx-auto sm:px-6">
         <div className="py-12 md:py-20">

@@ -52,7 +52,7 @@ const Header: React.FC = () => {
           }
         )}
       >
-        <div className="max-w-6xl px-5 mx-auto sm:px-6">
+        <div className="max-w-6xl px-5 py-2 mx-auto sm:px-6">
           <div className="flex items-center justify-between h-16 md:h-20">
             <div className="flex-shrink-0 pt-4 mr-4 md:pt-0">
               <Link

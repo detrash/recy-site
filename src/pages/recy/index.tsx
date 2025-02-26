@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import cRecyLogo from "public/crecy-logo.svg";
-import RecyNetworkLogo from "public/recy-network-logo.png";
+import cRecyLogo from "public/crecy.svg";
+import RecyNetworkLogo from "public/recy-wave-logo.png";
 import { getRecyPageQuery, RecyPageData } from "src/graphql/queries";
 import { apolloClient } from "src/lib/apollo";
 import { UTIL_LINKS } from "src/utils/constants";
